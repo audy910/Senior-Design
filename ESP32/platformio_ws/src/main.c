@@ -18,16 +18,16 @@ void app_main(void)
     }
     ESP_ERROR_CHECK(ret);
     
-    // // Initialize I2C for BNO055
-    // i2c_master_init();
+    // Initialize I2C for BNO055
+    i2c_master_init();
     
-    // // Initialize GNSS UART
-    // gnss_uart_init();
-    // ESP_LOGI(TAG, "GNSS initialized");
+    // Initialize GNSS UART
+    gnss_uart_init();
+    ESP_LOGI(TAG, "GNSS initialized");
     
-    // // Initialize BNO055 sensor
-    // bno055_init();
-    // ESP_LOGI(TAG, "BNO055 initialized");
+    // Initialize BNO055 sensor
+    bno055_init();
+    ESP_LOGI(TAG, "BNO055 initialized");
     
     // Initialize Ultrasonic and Line Sensors
     ultrasonic_sensors_init_all();
@@ -37,16 +37,16 @@ void app_main(void)
     init_can_bus();
     ESP_LOGI(TAG, "CAN bus initialized");
     
-    // // Create BNO055 task on Core 0 (20ms = 50 Hz)
-    // xTaskCreatePinnedToCore(
-    //     bno055_read_task,
-    //     "bno055_task",
-    //     4096,
-    //     NULL,
-    //     5,                      // Priority: Medium
-    //     NULL,
-    //     0                       // Core 0
-    // );
+    // Create BNO055 task on Core 0 (20ms = 50 Hz)
+    xTaskCreatePinnedToCore(
+        bno055_read_task,
+        "bno055_task",
+        4096,
+        NULL,
+        5,                      // Priority: Medium
+        NULL,
+        0                       // Core 0
+    );
     
     // // Create GNSS task on Core 1 (100ms = 10 Hz)
     // xTaskCreatePinnedToCore(

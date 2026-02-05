@@ -366,6 +366,7 @@ void bno055_read_task(void *arg)
         float gyro_x, gyro_y, gyro_z;
         float quat_w, quat_x, quat_y, quat_z;
         uint8_t sys_cal, gyro_cal, accel_cal, mag_cal;
+        static int count = 0;
         
         // Read all sensor data
         if (bno055_read_accel(&accel_x, &accel_y, &accel_z) == ESP_OK &&
@@ -380,8 +381,13 @@ void bno055_read_task(void *arg)
             send_imu_orientation(heading, pitch, roll, sys_cal, mag_cal);
             send_imu_quaternion(quat_w, quat_x, quat_y, quat_z);
             
-            ESP_LOGI("BNO055", "IMU sent - Cal: S:%d G:%d A:%d M:%d", 
-                     sys_cal, gyro_cal, accel_cal, mag_cal);
+            count++;
+            if(count == 50){
+                ESP_LOGI("BNO055", "IMU sent - Cal: S:%d G:%d A:%d M:%d", 
+                            sys_cal, gyro_cal, accel_cal, mag_cal);
+                count = 0;
+            }
+            
             
             // Auto-save logic
             if (!already_saved && sys_cal == 3 && gyro_cal == 3 && accel_cal == 3 && mag_cal == 3) {
