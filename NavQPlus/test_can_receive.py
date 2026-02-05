@@ -26,7 +26,7 @@ class CANTester:
             print(f"✓ DBC loaded successfully")
             print(f"  Messages defined: {len(self.db.messages)}")
             for msg in self.db.messages:
-                print(f"    - 0x{msg.frame_id:03X}: {msg.name}")
+                print(f"    - 0x{msg.frame_id:03X} ({msg.frame_id}): {msg.name}")
         except Exception as e:
             print(f"✗ Failed to load DBC: {e}")
             sys.exit(1)
@@ -110,6 +110,37 @@ class CANTester:
         z = data['IMU_QuatZ']
         return f"Quaternion: W={w:.4f}, X={x:.4f}, Y={y:.4f}, Z={z:.4f}"
 
+    def format_proximity_sensors(self, data):
+        """Format proximity sensors data"""
+        front = data['Proximity_Front']
+        rear = data['Proximity_Rear']
+        cliff = data['Proximity_Cliff']
+        cliff_detected = data['Cliff_Detected']
+        front_valid = data['Front_Valid']
+        rear_valid = data['Rear_Valid']
+        cliff_valid = data['Cliff_Valid']
+        
+        # Convert mm to cm for display
+        front_cm = front / 10.0
+        rear_cm = rear / 10.0
+        cliff_cm = cliff / 10.0
+        
+        # Status indicators
+        front_status = "✓" if front_valid else "✗"
+        rear_status = "✓" if rear_valid else "✗"
+        cliff_status = "✓" if cliff_valid else "✗"
+        
+        # Emergency indicator
+        if cliff_detected:
+            alert = "🚨 CLIFF DETECTED - EMERGENCY STOP! 🚨"
+        else:
+            alert = "✓ Safe"
+        
+        return (f"Front: {front_cm:.1f}cm {front_status} | "
+                f"Rear: {rear_cm:.1f}cm {rear_status} | "
+                f"Cliff: {cliff_cm:.1f}cm {cliff_status} | "
+                f"{alert}")
+
     def print_message(self, msg_name, data, formatted):
         """Print a formatted message"""
         timestamp = datetime.now().strftime("%H:%M:%S.%f")[:-3]
@@ -119,12 +150,28 @@ class CANTester:
             self.message_counts[msg_name] = 0
         self.message_counts[msg_name] += 1
 
-        # Print header
-        print(f"\n[{timestamp}] {msg_name} (#{self.message_counts[msg_name]})")
+        # Print header with color for cliff warnings
+        if msg_name == "Proximity_Sensors" and data.get('Cliff_Detected', 0) == 1:
+            print(f"\n\033[91m[{timestamp}] {msg_name} (#{self.message_counts[msg_name]})\033[0m")  # Red
+        else:
+            print(f"\n[{timestamp}] {msg_name} (#{self.message_counts[msg_name]})")
+        
         print(f"  {formatted}")
 
         # Print raw values if verbose
         # print(f"  Raw: {data}")
+
+    def decode_message(self, msg):
+        """Decode a CAN message using DBC"""
+        try:
+            message = self.db.get_message_by_frame_id(msg.arbitration_id)
+            decoded = message.decode(msg.data)
+            return message.name, decoded
+        except KeyError:
+            return None, None
+        except Exception as e:
+            print(f"Error decoding 0x{msg.arbitration_id:03X}: {e}")
+            return None, None
 
     def run(self):
         """Main loop to receive and display CAN messages"""
@@ -144,7 +191,7 @@ class CANTester:
                 msg_name, decoded = self.decode_message(msg)
 
                 if msg_name is None:
-                    print(f"\n[Unknown] ID: 0x{msg.arbitration_id:03X}, Data: {msg.data.hex()}")
+                    print(f"\n[Unknown] ID: 0x{msg.arbitration_id:03X} ({msg.arbitration_id}), Data: {msg.data.hex()}")
                     continue
 
                 # Format based on message type
@@ -162,6 +209,8 @@ class CANTester:
                     formatted = self.format_imu_orientation(decoded)
                 elif msg_name == "IMU_Quaternion":
                     formatted = self.format_imu_quaternion(decoded)
+                elif msg_name == "Proximity_Sensors":
+                    formatted = self.format_proximity_sensors(decoded)
                 else:
                     formatted = str(decoded)
 
@@ -188,32 +237,6 @@ class CANTester:
             self.bus.shutdown()
             print("CAN bus closed")
 
-    def decode_message(self, msg):
-    # DEBUG: Print known IDs once if you're confused
-    # print(f"DBC Known IDs: {[m.frame_id for m in self.db.messages]}")
-    
-        try:
-            # This is looking for the decimal integer
-            message = self.db.get_message_by_frame_id(msg.arbitration_id)
-            decoded = message.decode(msg.data)
-            return message.name, decoded
-        except KeyError:
-            # This triggers because msg.arbitration_id (e.g. 259) 
-            # is not in self.db.messages (which might have 103)
-            return None, None
-        
-    # def decode_message(self, msg):
-    #     """Decode a CAN message using DBC"""
-    #     try:
-    #         message = self.db.get_message_by_frame_id(msg.arbitration_id)
-    #         decoded = message.decode(msg.data)
-    #         return message.name, decoded
-    #     except KeyError:
-    #         return None, None
-    #     except Exception as e:
-    #         print(f"Error decoding 0x{msg.arbitration_id:03X}: {e}")
-    #         return None, None
-
 
 def main():
     """Main entry point"""
@@ -231,3 +254,50 @@ def main():
 
 if __name__ == '__main__':
     main()
+
+
+# ## Key Changes:
+
+# 1. **Added `format_proximity_sensors()` method** - formats all proximity data nicely
+# 2. **Added color coding** - proximity messages with cliff detection show in RED
+# 3. **Shows decimal IDs** - prints both hex and decimal in DBC loading and unknown messages
+# 4. **Handles Proximity_Sensors** in the main run loop
+# 5. **Better status indicators** - uses ✓/✗ for valid/invalid sensors
+
+# ## Expected Output:
+
+# ### Normal Operation:
+# ```
+# [14:23:45.123] Proximity_Sensors (#1)
+#   Front: 125.0cm ✓ | Rear: 89.3cm ✓ | Cliff: 5.0cm ✓ | ✓ Safe
+# ```
+
+# ### Cliff Detected (RED text):
+# ```
+# [14:23:45.345] Proximity_Sensors (#2)
+#   Front: 125.0cm ✓ | Rear: 89.3cm ✓ | Cliff: 100.0cm ✓ | 🚨 CLIFF DETECTED - EMERGENCY STOP! 🚨
+# ```
+
+# ### Invalid Readings:
+# ```
+# [14:23:45.567] Proximity_Sensors (#3)
+#   Front: 0.0cm ✗ | Rear: 89.3cm ✓ | Cliff: 5.0cm ✓ | ✓ Safe
+# ```
+
+# ## Statistics Output Example:
+# ```
+# ======================================================================
+# Statistics:
+# ======================================================================
+# Runtime: 30.5 seconds
+
+#   GPS_Accuracy        :   305 messages (10.0 Hz)
+#   GPS_Position        :   305 messages (10.0 Hz)
+#   GPS_Velocity        :   305 messages (10.0 Hz)
+#   IMU_Accel           :  1525 messages (50.0 Hz)
+#   IMU_Gyro            :  1525 messages (50.0 Hz)
+#   IMU_Orientation     :   610 messages (20.0 Hz)
+#   IMU_Quaternion      :   610 messages (20.0 Hz)
+#   Proximity_Sensors   :   610 messages (20.0 Hz)
+
+# ======================================================================
