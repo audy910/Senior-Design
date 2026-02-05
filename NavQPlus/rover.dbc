@@ -70,13 +70,6 @@ BO_ 263 Proximity_Sensors: 8 ESP32
  SG_ Cliff_Detected : 48|8@1+ (1,0) [0|1] "" NavQPlus
  SG_ Front_Valid : 56|1@1+ (1,0) [0|1] "" NavQPlus
  SG_ Rear_Valid : 57|1@1+ (1,0) [0|1] "" NavQPlus
- SG_ Cliff_Valid : 58|1@1+ (1,0) [0|1] "" NavQPlusBO_ 263 Proximity_Sensors: 8 ESP32
- SG_ Proximity_Front : 0|16@1+ (1,0) [0|4000] "mm" NavQPlus
- SG_ Proximity_Rear : 16|16@1+ (1,0) [0|4000] "mm" NavQPlus
- SG_ Proximity_Cliff : 32|16@1+ (1,0) [0|1000] "mm" NavQPlus
- SG_ Cliff_Detected : 48|8@1+ (1,0) [0|1] "" NavQPlus
- SG_ Front_Valid : 56|1@1+ (1,0) [0|1] "" NavQPlus
- SG_ Rear_Valid : 57|1@1+ (1,0) [0|1] "" NavQPlus
  SG_ Cliff_Valid : 58|1@1+ (1,0) [0|1] "" NavQPlus
 CM_ BO_ 256 "GPS Position with centimeter precision";
 CM_ BO_ 257 "GPS Velocity and fix quality";
