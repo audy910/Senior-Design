@@ -48,16 +48,16 @@ void app_main(void)
         0                       // Core 0
     );
     
-    // // Create GNSS task on Core 1 (100ms = 10 Hz)
-    // xTaskCreatePinnedToCore(
-    //     gnss_uart_task,
-    //     "gnss_uart_task",
-    //     4096,
-    //     NULL,
-    //     10,                     // Priority: Highest (time-sensitive GPS)
-    //     NULL,
-    //     1                       // Core 1
-    // );
+    // Create GNSS task on Core 1 (100ms = 10 Hz)
+    xTaskCreatePinnedToCore(
+        gnss_uart_task,
+        "gnss_uart_task",
+        4096,
+        NULL,
+        10,                     // Priority: Highest (time-sensitive GPS)
+        NULL,
+        1                       // Core 1
+    );
     
     // Create Proximity sensors task on Core 0 (50ms = 20 Hz)
     xTaskCreatePinnedToCore(
