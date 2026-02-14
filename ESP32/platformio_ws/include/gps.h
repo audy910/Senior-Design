@@ -1,41 +1,40 @@
 #pragma once
 
 #include <stdint.h>
-#include <stdio.h>
-#include <string.h>
 #include <stdbool.h>
+#include <string.h>
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
-#include "driver/i2c.h"
 #include "driver/uart.h"
 #include "driver/gpio.h"
 #include "esp_log.h"
 #include "can.h"
 
-#define GNSS_UART          UART_NUM_1
-#define GNSS_TX_PIN        GPIO_NUM_15
-#define GNSS_RX_PIN        GPIO_NUM_16
+// UART Configuration
+#define GNSS_UART           UART_NUM_1
+#define GNSS_TX_PIN         15
+#define GNSS_RX_PIN         16
+#define GNSS_BAUDRATE       115200  // M100 Mini uses 115200
+#define UART_BUF_SIZE       2048
 
-#define GNSS_BAUDRATE      460800
-#define UART_BUF_SIZE      2048
-
+// Navigation PVT structure
 typedef struct {
-    int32_t lon;        // 1e-7 deg
-    int32_t lat;        // 1e-7 deg
-    int32_t height;     // mm
-    int32_t velN;       // mm/s
-    int32_t velE;       // mm/s
-    int32_t velD;       // mm/s
-    uint32_t gSpeed;    // mm/s
-    int32_t heading;    // 1e-5 deg (Heading of vehicle)
-    int32_t headMot;    // 1e-5 deg (Heading of motion)
-    uint32_t hAcc;      // mm
-    uint32_t vAcc;      // mm
-    uint16_t pDOP;      // 0.01 units
-    uint8_t numSV;      // Number of satellites
-    uint8_t fixType;
-    uint8_t flags;
-    uint8_t flags2;
+    uint8_t  fixType;
+    uint8_t  flags;
+    uint8_t  flags2;
+    uint8_t  numSV;
+    int32_t  lon;        // degrees * 1e7
+    int32_t  lat;        // degrees * 1e7
+    int32_t  height;     // mm
+    uint32_t hAcc;       // mm
+    uint32_t vAcc;       // mm
+    int32_t  velN;       // mm/s
+    int32_t  velE;       // mm/s
+    int32_t  velD;       // mm/s
+    int32_t  gSpeed;     // mm/s
+    int32_t  heading;    // degrees * 1e5
+    uint16_t pDOP;       // * 100
+    int32_t  headMot;    // degrees * 1e5
 } nav_pvt_t;
 
 typedef enum {
@@ -50,18 +49,19 @@ typedef struct {
     bool gnss_ok;
     bool stable;
     bool dead_reckoning;
-    nav_quality_t quality;
     float horiz_acc_m;
     float vert_acc_m;
+    nav_quality_t quality;
 } nav_status_t;
 
-
+// Function prototypes
 void gnss_uart_init(void);
+void configure_gps_output(void);
+void gnss_uart_task(void *arg);
 bool nav_ready(const nav_status_t *s);
 nav_status_t interpret_nav_pvt(const nav_pvt_t *pvt);
-void ubx_checksum(const uint8_t *data, uint16_t len, uint8_t *ck_a, uint8_t *ck_b);
-bool ubx_parse_byte(uint8_t byte, nav_pvt_t *out);
-void gnss_uart_task(void *arg);
+
+bool nmea_parse_byte(uint8_t byte, nav_pvt_t *out);
 
 void send_gps_position(double lat, double lon);
 void send_gps_velocity(float speed, float course, uint8_t fix_type, uint8_t num_sats, float hdop);
