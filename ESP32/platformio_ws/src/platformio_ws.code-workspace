@@ -1,0 +1,12 @@
+{
+	"folders": [
+		{
+			"path": ".."
+		},
+		{
+			"name": "Sensors_ESP",
+			"path": "../../../../PlatformIO/Projects/Sensors_ESP"
+		}
+	],
+	"settings": {}
+}

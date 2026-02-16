@@ -1,7 +1,8 @@
 #include "ultrasonic.h"
 
 static const char *TAG = "ULTRASONIC";
-
+#define SPEED_OF_SOUND_CM_US 0.0346f // Speed at ~25°C (346 m/s)
+#define ULTRASONIC_SAMPLES 3         // Number of samples to average
 void configure_ultrasonic_pins(int trig_pin, int echo_pin)
 {
     gpio_config_t trig_conf = {
@@ -44,47 +45,60 @@ void ultrasonic_sensors_init_all(void)
     ESP_LOGI(TAG, "Ultrasonic and line sensors initialized");
 }
 
+
 int read_ultrasonic_cm(ultrasonic_id_t sensor)
 {
-    // static int count_ultra = 0;
     gpio_num_t trig_pin = (sensor == SENSOR_FRONT) ? TRIG_GPIO_FRONT : TRIG_GPIO_BACK;
     gpio_num_t echo_pin = (sensor == SENSOR_FRONT) ? ECHO_GPIO_FRONT : ECHO_GPIO_BACK;
     
-    // Trigger pulse
-    gpio_set_level(trig_pin, 0);
-    esp_rom_delay_us(4);
-    gpio_set_level(trig_pin, 1);
-    esp_rom_delay_us(10);
-    gpio_set_level(trig_pin, 0);
-    
-    // Wait for echo high
-    int64_t start = esp_timer_get_time();
-    while (gpio_get_level(echo_pin) == 0) {
-        if (esp_timer_get_time() - start > TIMEOUT_US) {
-            // ESP_LOGW(TAG, "Timeout waiting for echo (sensor %s)", 
-                    //  sensor == SENSOR_FRONT ? "FRONT" : "BACK");
-            return -1;
-        }
-    }
-    
-    // Measure pulse width
-    int64_t pulse_start = esp_timer_get_time();
-    while (gpio_get_level(echo_pin) == 1) {
-        if (esp_timer_get_time() - pulse_start > TIMEOUT_US) {
-            // ESP_LOGW(TAG, "Timeout measuring pulse (sensor %s)", 
-            //          sensor == SENSOR_FRONT ? "FRONT" : "BACK");
-            return -1;
-        }
-    }
-    
-    int64_t pulse_us = esp_timer_get_time() - pulse_start;
+    float total_dist = 0;
+    int valid_samples = 0;
 
-    // if(count_ultra == 20){count_ultra = 0;}
-    // else {count_ultra++;}
-    
-    // Calculate distance in cm
-    float dist = (pulse_us * 0.0343f) / 2.0f;
-    return (int)(dist + 0.5f);
+    for (int i = 0; i < ULTRASONIC_SAMPLES; i++) {
+        // 1. Trigger pulse
+        gpio_set_level(trig_pin, 0);
+        esp_rom_delay_us(4);
+        gpio_set_level(trig_pin, 1);
+        esp_rom_delay_us(10);
+        gpio_set_level(trig_pin, 0);
+        
+        // 2. Wait for echo high with timeout
+        int64_t start = esp_timer_get_time();
+        while (gpio_get_level(echo_pin) == 0) {
+            if (esp_timer_get_time() - start > TIMEOUT_US) {
+                goto next_sample; // Skip this sample on timeout
+            }
+        }
+        
+        // 3. Measure pulse width
+        int64_t pulse_start = esp_timer_get_time();
+        while (gpio_get_level(echo_pin) == 1) {
+            if (esp_timer_get_time() - pulse_start > TIMEOUT_US) {
+                goto next_sample;
+            }
+        }
+        
+        int64_t pulse_us = esp_timer_get_time() - pulse_start;
+        
+        // Use a more accurate speed of sound constant
+        float dist = (pulse_us * SPEED_OF_SOUND_CM_US) / 2.0f;
+        
+        // Basic sanity check: HC-SR04 is only reliable between 2cm and 400cm
+        if (dist >= 2.0f && dist <= 400.0f) {
+            total_dist += dist;
+            valid_samples++;
+        }
+
+    next_sample:
+        // Small "settling" delay between internal samples to avoid interference
+        if (i < ULTRASONIC_SAMPLES - 1) {
+            esp_rom_delay_us(2000); 
+        }
+    }
+
+    if (valid_samples == 0) return -1;
+
+    return (int)((total_dist / valid_samples) + 0.5f);
 }
 
 line_sensor_data_t read_line_sensor(void)
