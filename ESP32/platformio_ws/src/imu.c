@@ -388,7 +388,6 @@ void bno055_read_task(void *arg)
                 count = 0;
             }
             
-            
             // Auto-save logic
             if (!already_saved && sys_cal == 3 && gyro_cal == 3 && accel_cal == 3 && mag_cal == 3) {
                 ESP_LOGI(TAG, "Full calibration reached! Saving to NVS...");
