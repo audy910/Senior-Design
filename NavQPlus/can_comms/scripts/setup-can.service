@@ -1,0 +1,11 @@
+[Unit]
+Description=Configure CAN interfaces on boot
+After=network.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/setup-can.sh
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target
