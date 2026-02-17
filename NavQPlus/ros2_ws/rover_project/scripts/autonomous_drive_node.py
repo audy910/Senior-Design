@@ -49,7 +49,7 @@ class AutonomousDriveNode(Node):
 
         # 2. State Machine Logic
         if self.current_state == STATE_FORWARD:
-            if msg.proximity_rear < self.wall_threshold:
+            if msg.proximity_front < self.wall_threshold:
                 # Transition to Turning
                 self.current_state = STATE_TURNING
                 self.last_wall_seen_time = now
@@ -59,7 +59,7 @@ class AutonomousDriveNode(Node):
                 drive_msg.data = CMD_FORWARD_STRAIGHT
 
         elif self.current_state == STATE_TURNING:
-            if msg.proximity_rear < self.wall_threshold:
+            if msg.proximity_front < self.wall_threshold:
                 # Wall is still there, reset the timer
                 self.last_wall_seen_time = now
                 drive_msg.data = CMD_FORWARD_LEFT
