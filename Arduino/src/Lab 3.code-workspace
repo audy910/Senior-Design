@@ -1,0 +1,16 @@
+{
+	"folders": [
+		{
+			"path": "../../Lab 3"
+		},
+		{
+			"name": "Seeing Eye Robot",
+			"path": ".."
+		}
+	],
+	"settings": {
+		"files.associations": {
+			"interrupt.h": "c"
+		}
+	}
+}
