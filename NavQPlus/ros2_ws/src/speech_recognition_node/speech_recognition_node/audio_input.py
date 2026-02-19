@@ -20,8 +20,20 @@ class VoskNode(Node):
 
     def __init__(self):
         super().__init__('vosk_node')
+        self.command_map = {
+            "forward": "MOVE_FORWARD",
+            "back": "MOVE_BACKWARD",
+            "stop": "EMERGENCY_STOP",
+            "left": "TURN_LEFT",
+            "right": "TURN_RIGHT"
+        }
+        vocab_list = list(self.command_map.keys()) + ["[unk]"]
+        vocab_json = json.dumps(vocab_list)
+        
+        self.get_logger().info(f"Listening ONLY for: {vocab_json}")
 
-        self.publisher_ = self.create_publisher(String, 'speech_text', 10)
+        self.text_pub = self.create_publisher(String, 'speech_text', 10)
+        self.cmd_pub = self.create_publisher(String, 'robot_commands', 10)
 
         self.audio_queue = queue.Queue()
 
@@ -63,21 +75,24 @@ class VoskNode(Node):
 
             if self.rec.AcceptWaveform(data):
                 result = json.loads(self.rec.Result())
-                sentence = result.get("text", "")
+                text = result.get("text", "").lower()
 
-                if sentence:
-                    msg = String()
-                    msg.data = sentence
-                    self.publisher_.publish(msg)
+                if text:
+                    self.get_logger().info(f"Heard: '{text}'")
+                    
+                    # Check if any part of the heard text is in our command map
+                    # This handles "please go forward" or just "forward"
+                    words = text.split()
+                    for word in words:
+                        if word in self.command_map:
+                            cmd_string = self.command_map[word]
+                            self.execute_command(cmd_string)
 
-                    self.get_logger().info(f"Final: {sentence}")
-
-            else:
-                partial = json.loads(self.rec.PartialResult())
-                word = partial.get("partial", "")
-
-                if word:
-                    self.get_logger().info(f"Partial: {word}")
+    def execute_command(self, cmd_string):
+        self.get_logger().warn(f"PUBLISHING COMMAND: {cmd_string}")
+        msg = String()
+        msg.data = cmd_string
+        self.cmd_pub.publish(msg)
 
 
 def main(args=None):
