@@ -68,6 +68,7 @@ class FastSCNNNode(Node):
 
 
         self.cap = cv2.VideoCapture("/dev/video3", cv2.CAP_V4L2)
+    
 
 
         self.cap.set(cv2.CAP_PROP_FRAME_WIDTH, CAM_WIDTH)
