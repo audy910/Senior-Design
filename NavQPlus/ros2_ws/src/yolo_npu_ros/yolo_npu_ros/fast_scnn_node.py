@@ -110,7 +110,6 @@ class FastSCNNNode(Node):
         #img = img.astype(np.uint8)
         input_img = np.expand_dims(img, axis=0)
 
-
         # --- Inference ---
         self.interpreter.set_tensor(
             self.input_details[0]['index'],
@@ -118,21 +117,17 @@ class FastSCNNNode(Node):
         )
         self.interpreter.invoke()
 
-
         # --- Postprocess ---
         output = self.interpreter.get_tensor(
         self.output_details[0]['index'])[0]
-
 
         # Dequantize output
         scale, zero_point = self.output_details[0]['quantization']
         output = scale * (output.astype(np.float32) - zero_point)
 
-
         mask = np.argmax(output, axis=-1).astype(np.uint8)
 
         mask = cv2.resize(mask,(CAM_WIDTH, CAM_HEIGHT),interpolation=cv2.INTER_NEAREST)
-
 
         # --- Bounding boxes ---
         boxed = frame.copy()
@@ -141,7 +136,6 @@ class FastSCNNNode(Node):
         for class_id in present_classes:
             if class_id not in BOX_CLASSES:
                 continue
-
 
             binary = (mask == class_id).astype(np.uint8) * 255
             kernel = np.ones((5, 5), np.uint8)
@@ -153,7 +147,6 @@ class FastSCNNNode(Node):
                 cv2.CHAIN_APPROX_SIMPLE
             )
 
-
             for c in contours:
                 x, y, w, h = cv2.boundingRect(c)
                 if (w * h) < 1200:
@@ -161,21 +154,15 @@ class FastSCNNNode(Node):
                
                 aspect_ratio = w / float(h)
 
-
                 if aspect_ratio < 0.3 or aspect_ratio > 3.0:
                     continue
-
 
                 extent = cv2.contourArea(c) / float(w * h)
                 if extent < 0.3:
                     continue
 
-
                 color = BOX_COLORS.get(class_id, (255, 255, 255))
                 cv2.rectangle(boxed, (x, y), (x + w, y + h), color, 2)
-
-
-
 
                 label = CLASS_NAMES.get(class_id, str(class_id))
                 cv2.putText(boxed, label, (x, y - 5), cv2.FONT_HERSHEY_SIMPLEX, 0.5, color, 1, cv2.LINE_AA)
@@ -188,21 +175,39 @@ class FastSCNNNode(Node):
         for cid, color in NAV_COLORS.items():
             color_mask[mask == cid] = color
 
-
-        seg_msg = self.bridge.cv2_to_imgmsg(color_mask, encoding='bgr8')
-        self.seg_pub.publish(seg_msg)
-        # --- Publish boxed image ONCE ---
-        box_msg = self.bridge.cv2_to_imgmsg(boxed, encoding='bgr8')
-        self.box_pub.publish(box_msg)
         # --- Overlay segmentation + boxes ---
         overlay = cv2.addWeighted(color_mask, 0.6, boxed, 0.4, 0)
+        
+        #PATH FINDING LOGIC
+        is_habitable = (mask != 4) & (mask != 5) & (mask != 0) & (mask != 6)
+        
+        #LOOK only at the bottom quarter of the image to find the path, since that's where the robot can actually drive
+        search_row = int(CAM_HEIGHT * 0.75) 
+        path_pixels = np.where(is_habitable[search_row, :])[0]
+
+        if len(path_pixels) > 0:
+            path_center_x = int(np.mean(path_pixels))
+            # Error calculation: positive is right, negative is left
+            error = path_center_x - (CAM_WIDTH // 2)
+            
+            # Draw the target point on the overlay so you can see what the robot "sees"
+            cv2.circle(overlay, (path_center_x, search_row), 10, (0, 255, 0), -1)
+            # Draw a center line for reference
+            cv2.line(overlay, (CAM_WIDTH // 2, search_row - 20), (CAM_WIDTH // 2, search_row + 20), (255, 255, 255), 2)
+        else:
+            self.get_logger().warn("No safe path detected!")
+            error = 0
+        # ============================================================
+
+        # --- Final Publish ---
+        seg_msg = self.bridge.cv2_to_imgmsg(color_mask, encoding='bgr8')
+        self.seg_pub.publish(seg_msg)
+
+        box_msg = self.bridge.cv2_to_imgmsg(boxed, encoding='bgr8')
+        self.box_pub.publish(box_msg)
+
         overlay_msg = self.bridge.cv2_to_imgmsg(overlay, encoding='bgr8')
         self.overlay_pub.publish(overlay_msg)
-
-
-
-
-
 
 
 
