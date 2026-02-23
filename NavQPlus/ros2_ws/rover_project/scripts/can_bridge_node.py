@@ -64,8 +64,8 @@ class CanBridgeNode(Node):
                     decoded = self.db.decode_message(msg.arbitration_id, msg.data)
                     
                     ros_msg = Proximity()
-                    ros_msg.proximity_front = int(decoded.get('Proximity_Front', 0))
-                    ros_msg.proximity_rear = int(decoded.get('Proximity_Rear', 0))
+                    ros_msg.proximity_rear = int(decoded.get('Proximity_Front', 0))
+                    ros_msg.proximity_front = int(decoded.get('Proximity_Rear', 0))
                     ros_msg.proximity_cliff = int(decoded.get('Proximity_Cliff', 0))
                     ros_msg.cliff_detected = bool(decoded.get('Cliff_Detected', False))
                     ros_msg.front_valid = bool(decoded.get('Front_Valid', False))
