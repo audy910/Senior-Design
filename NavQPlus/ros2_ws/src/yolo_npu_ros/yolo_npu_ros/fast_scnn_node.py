@@ -186,7 +186,7 @@ class FastSCNNNode(Node):
         path_pixels = np.where(is_habitable[search_row, :])[0]
 
         if len(path_pixels) > 0:
-            path_center_x = int(np.mean(path_pixels))
+            path_center_x = int(np.median(path_pixels))
             # Error calculation: positive is right, negative is left
             error = path_center_x - (CAM_WIDTH // 2)
             
