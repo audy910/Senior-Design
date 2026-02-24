@@ -12,13 +12,13 @@
 #include "can.h"
 
 // Ultrasonic pins
-#define TRIG_GPIO_FRONT GPIO_NUM_4
+#define TRIG_GPIO_FRONT GPIO_NUM_15
 #define ECHO_GPIO_FRONT GPIO_NUM_6
-#define TRIG_GPIO_BACK  GPIO_NUM_7
-#define ECHO_GPIO_BACK  GPIO_NUM_15
+#define TRIG_GPIO_BACK  GPIO_NUM_16
+#define ECHO_GPIO_BACK  GPIO_NUM_7
 
 // Line sensor ADC channels
-#define ADC_CHAN_LEFT   ADC1_CHANNEL_4
+#define ADC_CHAN_LEFT   ADC1_CHANNEL_7
 #define ADC_CHAN_CENTER ADC1_CHANNEL_8
 #define ADC_CHAN_RIGHT  ADC1_CHANNEL_9
 
