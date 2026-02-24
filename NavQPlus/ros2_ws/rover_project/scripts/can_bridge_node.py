@@ -14,6 +14,7 @@ from rclpy.node import Node
 import can
 from std_msgs.msg import Float64MultiArray
 from sensor_msgs.msg import NavSatFix, NavSatStatus
+
 import os
 from ament_index_python.packages import get_package_share_directory
 import cantools
@@ -35,7 +36,7 @@ class CanBridgeNode(Node):
 
         # CAN interface
         try:
-            self.bus = can.interface.Bus(channel='can1', bustype='socketcan')
+            self.bus = can.interface.Bus(channel='can1', interface='socketcan')
             self.get_logger().info("Connected to can1.")
         except Exception as e:
             self.get_logger().error(f"Could not connect to CAN bus: {e}")
@@ -66,6 +67,7 @@ class CanBridgeNode(Node):
         for message in self.db.messages:
             if message.frame_id in self.custom_ids:
                 continue
+                
             topic_name = f"can/{message.name.lower()}"
             self.publishers_dict[message.frame_id] = self.create_publisher(
                 Float64MultiArray, topic_name, 10)
@@ -183,7 +185,6 @@ class CanBridgeNode(Node):
         fix.status.service = NavSatStatus.SERVICE_GPS
         self.navsatfix_pub.publish(fix)
 
-
 def main(args=None):
     rclpy.init(args=args)
     node = CanBridgeNode()
@@ -192,8 +193,10 @@ def main(args=None):
     except KeyboardInterrupt:
         pass
     finally:
-        node.destroy_node()
-        rclpy.shutdown()
+        # Clean shutdown to prevent errors
+        if rclpy.ok():
+            node.destroy_node()
+            rclpy.shutdown()
 
 
 if __name__ == '__main__':
