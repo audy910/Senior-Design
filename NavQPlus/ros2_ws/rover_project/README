@@ -1,0 +1,5 @@
+```
+colcon build --packages-select rover_project
+source install/setup.bash
+ros2 launch rover_project rover_launch.py
+```

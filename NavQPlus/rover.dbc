@@ -1,0 +1,93 @@
+VERSION ""
+NS_ : 
+    NS_DESC_
+    CM_
+    BA_DEF_
+    BA_
+    VAL_
+    CAT_DEF_
+    CAT_
+    FILTER
+    BA_DEF_DEF_
+    EV_DATA_
+    ENVVAR_DATA_
+    SGTYPE_
+    SGTYPE_VAL_
+    BA_DEF_SGTYPE_
+    BA_SGTYPE_
+    SIG_TYPE_REF_
+    VAL_TABLE_
+    SIG_GROUP_
+    SIG_VALTYPE_
+    SIGTYPE_VALTYPE_
+    BO_TX_BU_
+    BA_DEF_REL_
+    BA_REL_
+    BA_DEF_DEF_REL_
+    BU_SG_REL_
+    BU_EV_REL_
+    BU_BO_REL_
+    SG_MUL_VAL_
+BS_:
+BU_: ESP32 NavQPlus
+BO_ 256 GPS_Position: 8 ESP32
+ SG_ GPS_Latitude : 0|32@1- (0.0000001,0) [-90|90] "deg" NavQPlus
+ SG_ GPS_Longitude : 32|32@1- (0.0000001,0) [-180|180] "deg" NavQPlus
+BO_ 257 GPS_Velocity: 8 ESP32
+ SG_ GPS_Speed : 0|24@1+ (0.001,0) [0|16777] "m/s" NavQPlus
+ SG_ GPS_Course : 24|16@1+ (0.01,0) [0|360] "deg" NavQPlus
+ SG_ GPS_FixType : 40|8@1+ (1,0) [0|5] "" NavQPlus
+ SG_ GPS_NumSats : 48|8@1+ (1,0) [0|255] "" NavQPlus
+ SG_ GPS_HDOP : 56|8@1+ (0.1,0) [0|25.5] "" NavQPlus
+BO_ 258 GPS_Accuracy: 8 ESP32
+ SG_ GPS_hAcc : 0|32@1+ (0.001,0) [0|4294967] "m" NavQPlus
+ SG_ GPS_vAcc : 32|32@1+ (0.001,0) [0|4294967] "m" NavQPlus
+BO_ 259 IMU_Accel: 8 ESP32
+ SG_ IMU_AccelX : 0|16@1- (0.001,0) [-32|32] "m/s2" NavQPlus
+ SG_ IMU_AccelY : 16|16@1- (0.001,0) [-32|32] "m/s2" NavQPlus
+ SG_ IMU_AccelZ : 32|16@1- (0.001,0) [-32|32] "m/s2" NavQPlus
+ SG_ IMU_CalAccel : 48|8@1+ (1,0) [0|3] "" NavQPlus
+BO_ 260 IMU_Gyro: 8 ESP32
+ SG_ IMU_GyroX : 0|16@1- (0.01,0) [-327|327] "deg/s" NavQPlus
+ SG_ IMU_GyroY : 16|16@1- (0.01,0) [-327|327] "deg/s" NavQPlus
+ SG_ IMU_GyroZ : 32|16@1- (0.01,0) [-327|327] "deg/s" NavQPlus
+ SG_ IMU_CalGyro : 48|8@1+ (1,0) [0|3] "" NavQPlus
+BO_ 261 IMU_Orientation: 8 ESP32
+ SG_ IMU_Heading : 0|16@1+ (0.01,0) [0|360] "deg" NavQPlus
+ SG_ IMU_Pitch : 16|16@1- (0.01,0) [-180|180] "deg" NavQPlus
+ SG_ IMU_Roll : 32|16@1- (0.01,0) [-180|180] "deg" NavQPlus
+ SG_ IMU_CalSys : 48|8@1+ (1,0) [0|3] "" NavQPlus
+ SG_ IMU_CalMag : 56|8@1+ (1,0) [0|3] "" NavQPlus
+BO_ 262 IMU_Quaternion: 8 ESP32
+ SG_ IMU_QuatW : 0|16@1- (0.0001,0) [-3.2|3.2] "" NavQPlus
+ SG_ IMU_QuatX : 16|16@1- (0.0001,0) [-3.2|3.2] "" NavQPlus
+ SG_ IMU_QuatY : 32|16@1- (0.0001,0) [-3.2|3.2] "" NavQPlus
+ SG_ IMU_QuatZ : 48|16@1- (0.0001,0) [-3.2|3.2] "" NavQPlus
+BO_ 263 Proximity_Sensors: 8 ESP32
+ SG_ Proximity_Front : 0|16@1+ (1,0) [0|4000] "mm" NavQPlus
+ SG_ Proximity_Rear : 16|16@1+ (1,0) [0|4000] "mm" NavQPlus
+ SG_ Proximity_Cliff : 32|16@1+ (1,0) [0|1000] "mm" NavQPlus
+ SG_ Cliff_Detected : 48|8@1+ (1,0) [0|1] "" NavQPlus
+ SG_ Front_Valid : 56|1@1+ (1,0) [0|1] "" NavQPlus
+ SG_ Rear_Valid : 57|1@1+ (1,0) [0|1] "" NavQPlus
+ SG_ Cliff_Valid : 58|1@1+ (1,0) [0|1] "" NavQPlus
+CM_ BO_ 256 "GPS Position with centimeter precision";
+CM_ BO_ 257 "GPS Velocity and fix quality";
+CM_ BO_ 258 "GPS Position accuracy estimates";
+CM_ BO_ 259 "IMU linear acceleration + calibration status";
+CM_ BO_ 260 "IMU angular velocity + calibration status";
+CM_ BO_ 261 "IMU Euler orientation + calibration status";
+CM_ BO_ 262 "IMU Quaternion orientation";
+CM_ BO_ 263 "Proximity sensors: ultrasonic front/rear, cliff detection";
+BA_DEF_ BO_ "GenMsgCycleTime" INT 0 10000;
+BA_DEF_ "BusType" STRING;
+BA_DEF_DEF_ "GenMsgCycleTime" 0;
+BA_DEF_DEF_ "BusType" "CAN";
+BA_ "GenMsgCycleTime" BO_ 256 100;
+BA_ "GenMsgCycleTime" BO_ 257 100;
+BA_ "GenMsgCycleTime" BO_ 258 100;
+BA_ "GenMsgCycleTime" BO_ 259 20;
+BA_ "GenMsgCycleTime" BO_ 260 20;
+BA_ "GenMsgCycleTime" BO_ 261 50;
+BA_ "GenMsgCycleTime" BO_ 262 50;
+BA_ "GenMsgCycleTime" BO_ 263 50;
