@@ -5,6 +5,7 @@ import rclpy
 from rclpy.node import Node
 from std_msgs.msg import Int32
 from rover_project.msg import Proximity
+from std_msgs.msg import Float32
 
 # Command Table
 CMD_STOP             = 2
@@ -36,7 +37,15 @@ class AutonomousDriveNode(Node):
             10)
 
         self.cmd_pub = self.create_publisher(Int32, 'bluetooth_commands', 10)
+        
+        self.vision_sub = self.create_subscription(
+            Float32,
+            '/vision/error',
+            self.vision_callback,
+            10)
 
+        self.vision_error = 0.0
+        self.vision_last_time = 0.0
         # Configuration
         self.wall_threshold = 500.0  
         self.reverse_time   = 1.0   
@@ -58,7 +67,11 @@ class AutonomousDriveNode(Node):
         self.valid_reading_count = 0
         self.current_state = new_state
         self.state_start_time = self.get_clock().now().nanoseconds / 1e9
-
+    
+    def vision_callback(self, msg):
+        self.vision_error = msg.data
+        self.vision_last_time = self.get_clock().now().nanoseconds / 1e9
+    
     def proximity_callback(self, msg):
         now = self.get_clock().now().nanoseconds / 1e9
         elapsed = now - self.state_start_time
@@ -92,7 +105,19 @@ class AutonomousDriveNode(Node):
                 self.get_logger().warn(f"Valid wall detected at {msg.proximity_front}mm")
                 self.set_state(STATE_REV_CHECK)
             else:
-                drive_msg.data = CMD_FORWARD_STRAIGHT
+                now = self.get_clock().now().nanoseconds / 1e9
+                vision_recent = (now - self.vision_last_time) < 0.5
+
+                if vision_recent and self.vision_error != 9999.0:
+
+                    if self.vision_error > 60:
+                        drive_msg.data = CMD_FORWARD_RIGHT
+                    elif self.vision_error < -60:
+                        drive_msg.data = CMD_FORWARD_LEFT
+                    else:
+                        drive_msg.data = CMD_FORWARD_STRAIGHT
+                else:
+                    drive_msg.data = CMD_STOP
 
         elif self.current_state == STATE_REV_CHECK:
             if msg.proximity_rear > self.wall_threshold:

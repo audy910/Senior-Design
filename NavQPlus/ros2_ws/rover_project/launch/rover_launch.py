@@ -53,7 +53,22 @@ def generate_launch_description():
                 'max_h_acc_m': 10.0,
             }]
         ),
-
+         # ---------- AUTONOMOUS DRIVE ----------
+        Node(
+            package='rover_project',
+            executable='autonomous_drive_node.py',
+            name='autonomous_drive_node',
+            output='screen',
+            emulate_tty=True
+        ),
+        # ---------- VISION NODE ----------
+        Node(
+            package='rover_project',
+            executable='fast_scnn_node.py',
+            name='fast_scnn',
+            output='screen',
+            emulate_tty=True
+        ),
         # Waypoint Follower (GPS+IMU → motor commands)
         Node(
             package='rover_project',
