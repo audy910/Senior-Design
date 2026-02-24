@@ -114,16 +114,34 @@ esp_err_t bno055_init(void)
 
     if (load_calibration(calib_data) == ESP_OK) {
         ESP_LOGI(TAG, "Found saved calibration in NVS. Loading...");
-        
-       // Write calibration data with error checking
+
+        // Validate calibration data (simple checksum: sum of all bytes should be non-zero)
+        uint32_t checksum = 0;
         for (int i = 0; i < 22; i++) {
-            ret = bno055_write_byte(BNO055_OFFSET_DATA_ADDR + i, calib_data[i]);
-            if (ret != ESP_OK) {
-                ESP_LOGE(TAG, "Failed to write calibration byte %d", i);
-                break;  // Continue init even if calibration load fails
+            checksum += calib_data[i];
+        }
+
+        if (checksum == 0) {
+            ESP_LOGW(TAG, "Calibration data appears invalid (all zeros), skipping load");
+        } else {
+            // Write calibration data with error checking - all or nothing approach
+            bool write_success = true;
+            for (int i = 0; i < 22; i++) {
+                ret = bno055_write_byte(BNO055_OFFSET_DATA_ADDR + i, calib_data[i]);
+                if (ret != ESP_OK) {
+                    ESP_LOGE(TAG, "Failed to write calibration byte %d", i);
+                    write_success = false;
+                    break;
+                }
+            }
+
+            if (write_success) {
+                ESP_LOGI(TAG, "Calibration profile applied successfully.");
+            } else {
+                ESP_LOGW(TAG, "Calibration load incomplete, IMU will self-calibrate");
+                // Don't use partial calibration - let IMU start fresh
             }
         }
-        ESP_LOGI(TAG, "Calibration profile applied.");
     } else {
         ESP_LOGW(TAG, "No calibration profile found in NVS.");
     }
@@ -391,16 +409,24 @@ void bno055_read_task(void *arg)
             // Auto-save logic
             if (!already_saved && sys_cal == 3 && gyro_cal == 3 && accel_cal == 3 && mag_cal == 3) {
                 ESP_LOGI(TAG, "Full calibration reached! Saving to NVS...");
-                
+
                 uint8_t calib_to_save[22];
-                
+
                 // Switch to CONFIG mode
                 bno055_set_mode(OPERATION_MODE_CONFIG);
                 vTaskDelay(pdMS_TO_TICKS(25));  // Give time to switch modes
-                
+
                 // Read calibration offsets
                 if (bno055_read_bytes(BNO055_OFFSET_DATA_ADDR, calib_to_save, 22) == ESP_OK) {
-                    if (save_calibration(calib_to_save) == ESP_OK) {
+                    // Validate data before saving (ensure it's not all zeros)
+                    uint32_t checksum = 0;
+                    for (int i = 0; i < 22; i++) {
+                        checksum += calib_to_save[i];
+                    }
+
+                    if (checksum == 0) {
+                        ESP_LOGW(TAG, "Calibration data invalid (all zeros), not saving");
+                    } else if (save_calibration(calib_to_save) == ESP_OK) {
                         ESP_LOGI(TAG, "Calibration saved successfully.");
                         already_saved = true;
                     } else {
@@ -409,7 +435,7 @@ void bno055_read_task(void *arg)
                 } else {
                     ESP_LOGE(TAG, "Failed to read calibration data");
                 }
-                
+
                 // Switch back to NDOF
                 bno055_set_mode(OPERATION_MODE_NDOF);
                 vTaskDelay(pdMS_TO_TICKS(10));

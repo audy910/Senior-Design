@@ -86,6 +86,7 @@ class AutonomousDriveNode(Node):
 
         # --- State Machine ---
         if self.current_state == STATE_FORWARD:
+
             # Only trigger wall reaction if it's close AND has been getting closer
             if msg.proximity_front < self.wall_threshold and self.valid_reading_count >= self.required_readings:
                 self.get_logger().warn(f"Valid wall detected at {msg.proximity_front}mm")
@@ -108,6 +109,7 @@ class AutonomousDriveNode(Node):
         elif self.current_state == STATE_LOOK_L:
             if elapsed < self.sensor_time:
                 drive_msg.data = CMD_LEFT
+                
             else:
                 self.set_state(STATE_SCAN_L)
 

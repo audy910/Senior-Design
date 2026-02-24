@@ -1,8 +1,18 @@
 #!/usr/bin/env python3
+"""
+uart_node.py  (UPDATED)
 
-import rclpy 
+Changes:
+  - Subscribes to 'nav/drive_cmd' for waypoint follower commands (AI mode)
+  - Subscribes to 'bluetooth_commands' for manual control (unchanged)
+  - Failsafe now runs on a ROS timer instead of never being called
+  - CMD_AI from bluetooth toggles into AI mode
+  - Any manual command switches back to MANUAL mode
+"""
+
+import rclpy
 from rclpy.node import Node
-from std_msgs.msg import Int32, Int32MultiArray
+from std_msgs.msg import Int32
 
 import serial
 import time
@@ -11,7 +21,7 @@ import sys
 
 # Command Table
 CMD_OFF                 = 0
-CMD_AI                  = 1     # toggle AI mode
+CMD_AI                  = 1
 CMD_STOP                = 2
 CMD_FORWARD_STRAIGHT    = 3
 CMD_FORWARD_RIGHT       = 4
@@ -25,22 +35,21 @@ CMD_LEFT                = 10
 MANUAL = 0
 AI     = 1
 
+
 class UartNode(Node):
     def __init__(self):
         super().__init__('uart_node')
 
         # Subscriptions
         self.manual_sub = self.create_subscription(
-            Int32,
-            'bluetooth_commands',
-            self.manual_command,
-            10
-        )
+            Int32, 'bluetooth_commands', self.manual_command, 10)
+
+        self.ai_sub = self.create_subscription(
+            Int32, 'nav/drive_cmd', self.ai_command, 10)
 
         # UART Setup
         port = '/dev/ttymxc2'
         baudrate = 115200
-
         try:
             self.ser = serial.Serial(
                 port=port,
@@ -53,56 +62,61 @@ class UartNode(Node):
                 rtscts=False,
                 dsrdtr=False
             )
-
             time.sleep(0.01)
             self.ser.flush()
-
             self.get_logger().info(f"✓ UART connected on {port} @ {baudrate}")
         except Exception as e:
-            print(f"✗ UART ERROR: {e}")
+            self.get_logger().error(f"✗ UART ERROR: {e}")
             sys.exit(1)
 
         # State
-        self.state = MANUAL          # start in manual mode
+        self.state = AI
         self.last_cmd_time = time.time()
         self.timeout_seconds = 3
 
-    def failsafe(self):
+        # Failsafe timer
+        self.create_timer(0.5, self.failsafe_check)
+
+    def failsafe_check(self):
         if time.time() - self.last_cmd_time > self.timeout_seconds:
-            print("Failsafe STOP")
-            msg = Int32()
-            msg.data = CMD_STOP
-            self.manual_command(msg)
+            self.get_logger().warn("Failsafe STOP")
+            self._send_uart(CMD_STOP)
+            self.last_cmd_time = time.time()
 
     def manual_command(self, msg: Int32):
         cmd = msg.data
         self.last_cmd_time = time.time()
 
-        print("Hello")
-
-        if cmd == CMD_AI:  # 1
+        # CMD_AI toggles into AI mode
+        if cmd == CMD_AI:
             if self.state != AI:
                 self.state = AI
-                print("*** MODE SET → AI ***")
-
-                # SEND 1 TO K64F TO ENTER AI MODE
-                try:
-                    self.ser.write(bytes([CMD_AI]))
-                    print("Sent CMD_AI (1) to K64F")
-                except Exception as e:
-                    print("UART send error:", e)
-
+                self.get_logger().info("*** MODE → AI ***")
+                self._send_uart(CMD_AI)
             return
 
+        # Any other manual command → switch to MANUAL
         if self.state != MANUAL:
             self.state = MANUAL
-            print("*** MODE SET → MANUAL ***")
+            self.get_logger().info("*** MODE → MANUAL ***")
 
+        self._send_uart(cmd)
+
+    def ai_command(self, msg: Int32):
+        """Forward waypoint follower commands only when in AI mode."""
+        if self.state != AI:
+            return
+
+        self.last_cmd_time = time.time()
+        self._send_uart(msg.data)
+
+    def _send_uart(self, cmd: int):
         try:
             self.ser.write(bytes([cmd]))
-            self.get_logger().info(f"Sent MANUAL CMD: {cmd}")
+            self.get_logger().info(
+                f"UART TX: {cmd} ({'AI' if self.state == AI else 'MANUAL'})")
         except Exception as e:
-            self.get_logger().info(f"UART send error: {e}")
+            self.get_logger().error(f"UART send error: {e}")
 
 
 def main(args=None):

@@ -12,8 +12,8 @@
 
 // UART Configuration
 #define GNSS_UART           UART_NUM_1
-#define GNSS_TX_PIN         15
-#define GNSS_RX_PIN         16
+#define GNSS_TX_PIN         12
+#define GNSS_RX_PIN         11
 #define GNSS_BAUDRATE       115200  // M100 Mini uses 115200
 #define UART_BUF_SIZE       2048
 

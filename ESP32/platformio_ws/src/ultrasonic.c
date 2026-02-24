@@ -167,21 +167,37 @@ void send_proximity_sensors(int front_cm, int back_cm,
     data[2] = (back_mm >> 0) & 0xFF;
     data[3] = (back_mm >> 8) & 0xFF;
     
-    // Line sensor center reading scaled to mm (rough estimate)
-    // Higher ADC value = closer to surface
-    // You can calibrate this mapping based on your sensor
-    uint16_t cliff_distance = (line_center > 10) ? 50 : 1000;  // Simple mapping
+    // Line sensor center reading scaled to mm
+    // Higher ADC value = closer to surface (darker reading)
+    // Improved mapping based on ADC range (0-4095 for 12-bit ADC)
+    // When robot is lifted/cliff: ADC < CLIFF_THRESHOLD (10)
+    // Normal surface: ADC typically 100-4000 depending on surface
+    uint16_t cliff_distance;
+    if (line_center < CLIFF_THRESHOLD) {
+        // Cliff detected - very far from surface
+        cliff_distance = 1000;  // 1000mm = 1 meter (max distance)
+    } else if (line_center < 50) {
+        // Very light surface or partially lifted
+        cliff_distance = 500;  // 500mm
+    } else if (line_center < 200) {
+        // Light surface
+        cliff_distance = 100;  // 100mm
+    } else {
+        // Normal/dark surface - close to ground
+        cliff_distance = 50;   // 50mm nominal ground clearance
+    }
+
     data[4] = (cliff_distance >> 0) & 0xFF;
     data[5] = (cliff_distance >> 8) & 0xFF;
-    
+
     // Cliff detected flag
     data[6] = cliff_detected ? 1 : 0;
-    
+
     // Valid flags
     data[7] = 0;
     data[7] |= (front_valid ? 1 : 0) << 0;
     data[7] |= (back_valid ? 1 : 0) << 1;
-    data[7] |= (!cliff_detected ? 1 : 0) << 2;  // Cliff valid when NOT detected
+    data[7] |= (1) << 2;  // Cliff sensor is always valid (line sensors always read)
     
     send_can_message(0x107, data, 8);
 }

@@ -380,6 +380,8 @@ void gnss_uart_task(void *arg)
 {
     uint8_t rx_buf[256];
     nav_pvt_t nav_pvt = {0};
+    int64_t msg_time = esp_timer_get_time();
+    int64_t now_time;
     
     ESP_LOGI(TAG, "GNSS task started (Protocol: NMEA)");
     
@@ -394,7 +396,9 @@ void gnss_uart_task(void *arg)
             if (parsed) {
                 nav_status_t status = interpret_nav_pvt(&nav_pvt);
                 
-                if (status.gnss_ok) {
+                now_time = esp_timer_get_time();
+                if (status.gnss_ok && now_time - msg_time >= 1000000) {
+                    msg_time = now_time;
                     double lat = nav_pvt.lat / 10000000.0;
                     double lon = nav_pvt.lon / 10000000.0;
                     float speed = nav_pvt.gSpeed / 1000.0f;

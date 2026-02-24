@@ -13,8 +13,8 @@
 #include "can.h"
 
 // I2C Configuration
-#define I2C_MASTER_SCL_IO           12       // I2C SCL
-#define I2C_MASTER_SDA_IO           11       // I2C SDA
+#define I2C_MASTER_SCL_IO           21       // I2C SCL
+#define I2C_MASTER_SDA_IO           20       // I2C SDA
 #define I2C_MASTER_NUM              I2C_NUM_0
 #define I2C_MASTER_FREQ_HZ 100000
 #define I2C_MASTER_TX_BUF_DISABLE   0
