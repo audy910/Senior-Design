@@ -4,6 +4,7 @@ import rclpy
 from rclpy.node import Node
 from std_msgs.msg import Int32, Bool
 from rover_project.msg import Proximity
+from std_msgs.msg import Float32
 
 # Command Table — matches uart_node and waypoint_follower_node
 CMD_STOP              = 2
@@ -103,6 +104,11 @@ class AutonomousDriveNode(Node):
 
     # ── Main callback ────────────────────────────────────────────────────────
 
+    
+    def vision_callback(self, msg):
+        self.vision_error = msg.data
+        self.vision_last_time = self.get_clock().now().nanoseconds / 1e9
+    
     def proximity_callback(self, msg):
         now     = self.get_clock().now().nanoseconds / 1e9
         elapsed = now - self.state_start_time

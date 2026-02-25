@@ -17,7 +17,7 @@ Publishes:
 
 import rclpy
 from rclpy.node import Node
-from std_msgs.msg import Int32, Bool
+from std_msgs.msg import Int32, Bool, Float32
 from rover_project.msg import GpsFix, ImuOrientation, WaypointList, Proximity
 import math
 import time
@@ -53,6 +53,9 @@ class WaypointFollowerNode(Node):
         self.declare_parameter('max_h_acc_m', 10.0)
         self.declare_parameter('heading_hysteresis_deg', 10.0)
         self.declare_parameter('invert_drive', False)
+        self.declare_parameter('vision_timeout_s', 0.6)
+        self.declare_parameter('vision_error_deadband_px', 40.0)
+        self.declare_parameter('vision_error_strong_px', 100.0)
 
         self.wp_threshold = self.get_parameter('waypoint_reached_m').value
         self.heading_tol = self.get_parameter('heading_tolerance_deg').value
@@ -63,6 +66,9 @@ class WaypointFollowerNode(Node):
         self.heading_offset = self.get_parameter('heading_offset_deg').value
         self.max_h_acc_m = self.get_parameter('max_h_acc_m').value
         self.invert_drive = self.get_parameter('invert_drive').value
+        self.vision_timeout_s = self.get_parameter('vision_timeout_s').value
+        self.vision_error_deadband_px = self.get_parameter('vision_error_deadband_px').value
+        self.vision_error_strong_px = self.get_parameter('vision_error_strong_px').value
         cmd_rate = self.get_parameter('command_rate_hz').value
 
         # State
@@ -82,6 +88,8 @@ class WaypointFollowerNode(Node):
         self.cliff_detected = False
         self.last_cmd = CMD_STOP
         self.safety_override = False  # True while autonomous_drive_node is correcting
+        self.vision_error = 9999.0
+        self.last_vision_time = 0.0
 
         # Publisher
         self.cmd_pub = self.create_publisher(Int32, 'nav/drive_cmd', 10)
@@ -97,6 +105,8 @@ class WaypointFollowerNode(Node):
             Proximity, 'can/proximity_sensors', self.proximity_callback, 10)
         self.override_sub = self.create_subscription(
             Bool, 'safety/override_active', self.safety_override_callback, 1)
+        self.vision_sub = self.create_subscription(
+            Float32, '/vision/error', self.vision_callback, 10)
 
         # Control loop
         self.create_timer(1.0 / cmd_rate, self.control_loop)
@@ -148,6 +158,10 @@ class WaypointFollowerNode(Node):
         elif not msg.data and self.safety_override:
             self.get_logger().info("Safety override cleared — resuming navigation")
         self.safety_override = msg.data
+
+    def vision_callback(self, msg: Float32):
+        self.vision_error = float(msg.data)
+        self.last_vision_time = time.time()
 
     #  CONTROL LOOP
 
@@ -230,12 +244,26 @@ class WaypointFollowerNode(Node):
         else:
             cmd = CMD_FORWARD_RIGHT if err > 0 else CMD_FORWARD_LEFT
 
+        vision_recent = (time.time() - self.last_vision_time) < self.vision_timeout_s
+        vision_status = 'stale'
+        if vision_recent and self.vision_error != 9999.0:
+            v_err = self.vision_error
+            vision_status = f"{v_err:.0f}px"
+            # Positive vision error means path center is to the right of image center.
+            if v_err > self.vision_error_strong_px:
+                cmd = CMD_FORWARD_RIGHT
+            elif v_err < -self.vision_error_strong_px:
+                cmd = CMD_FORWARD_LEFT
+            elif abs(v_err) > self.vision_error_deadband_px:
+                if cmd == CMD_FORWARD_STRAIGHT:
+                    cmd = CMD_FORWARD_RIGHT if v_err > 0 else CMD_FORWARD_LEFT
+
         self.send_cmd(cmd)
 
         self.get_logger().info(
             f"  WP{self.current_wp_index}: {dist:.1f}m | "
             f"bearing={bearing:.0f}° heading={self.current_heading:.0f}° "
-            f"err={err:.0f}° → cmd={cmd} | "
+            f"err={err:.0f}° vision={vision_status} → cmd={cmd} | "
             f"GPS: {self.current_num_sats}sats HDOP={self.current_hdop:.1f} h_acc={self.current_h_acc:.1f}m")
 
     #  HELPERS
