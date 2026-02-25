@@ -81,7 +81,7 @@ def generate_launch_description():
             output='screen',
             parameters=[{
                 'waypoint_reached_m': 3.0,
-                'heading_tolerance_deg': 20.0,
+                'heading_tolerance_deg': 60.0,
                 'heading_hysteresis_deg': 10.0,
                 'command_rate_hz': 5.0,
                 'gps_timeout_s': 5.0,

@@ -43,7 +43,7 @@ class WaypointFollowerNode(Node):
 
         # Parameters
         self.declare_parameter('waypoint_reached_m', 2.5)
-        self.declare_parameter('heading_tolerance_deg', 15.0)
+        self.declare_parameter('heading_tolerance_deg', 60.0)       # Heading Tolerance
         self.declare_parameter('sharp_turn_deg', 45.0)
         self.declare_parameter('command_rate_hz', 5.0)
         self.declare_parameter('gps_timeout_s', 5.0)
@@ -152,11 +152,14 @@ class WaypointFollowerNode(Node):
     #  CONTROL LOOP
 
     def control_loop(self):
-        if not self.active:
+        # ── Yield silently while autonomous_drive_node is correcting ─────────
+        # autonomous_drive_node owns nav/drive_cmd during override; don't compete.
+        if self.safety_override:
             return
 
-        # ── Yield to autonomous_drive_node while it is correcting ────────────
-        if self.safety_override:
+        if not self.active:
+            # No waypoints loaded — send STOP to keep the uart watchdog fed
+            self.send_cmd(CMD_STOP)
             return
 
         # ── Safety: cliff or close obstacle → STOP ──────────────────────
@@ -174,6 +177,7 @@ class WaypointFollowerNode(Node):
         # Sensor readiness
         if self.current_lat is None or self.current_heading is None:
             self.get_logger().warn("Waiting for GPS + IMU...", once=True)
+            self.send_cmd(CMD_STOP)
             return
 
         if time.time() - self.last_gps_time > self.gps_timeout:

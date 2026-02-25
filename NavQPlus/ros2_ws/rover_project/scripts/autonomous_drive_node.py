@@ -17,14 +17,15 @@ CMD_RIGHT             = 9   # Pivot right (sensor scan)
 CMD_LEFT              = 10  # Pivot left (sensor scan)
 
 # States
-STATE_FORWARD   = "FORWARD"
-STATE_REV_CHECK = "REV_CHECK"
-STATE_REVERSING = "REVERSING"
-STATE_LOOK_L    = "LOOK_L"
-STATE_SCAN_L    = "SCAN_L"
-STATE_LOOK_R    = "LOOK_R"
-STATE_SCAN_R    = "SCAN_R"
-STATE_DRIVE_OUT = "DRIVE_OUT"
+STATE_FORWARD    = "FORWARD"
+STATE_CLIFF_STOP = "CLIFF_STOP"  # Holding stop while cliff is active; transitions to recovery on clear
+STATE_REV_CHECK  = "REV_CHECK"
+STATE_REVERSING  = "REVERSING"
+STATE_LOOK_L     = "LOOK_L"
+STATE_SCAN_L     = "SCAN_L"
+STATE_LOOK_R     = "LOOK_R"
+STATE_SCAN_R     = "SCAN_R"
+STATE_DRIVE_OUT  = "DRIVE_OUT"
 
 
 class AutonomousDriveNode(Node):
@@ -116,19 +117,30 @@ class AutonomousDriveNode(Node):
             self.get_logger().info("Cliff latch cleared")
             self.cliff_active = False
 
-        # ── Hard safety stop (cliff or bad sensor) ───────────────────────────
-        # Takes override immediately; resets state machine so correction
-        # restarts cleanly when the hazard clears.
-        if self.cliff_active or not msg.front_valid:
+        # ── Hard safety stop: cliff ───────────────────────────────────────────
+        # Latches into CLIFF_STOP so the recovery maneuver runs on clear.
+        if self.cliff_active:
             self.publish_override(True)
             self.send_cmd(CMD_STOP)
-            if self.current_state != STATE_FORWARD:
-                self.set_state(STATE_FORWARD)
+            if self.current_state != STATE_CLIFF_STOP:
+                self.set_state(STATE_CLIFF_STOP)
             return
+
+        # ── Front sensor invalid ─────────────────────────────────────────────
+        # HC-SR04 returns invalid when nothing is in range (open space).
+        # In STATE_FORWARD: release override and return — waypoint_follower drives.
+        # In correction states: fall through so time-based transitions (REVERSING,
+        # DRIVE_OUT, etc.) still complete even when the front sensor reads nothing.
+        if not msg.front_valid:
+            if self.current_state == STATE_FORWARD:
+                self.publish_override(False)
+                return
+            # Correction state: do NOT return — let the state machine run.
+            # SCAN_L/R already treat front_valid=False as "clear" (open space).
 
         # ── Wall validation (STATE_FORWARD only) ─────────────────────────────
         is_getting_closer = msg.proximity_front < self.prev_proximity_front
-        if self.current_state == STATE_FORWARD and msg.proximity_front < self.wall_threshold:
+        if self.current_state == STATE_FORWARD and msg.front_valid and msg.proximity_front < self.wall_threshold:
             if is_getting_closer:
                 self.valid_reading_count += 1
             else:
@@ -146,11 +158,23 @@ class AutonomousDriveNode(Node):
                 self.publish_override(False)
                 return
 
+        # ── Cliff cleared: kick off the same recovery maneuver as wall avoidance ─
+        # Cliff is NOT active here (returned early above if it were).
+        # Back away from the edge and scan left/right before handing back control.
+        if self.current_state == STATE_CLIFF_STOP:
+            self.get_logger().warn("Cliff cleared — backing away from edge before resuming")
+            self.set_state(STATE_REV_CHECK)
+            # Falls through to STATE_REV_CHECK below
+
         # ── Correction states: hold override and drive ───────────────────────
         self.publish_override(True)
 
         if self.current_state == STATE_REV_CHECK:
-            if msg.proximity_rear > self.wall_threshold:
+            # Only block reversing if the rear sensor is valid AND close.
+            # An invalid reading (rear_valid=False, proximity_rear=0) must not
+            # trap the rover at a cliff edge — treat it as "clear to reverse".
+            rear_blocked = msg.rear_valid and (msg.proximity_rear <= self.wall_threshold)
+            if not rear_blocked:
                 self.set_state(STATE_REVERSING)
             else:
                 self.send_cmd(CMD_STOP)
@@ -170,7 +194,8 @@ class AutonomousDriveNode(Node):
         elif self.current_state == STATE_SCAN_L:
             self.send_cmd(CMD_STOP)
             if elapsed > 0.5:
-                if msg.proximity_front > self.wall_threshold:
+                # front_valid=False means nothing in range (open space) — treat as clear
+                if not msg.front_valid or msg.proximity_front > self.wall_threshold:
                     self.chosen_turn_cmd = CMD_FORWARD_LEFT
                     self.set_state(STATE_DRIVE_OUT)
                 else:
@@ -185,7 +210,8 @@ class AutonomousDriveNode(Node):
         elif self.current_state == STATE_SCAN_R:
             self.send_cmd(CMD_STOP)
             if elapsed > 0.5:
-                if msg.proximity_front > self.wall_threshold:
+                # front_valid=False means nothing in range (open space) — treat as clear
+                if not msg.front_valid or msg.proximity_front > self.wall_threshold:
                     self.chosen_turn_cmd = CMD_FORWARD_RIGHT
                     self.set_state(STATE_DRIVE_OUT)
                 else:
