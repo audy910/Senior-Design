@@ -2,7 +2,6 @@ import os
 from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument, TimerAction
-from launch.conditions import IfCondition
 from launch.substitutions import LaunchConfiguration
 from launch_ros.actions import Node
 
@@ -18,12 +17,6 @@ def generate_launch_description():
             'shapefile_path',
             default_value=default_shapefile,
             description='Path to UCR_Centerlines.shp'
-        ),
-
-        DeclareLaunchArgument(
-            'enable_reactive_drive',
-            default_value='false',
-            description='Enable legacy autonomous_drive_node (publishes manual bluetooth commands)'
         ),
 
         # CAN Bridge (ESP32 sensor data)
@@ -60,26 +53,7 @@ def generate_launch_description():
                 'max_h_acc_m': 10.0,
             }]
         ),
-         # ---------- AUTONOMOUS DRIVE ----------
-        Node(
-            package='rover_project',
-            executable='autonomous_drive_node.py',
-            name='autonomous_drive_node',
-            output='screen',
-            emulate_tty=True,
-            condition=IfCondition(LaunchConfiguration('enable_reactive_drive'))
-        ),
-        # ---------- VISION NODE ----------
-        Node(
-            package='rover_project',
-            executable='fast_scnn_node.py',
-            name='fast_scnn',
-            output='screen',
-            emulate_tty=True,
-            parameters=[{
-                'camera_index': 3,
-            }]
-        ),
+
         # Waypoint Follower (GPS+IMU → motor commands)
         Node(
             package='rover_project',
@@ -97,9 +71,6 @@ def generate_launch_description():
                 'heading_offset_deg': 180.0,
                 'max_h_acc_m': 10.0,
                 'invert_drive': True,          # set False if FORWARD/BACKWARD are correct
-                'vision_timeout_s': 0.6,
-                'vision_error_deadband_px': 40.0,
-                'vision_error_strong_px': 100.0,
             }]
         ),
 
