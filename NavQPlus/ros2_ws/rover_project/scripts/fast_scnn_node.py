@@ -5,7 +5,8 @@ from sensor_msgs.msg import Image
 from cv_bridge import CvBridge
 import cv2
 import numpy as np
-import tensorflow as tf
+#import tensorflow as tf
+import tflite_runtime.interpreter as tflite
 from tensorflow.lite.python.interpreter import load_delegate
 from std_msgs.msg import Float32
 
@@ -60,11 +61,11 @@ class FastSCNNNode(Node):
         self.bridge = CvBridge()
 
         # Do NOT publish to /image_raw
-        self.image_pub = self.create_publisher(Image, '/camera/image', 10)
-        self.seg_pub = self.create_publisher(Image, '/segmentation/color', 10)
-        self.box_pub = self.create_publisher(Image, '/segmentation/boxes', 10)
-        self.overlay_pub = self.create_publisher(Image, '/segmentation/overlay', 10)
-        self.error_pub = self.create_publisher(Float32, '/vision/error', 10)
+        self.image_pub = self.create_publisher(Image, '/camera/image', 1)
+        self.seg_pub = self.create_publisher(Image, '/segmentation/color', 1)
+        self.box_pub = self.create_publisher(Image, '/segmentation/boxes', 1)
+        self.overlay_pub = self.create_publisher(Image, '/segmentation/overlay', 1)
+        self.error_pub = self.create_publisher(Float32, '/vision/error', 1)
 
         #self.cap = cv2.VideoCapture("/dev/video3", cv2.CAP_V4L2)
         self.cap = cv2.VideoCapture(3, cv2.CAP_V4L2)
@@ -80,8 +81,7 @@ class FastSCNNNode(Node):
             self.get_logger().error("Failed to open camera")
             return
 
-
-        self.interpreter = tf.lite.Interpreter(
+        self.interpreter = tflite.Interpreter(
             model_path=MODEL_PATH,
             experimental_delegates=[
                 load_delegate("/usr/lib/libvx_delegate.so")
@@ -92,7 +92,7 @@ class FastSCNNNode(Node):
         self.input_details = self.interpreter.get_input_details()
         self.output_details = self.interpreter.get_output_details()
 
-        self.timer = self.create_timer(0.1, self.loop)
+        self.timer = self.create_timer(0.05, self.loop)
         self.get_logger().info("Fast-SCNN camera node started")
 
 
@@ -106,8 +106,8 @@ class FastSCNNNode(Node):
         # --- Preprocess for model ---
         img = cv2.resize(frame, (MODEL_SIZE, MODEL_SIZE))
         img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-        img = img.astype(np.uint8)
-        input_img = np.expand_dims(img, axis=0)
+        input_img = img.astype(np.uint8) 
+        input_img = np.expand_dims(input_img, axis=0)
 
         # --- Inference ---
         self.interpreter.set_tensor(
@@ -122,9 +122,10 @@ class FastSCNNNode(Node):
 
         # Dequantize output
         scale, zero_point = self.output_details[0]['quantization']
-        output = scale * (output.astype(np.float32) - zero_point)
-
+        #output = scale * (output.astype(np.float32) - zero_point)
+        output = self.interpreter.get_tensor(self.output_details[0]['index'])[0]
         mask = np.argmax(output, axis=-1).astype(np.uint8)
+        
 
         mask = cv2.resize(mask,(CAM_WIDTH, CAM_HEIGHT),interpolation=cv2.INTER_NEAREST)
 
@@ -138,8 +139,8 @@ class FastSCNNNode(Node):
 
             binary = (mask == class_id).astype(np.uint8) * 255
             kernel = np.ones((5, 5), np.uint8)
-            binary = cv2.morphologyEx(binary, cv2.MORPH_OPEN, kernel)
-            binary = cv2.morphologyEx(binary, cv2.MORPH_CLOSE, kernel)
+            #binary = cv2.morphologyEx(binary, cv2.MORPH_OPEN, kernel)
+            #binary = cv2.morphologyEx(binary, cv2.MORPH_CLOSE, kernel)
             contours, _ = cv2.findContours(
                 binary,
                 cv2.RETR_EXTERNAL,
