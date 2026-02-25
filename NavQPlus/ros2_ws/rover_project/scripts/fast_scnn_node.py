@@ -7,6 +7,7 @@ import cv2
 import numpy as np
 import tflite_runtime.interpreter as tflite
 from std_msgs.msg import Float32
+import time
 
 MODEL_PATH = "/home/marina/Senior-Design/NavQPlus/models/fast_scnn_opt_int8.tflite"
 
@@ -43,6 +44,7 @@ class FastSCNNNode(Node):
         self.cap.set(cv2.CAP_PROP_FOURCC, cv2.VideoWriter_fourcc(*'MJPG'))
         self.cap.set(cv2.CAP_PROP_FRAME_WIDTH, CAM_WIDTH)
         self.cap.set(cv2.CAP_PROP_FRAME_HEIGHT, CAM_HEIGHT)
+        self.cap.set(cv2.CAP_PROP_BUFFERSIZE, 1)
 
         if not self.cap.isOpened():
             self.get_logger().error("Failed to open camera")
@@ -68,7 +70,10 @@ class FastSCNNNode(Node):
         self.get_logger().info("Fast-SCNN Optimized Node Started")
 
     def loop(self):
-        ret, frame = self.cap.read()
+        for _ in range(2): 
+            self.cap.grab()
+            
+        ret, frame = self.cap.retrieve()
         if not ret:
             return
 
@@ -76,10 +81,19 @@ class FastSCNNNode(Node):
         img = cv2.resize(frame, (MODEL_SIZE, MODEL_SIZE))
         img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
         input_img = np.expand_dims(img.astype(np.uint8), axis=0)
-
-        # --- Inference (The NPU Part) ---
+        '''
+        # --- Inference (The NPU ) ---
         self.interpreter.set_tensor(self.input_details[0]['index'], input_img)
         self.interpreter.invoke()
+        '''
+        start = time.perf_counter()
+        
+        self.interpreter.set_tensor(self.input_details[0]['index'], input_img)
+        self.interpreter.invoke()
+        
+        end = time.perf_counter()
+        # If this is < 0.05, the NPU is doing the heavy lifting!
+        print(f"Inference time: {end - start:.4f}s")
 
         # --- Postprocess (Optimized at 256x256 to save CPU) ---
         output = self.interpreter.get_tensor(self.output_details[0]['index'])[0]
@@ -111,23 +125,23 @@ class FastSCNNNode(Node):
         err_msg.data = error
         self.error_pub.publish(err_msg)
 
-        # --- VISUALIZATION (THE CPU KILLER) ---
+        # --- VISUALIZATION  ---
         # UNCOMMENT the block below if you need to see the image in Foxglove.
         # KEEP COMMENTED to make htop look great for your teammate.
-        """
+        
         mask_large = cv2.resize(mask, (CAM_WIDTH, CAM_HEIGHT), interpolation=cv2.INTER_NEAREST)
         color_mask = self.lut[mask_large]
         overlay = cv2.addWeighted(color_mask, 0.5, frame, 0.5, 0)
-        
+        '''
         if error != 9999.0:
             search_row_vis = int(CAM_HEIGHT * 0.75)
             cv2.circle(overlay, (path_center_x, search_row_vis), 10, (0, 255, 0), -1)
             cv2.line(overlay, (CAM_WIDTH // 2, search_row_vis - 20), 
                      (CAM_WIDTH // 2, search_row_vis + 20), (255, 255, 255), 2)
-
+'''
         overlay_msg = self.bridge.cv2_to_imgmsg(overlay, encoding='bgr8')
         self.overlay_pub.publish(overlay_msg)
-        """
+        
 
 def main():
     rclpy.init()
