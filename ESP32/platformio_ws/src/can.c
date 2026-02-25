@@ -38,12 +38,37 @@ void send_can_message(uint32_t id, uint8_t *data, uint8_t len)
     message.data_length_code = len;
     message.flags = TWAI_MSG_FLAG_NONE; // Standard frame, data frame
     memcpy(message.data, data, len);
-    
-    esp_err_t err = twai_transmit(&message, pdMS_TO_TICKS(100));
-    if (err == ESP_OK) {
-        ESP_LOGD(TAG, "Message sent: ID=0x%03X", id);
-    } else {
-        ESP_LOGW(TAG, "Failed to send message: %s", esp_err_to_name(err));
+
+    // Retry up to 3 times on failure
+    const int max_retries = 3;
+    esp_err_t err = ESP_FAIL;
+
+    for (int retry = 0; retry < max_retries; retry++) {
+        err = twai_transmit(&message, pdMS_TO_TICKS(100));
+
+        if (err == ESP_OK) {
+            ESP_LOGD(TAG, "Message sent: ID=0x%03X", id);
+            return;  // Success
+        }
+
+        if (err == ESP_ERR_TIMEOUT) {
+            ESP_LOGW(TAG, "CAN TX timeout (retry %d/%d): ID=0x%03X", retry + 1, max_retries, id);
+        } else if (err == ESP_ERR_INVALID_STATE) {
+            ESP_LOGE(TAG, "CAN bus not ready: %s", esp_err_to_name(err));
+            break;  // Don't retry if bus is in bad state
+        } else {
+            ESP_LOGW(TAG, "CAN TX failed (retry %d/%d): %s", retry + 1, max_retries, esp_err_to_name(err));
+        }
+
+        // Short delay before retry
+        if (retry < max_retries - 1) {
+            vTaskDelay(pdMS_TO_TICKS(10));
+        }
+    }
+
+    // All retries failed
+    if (err != ESP_OK) {
+        ESP_LOGE(TAG, "CAN message dropped after %d retries: ID=0x%03X", max_retries, id);
     }
 }
 

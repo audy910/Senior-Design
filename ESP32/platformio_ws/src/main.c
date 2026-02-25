@@ -36,18 +36,18 @@ void app_main(void)
     // Initialize CAN bus
     init_can_bus();
     ESP_LOGI(TAG, "CAN bus initialized");
-    
-    // // Create BNO055 task on Core 0 (20ms = 50 Hz)
-    // xTaskCreatePinnedToCore(
-    //     bno055_read_task,
-    //     "bno055_task",
-    //     4096,
-    //     NULL,
-    //     5,                      // Priority: Medium
-    //     NULL,
-    //     0                       // Core 0
-    // );
-    
+
+    // Create BNO055 task on Core 0 (20ms = 50 Hz)
+    xTaskCreatePinnedToCore(
+        bno055_read_task,
+        "bno055_task",
+        4096,
+        NULL,
+        5,                      // Priority: Medium
+        NULL,
+        0                       // Core 0
+    );
+
     // Create GNSS task on Core 1 (100ms = 10 Hz)
     xTaskCreatePinnedToCore(
         gnss_uart_task,
@@ -58,18 +58,18 @@ void app_main(void)
         NULL,
         1                       // Core 1
     );
-    
-    // // Create Proximity sensors task on Core 0 (50ms = 20 Hz)
-    // xTaskCreatePinnedToCore(
-    //     proximity_sensors_task,
-    //     "proximity_sensor_task",
-    //     4096,
-    //     NULL,
-    //     7,                      // Priority: Medium-High (safety critical)
-    //     NULL,
-    //     0                       // Core 0
-    // );
-    
+
+    // Create Proximity sensors task on Core 0 (50ms = 20 Hz)
+    xTaskCreatePinnedToCore(
+        proximity_sensors_task,
+        "proximity_sensor_task",
+        4096,
+        NULL,
+        7,                      // Priority: Medium-High (safety critical)
+        NULL,
+        0                       // Core 0
+    );
+
     ESP_LOGI(TAG, "All tasks created successfully");
     ESP_LOGI(TAG, "Task Periods: GPS=100ms, IMU=20ms, Proximity=50ms");
 }
