@@ -142,9 +142,9 @@ class FastSCNNNode(Node):
         # UNCOMMENT the block below if you need to see the image in Foxglove.
         # KEEP COMMENTED to make htop look great for your teammate.
         
-        #mask_large = cv2.resize(mask, (CAM_WIDTH, CAM_HEIGHT), interpolation=cv2.INTER_NEAREST)
-        #color_mask = self.lut[mask_large]
-        #overlay = cv2.addWeighted(color_mask, 0.5, frame, 0.5, 0)
+        mask_large = cv2.resize(mask, (CAM_WIDTH, CAM_HEIGHT), interpolation=cv2.INTER_NEAREST)
+        color_mask = self.lut[mask_large]
+        overlay = cv2.addWeighted(color_mask, 0.5, frame, 0.5, 0)
         '''
         if error != 9999.0:
             search_row_vis = int(CAM_HEIGHT * 0.75)
@@ -152,16 +152,7 @@ class FastSCNNNode(Node):
             cv2.line(overlay, (CAM_WIDTH // 2, search_row_vis - 20), 
                      (CAM_WIDTH // 2, search_row_vis + 20), (255, 255, 255), 2)
 '''
-        if error != 9999.0:
-            search_row_vis = int(CAM_HEIGHT * 0.75)
-            # Draw the Green Dot (Path Center)
-            cv2.circle(frame, (path_center_x, search_row_vis), 10, (0, 255, 0), -1)
-            # Draw the White Centerline (Robot Heading)
-            cv2.line(frame, (CAM_WIDTH // 2, search_row_vis - 20), 
-                     (CAM_WIDTH // 2, search_row_vis + 20), (255, 255, 255), 2)
-
-        # Publish the raw frame with just the guidance markers
-        overlay_msg = self.bridge.cv2_to_imgmsg(frame, encoding='bgr8')
+        overlay_msg = self.bridge.cv2_to_imgmsg(overlay, encoding='bgr8')
         self.overlay_pub.publish(overlay_msg)
         
 
