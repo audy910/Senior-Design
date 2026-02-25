@@ -8,8 +8,8 @@ import numpy as np
 import tflite_runtime.interpreter as tflite
 from std_msgs.msg import Float32
 import time
-
-MODEL_PATH = "/home/marina/Senior-Design/NavQPlus/models/fast_scnn_opt_int8.tflite"
+import os
+from ament_index_python.packages import get_package_share_directory
 
 CAM_WIDTH = 640
 CAM_HEIGHT = 480
@@ -30,6 +30,15 @@ class FastSCNNNode(Node):
         super().__init__('fast_scnn_node')
         self.bridge = CvBridge()
 
+        package_share = get_package_share_directory('rover_project')
+        default_model = os.path.abspath(
+            os.path.join(package_share, '..', '..', '..', 'models', 'fast_scnn_opt_int8.tflite'))
+
+        self.declare_parameter('model_path', default_model)
+        self.declare_parameter('camera_index', 3)
+        model_path = self.get_parameter('model_path').value
+        camera_index = int(self.get_parameter('camera_index').value)
+
         # Publishers
         self.overlay_pub = self.create_publisher(Image, '/segmentation/overlay', 1)
         self.error_pub = self.create_publisher(Float32, '/vision/error', 1)
@@ -39,8 +48,12 @@ class FastSCNNNode(Node):
         for cid, color in NAV_COLORS.items():
             self.lut[cid] = color
 
+        if not os.path.exists(model_path):
+            self.get_logger().error(f"Model not found at: {model_path}")
+            return
+
         # Camera Setup
-        self.cap = cv2.VideoCapture(3, cv2.CAP_V4L2)
+        self.cap = cv2.VideoCapture(camera_index, cv2.CAP_V4L2)
         self.cap.set(cv2.CAP_PROP_FOURCC, cv2.VideoWriter_fourcc(*'MJPG'))
         self.cap.set(cv2.CAP_PROP_FRAME_WIDTH, CAM_WIDTH)
         self.cap.set(cv2.CAP_PROP_FRAME_HEIGHT, CAM_HEIGHT)
@@ -53,13 +66,13 @@ class FastSCNNNode(Node):
         # NPU Initialization
         try:
             self.interpreter = tflite.Interpreter(
-                model_path=MODEL_PATH,
+                model_path=model_path,
                 experimental_delegates=[tflite.load_delegate("/usr/lib/libvx_delegate.so")]
             )
             self.get_logger().info("SUCCESS: NPU VX Delegate Active")
         except Exception as e:
             self.get_logger().error(f"FALLBACK: NPU Delegate failed. Error: {e}")
-            self.interpreter = tflite.Interpreter(model_path=MODEL_PATH)
+            self.interpreter = tflite.Interpreter(model_path=model_path)
 
         self.interpreter.allocate_tensors()
         self.input_details = self.interpreter.get_input_details()
