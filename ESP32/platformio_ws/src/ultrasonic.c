@@ -122,9 +122,11 @@ line_sensor_data_t read_line_sensor(void)
 
 bool is_robot_lifted(line_sensor_data_t data)
 {
-    // All sensors read very low = no surface detected
-    if (data.left < CLIFF_THRESHOLD && 
-        data.center < CLIFF_THRESHOLD && 
+    // Any sensor reads very low = edge or no surface detected.
+    // OR logic is more conservative: catches cliff edges where only
+    // one or two sensors have gone over the drop.
+    if (data.left < CLIFF_THRESHOLD ||
+        data.center < CLIFF_THRESHOLD ||
         data.right < CLIFF_THRESHOLD) {
         return true;
     }
