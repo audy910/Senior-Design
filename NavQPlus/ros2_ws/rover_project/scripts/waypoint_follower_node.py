@@ -17,7 +17,7 @@ Publishes:
 
 import rclpy
 from rclpy.node import Node
-from std_msgs.msg import Int32, Float32
+from std_msgs.msg import Int32, Bool, Float32
 from rover_project.msg import GpsFix, ImuOrientation, WaypointList, Proximity
 import math
 import time
@@ -43,7 +43,7 @@ class WaypointFollowerNode(Node):
 
         # Parameters
         self.declare_parameter('waypoint_reached_m', 2.5)
-        self.declare_parameter('heading_tolerance_deg', 15.0)
+        self.declare_parameter('heading_tolerance_deg', 60.0)       # Heading Tolerance
         self.declare_parameter('sharp_turn_deg', 45.0)
         self.declare_parameter('command_rate_hz', 5.0)
         self.declare_parameter('gps_timeout_s', 5.0)
@@ -87,6 +87,7 @@ class WaypointFollowerNode(Node):
         self.obstacle_front_mm = 9999
         self.cliff_detected = False
         self.last_cmd = CMD_STOP
+        self.safety_override = False  # True while autonomous_drive_node is correcting
         self.vision_error = 9999.0
         self.last_vision_time = 0.0
 
@@ -102,6 +103,8 @@ class WaypointFollowerNode(Node):
             ImuOrientation, 'can/imu_orientation', self.imu_callback, 10)
         self.prox_sub = self.create_subscription(
             Proximity, 'can/proximity_sensors', self.proximity_callback, 10)
+        self.override_sub = self.create_subscription(
+            Bool, 'safety/override_active', self.safety_override_callback, 1)
         self.vision_sub = self.create_subscription(
             Float32, '/vision/error', self.vision_callback, 10)
 
@@ -149,6 +152,12 @@ class WaypointFollowerNode(Node):
             self.obstacle_front_mm = msg.proximity_front
         self.cliff_detected = msg.cliff_detected
 
+    def safety_override_callback(self, msg: Bool):
+        if msg.data and not self.safety_override:
+            self.get_logger().info("Safety override active — yielding control")
+        elif not msg.data and self.safety_override:
+            self.get_logger().info("Safety override cleared — resuming navigation")
+        self.safety_override = msg.data
 
     def vision_callback(self, msg: Float32):
         self.vision_error = float(msg.data)
@@ -157,7 +166,14 @@ class WaypointFollowerNode(Node):
     #  CONTROL LOOP
 
     def control_loop(self):
+        # ── Yield silently while autonomous_drive_node is correcting ─────────
+        # autonomous_drive_node owns nav/drive_cmd during override; don't compete.
+        if self.safety_override:
+            return
+
         if not self.active:
+            # No waypoints loaded — send STOP to keep the uart watchdog fed
+            self.send_cmd(CMD_STOP)
             return
 
         # ── Safety: cliff or close obstacle → STOP ──────────────────────
@@ -175,6 +191,7 @@ class WaypointFollowerNode(Node):
         # Sensor readiness
         if self.current_lat is None or self.current_heading is None:
             self.get_logger().warn("Waiting for GPS + IMU...", once=True)
+            self.send_cmd(CMD_STOP)
             return
 
         if time.time() - self.last_gps_time > self.gps_timeout:

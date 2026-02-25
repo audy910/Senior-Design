@@ -60,26 +60,26 @@ def generate_launch_description():
                 'max_h_acc_m': 10.0,
             }]
         ),
-         # ---------- AUTONOMOUS DRIVE ----------
+
+        # Autonomous Drive (safety override: cliff + wall avoidance)
+        # Publishes safety/override_active to silence waypoint_follower during corrections.
         Node(
             package='rover_project',
             executable='autonomous_drive_node.py',
-            name='autonomous_drive_node',
-            output='screen',
-            emulate_tty=True,
-            condition=IfCondition(LaunchConfiguration('enable_reactive_drive'))
-        ),
-        # ---------- VISION NODE ----------
-        Node(
-            package='rover_project',
-            executable='fast_scnn_node.py',
-            name='fast_scnn',
+            name='autonomous_drive',
             output='screen',
             emulate_tty=True,
             parameters=[{
-                'camera_index': 3,
+                'invert_drive': True,          # must match waypoint_follower invert_drive
+                'wall_threshold_mm': 500.0,
+                'reverse_time_s': 1.0,
+                'sensor_time_s': 0.5,
+                'maneuver_time_s': 2.0,
+                'required_readings': 4,
+                'cliff_hold_s': 1.0,
             }]
         ),
+
         # Waypoint Follower (GPS+IMU → motor commands)
         Node(
             package='rover_project',
@@ -88,7 +88,7 @@ def generate_launch_description():
             output='screen',
             parameters=[{
                 'waypoint_reached_m': 3.0,
-                'heading_tolerance_deg': 20.0,
+                'heading_tolerance_deg': 60.0,
                 'heading_hysteresis_deg': 10.0,
                 'command_rate_hz': 5.0,
                 'gps_timeout_s': 5.0,
