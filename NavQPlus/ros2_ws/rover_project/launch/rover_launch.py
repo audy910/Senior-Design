@@ -54,6 +54,25 @@ def generate_launch_description():
             }]
         ),
 
+        # Autonomous Drive (safety override: cliff + wall avoidance)
+        # Publishes safety/override_active to silence waypoint_follower during corrections.
+        Node(
+            package='rover_project',
+            executable='autonomous_drive_node.py',
+            name='autonomous_drive',
+            output='screen',
+            emulate_tty=True,
+            parameters=[{
+                'invert_drive': True,          # must match waypoint_follower invert_drive
+                'wall_threshold_mm': 500.0,
+                'reverse_time_s': 1.0,
+                'sensor_time_s': 0.5,
+                'maneuver_time_s': 2.0,
+                'required_readings': 4,
+                'cliff_hold_s': 1.0,
+            }]
+        ),
+
         # Waypoint Follower (GPS+IMU → motor commands)
         Node(
             package='rover_project',

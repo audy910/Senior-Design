@@ -17,7 +17,7 @@ Publishes:
 
 import rclpy
 from rclpy.node import Node
-from std_msgs.msg import Int32
+from std_msgs.msg import Int32, Bool
 from rover_project.msg import GpsFix, ImuOrientation, WaypointList, Proximity
 import math
 import time
@@ -81,6 +81,7 @@ class WaypointFollowerNode(Node):
         self.obstacle_front_mm = 9999
         self.cliff_detected = False
         self.last_cmd = CMD_STOP
+        self.safety_override = False  # True while autonomous_drive_node is correcting
 
         # Publisher
         self.cmd_pub = self.create_publisher(Int32, 'nav/drive_cmd', 10)
@@ -94,6 +95,8 @@ class WaypointFollowerNode(Node):
             ImuOrientation, 'can/imu_orientation', self.imu_callback, 10)
         self.prox_sub = self.create_subscription(
             Proximity, 'can/proximity_sensors', self.proximity_callback, 10)
+        self.override_sub = self.create_subscription(
+            Bool, 'safety/override_active', self.safety_override_callback, 1)
 
         # Control loop
         self.create_timer(1.0 / cmd_rate, self.control_loop)
@@ -139,10 +142,21 @@ class WaypointFollowerNode(Node):
             self.obstacle_front_mm = msg.proximity_front
         self.cliff_detected = msg.cliff_detected
 
+    def safety_override_callback(self, msg: Bool):
+        if msg.data and not self.safety_override:
+            self.get_logger().info("Safety override active — yielding control")
+        elif not msg.data and self.safety_override:
+            self.get_logger().info("Safety override cleared — resuming navigation")
+        self.safety_override = msg.data
+
     #  CONTROL LOOP
 
     def control_loop(self):
         if not self.active:
+            return
+
+        # ── Yield to autonomous_drive_node while it is correcting ────────────
+        if self.safety_override:
             return
 
         # ── Safety: cliff or close obstacle → STOP ──────────────────────
