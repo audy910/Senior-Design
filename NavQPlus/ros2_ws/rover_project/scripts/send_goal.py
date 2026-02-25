@@ -14,13 +14,16 @@ import time
 
 
 def main():
-    if len(sys.argv) != 3:
+    from rclpy.utilities import remove_ros_args
+    user_args = remove_ros_args(sys.argv)[1:]
+
+    if len(user_args) != 2:
         print("Usage: ros2 run rover_project send_goal.py <lat> <lon>")
         print("  e.g: ros2 run rover_project send_goal.py 33.4484 -112.0740")
         sys.exit(1)
 
-    lat = float(sys.argv[1])
-    lon = float(sys.argv[2])
+    lat = float(user_args[0])
+    lon = float(user_args[1])
 
     rclpy.init()
     node = rclpy.create_node('goal_sender')
@@ -32,10 +35,8 @@ def main():
     msg.latitude = lat
     msg.longitude = lon
 
-    for _ in range(5):
-        pub.publish(msg)
-        node.get_logger().info(f"Published goal: ({lat}, {lon})")
-        time.sleep(0.3)
+    pub.publish(msg)
+    node.get_logger().info(f"Published goal: ({lat}, {lon})")
 
     node.destroy_node()
     rclpy.shutdown()

@@ -17,7 +17,7 @@ Publishes:
 
 import rclpy
 from rclpy.node import Node
-from std_msgs.msg import Int32
+from std_msgs.msg import Int32, Bool
 from rover_project.msg import GpsFix, ImuOrientation, WaypointList, Proximity
 import math
 import time
@@ -50,14 +50,19 @@ class WaypointFollowerNode(Node):
         self.declare_parameter('min_fix_type', 2)
         self.declare_parameter('obstacle_stop_mm', 400)    # front obstacle emergency stop
         self.declare_parameter('heading_offset_deg', 0.0)  # BNO055 mounting offset
+        self.declare_parameter('max_h_acc_m', 10.0)
+        self.declare_parameter('heading_hysteresis_deg', 10.0)
+        self.declare_parameter('invert_drive', False)
 
         self.wp_threshold = self.get_parameter('waypoint_reached_m').value
         self.heading_tol = self.get_parameter('heading_tolerance_deg').value
-        self.sharp_turn = self.get_parameter('sharp_turn_deg').value
+        self.heading_hysteresis = self.get_parameter('heading_hysteresis_deg').value
         self.gps_timeout = self.get_parameter('gps_timeout_s').value
         self.min_fix_type = self.get_parameter('min_fix_type').value
         self.obstacle_stop_mm = self.get_parameter('obstacle_stop_mm').value
         self.heading_offset = self.get_parameter('heading_offset_deg').value
+        self.max_h_acc_m = self.get_parameter('max_h_acc_m').value
+        self.invert_drive = self.get_parameter('invert_drive').value
         cmd_rate = self.get_parameter('command_rate_hz').value
 
         # State
@@ -68,11 +73,15 @@ class WaypointFollowerNode(Node):
         self.current_lon = None
         self.current_heading = None    # degrees, 0=North CW from BNO055
         self.fix_type = 0
+        self.current_h_acc = 0.0
+        self.current_hdop = 0.0
+        self.current_num_sats = 0
         self.last_gps_time = time.time()  # Initialize to current time to allow timeout period
         self.active = False
         self.obstacle_front_mm = 9999
         self.cliff_detected = False
         self.last_cmd = CMD_STOP
+        self.safety_override = False  # True while autonomous_drive_node is correcting
 
         # Publisher
         self.cmd_pub = self.create_publisher(Int32, 'nav/drive_cmd', 10)
@@ -86,6 +95,8 @@ class WaypointFollowerNode(Node):
             ImuOrientation, 'can/imu_orientation', self.imu_callback, 10)
         self.prox_sub = self.create_subscription(
             Proximity, 'can/proximity_sensors', self.proximity_callback, 10)
+        self.override_sub = self.create_subscription(
+            Bool, 'safety/override_active', self.safety_override_callback, 1)
 
         # Control loop
         self.create_timer(1.0 / cmd_rate, self.control_loop)
@@ -108,10 +119,18 @@ class WaypointFollowerNode(Node):
             self.get_logger().warn("Empty or single-point path received")
 
     def gps_callback(self, msg: GpsFix):
+        self.fix_type = msg.fix_type
+        self.current_h_acc = msg.h_acc
+        self.current_hdop = msg.hdop
+        self.current_num_sats = msg.num_sats
+        self.last_gps_time = time.time()
+        if msg.h_acc > self.max_h_acc_m and msg.h_acc > 0.0:
+            self.get_logger().warn(
+                f"GPS rejected: h_acc={msg.h_acc:.1f}m > {self.max_h_acc_m:.0f}m "
+                f"(sats={msg.num_sats}, HDOP={msg.hdop:.1f})", throttle_duration_sec=5.0)
+            return
         self.current_lat = msg.latitude
         self.current_lon = msg.longitude
-        self.fix_type = msg.fix_type
-        self.last_gps_time = time.time()
 
     def imu_callback(self, msg: ImuOrientation):
         # BNO055 IMU_Heading is already in degrees (0-360, compass convention)
@@ -123,10 +142,21 @@ class WaypointFollowerNode(Node):
             self.obstacle_front_mm = msg.proximity_front
         self.cliff_detected = msg.cliff_detected
 
+    def safety_override_callback(self, msg: Bool):
+        if msg.data and not self.safety_override:
+            self.get_logger().info("Safety override active — yielding control")
+        elif not msg.data and self.safety_override:
+            self.get_logger().info("Safety override cleared — resuming navigation")
+        self.safety_override = msg.data
+
     #  CONTROL LOOP
 
     def control_loop(self):
         if not self.active:
+            return
+
+        # ── Yield to autonomous_drive_node while it is correcting ────────────
+        if self.safety_override:
             return
 
         # ── Safety: cliff or close obstacle → STOP ──────────────────────
@@ -180,32 +210,47 @@ class WaypointFollowerNode(Node):
             self.current_wp_index += 1
             return
 
-        # Heading error
+        # Heading error with hysteresis to prevent left/right oscillation.
+        # CMD_LEFT/CMD_RIGHT are not used — they turn wheels without moving the rover.
         err = self.angle_diff(self.current_heading, bearing)
         abs_err = abs(err)
 
-        if abs_err > self.sharp_turn:
-            cmd = CMD_RIGHT if err > 0 else CMD_LEFT
-        elif abs_err > self.heading_tol:
-            cmd = CMD_FORWARD_RIGHT if err > 0 else CMD_FORWARD_LEFT
-        else:
+        if abs_err <= self.heading_tol:
             cmd = CMD_FORWARD_STRAIGHT
+        elif self.last_cmd == CMD_FORWARD_LEFT:
+            # Already curving left — only switch right if error is well past centre
+            cmd = CMD_FORWARD_RIGHT if err > self.heading_tol + self.heading_hysteresis else CMD_FORWARD_LEFT
+        elif self.last_cmd == CMD_FORWARD_RIGHT:
+            # Already curving right — only switch left if error is well past centre
+            cmd = CMD_FORWARD_LEFT if err < -(self.heading_tol + self.heading_hysteresis) else CMD_FORWARD_RIGHT
+        else:
+            cmd = CMD_FORWARD_RIGHT if err > 0 else CMD_FORWARD_LEFT
 
         self.send_cmd(cmd)
 
         self.get_logger().info(
             f"  WP{self.current_wp_index}: {dist:.1f}m | "
             f"bearing={bearing:.0f}° heading={self.current_heading:.0f}° "
-            f"err={err:.0f}° → cmd={cmd}")
+            f"err={err:.0f}° → cmd={cmd} | "
+            f"GPS: {self.current_num_sats}sats HDOP={self.current_hdop:.1f} h_acc={self.current_h_acc:.1f}m")
 
     #  HELPERS
 
+    _INVERT_MAP = {
+        CMD_FORWARD_STRAIGHT: CMD_BACKWARD_STRAIGHT,
+        CMD_FORWARD_RIGHT:    CMD_BACKWARD_RIGHT,
+        CMD_FORWARD_LEFT:     CMD_BACKWARD_LEFT,
+        CMD_BACKWARD_STRAIGHT: CMD_FORWARD_STRAIGHT,
+        CMD_BACKWARD_RIGHT:   CMD_FORWARD_RIGHT,
+        CMD_BACKWARD_LEFT:    CMD_FORWARD_LEFT,
+    }
+
     def send_cmd(self, cmd: int):
-        if cmd != self.last_cmd:
-            msg = Int32()
-            msg.data = cmd
-            self.cmd_pub.publish(msg)
-            self.last_cmd = cmd
+        self.last_cmd = cmd  # store logical cmd for hysteresis tracking
+        physical = self._INVERT_MAP.get(cmd, cmd) if self.invert_drive else cmd
+        msg = Int32()
+        msg.data = physical
+        self.cmd_pub.publish(msg)
 
     @staticmethod
     def haversine(lat1, lon1, lat2, lon2) -> float:

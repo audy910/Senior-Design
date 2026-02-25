@@ -33,12 +33,14 @@ Publishes:
 import rclpy
 from rclpy.node import Node
 from rover_project.msg import GpsFix, NavGoal, WaypointList
+from foxglove_msgs.msg import GeoJSON
 
 import struct
 import math
 import heapq
 import os
 import time
+import json
 
 
 #  COORDINATE CONVERSION
@@ -317,12 +319,17 @@ class PathPlannerNode(Node):
         self.declare_parameter('snap_tolerance_ft', 2.0)
         self.declare_parameter('max_snap_distance_ft', 500.0)
         self.declare_parameter('replan_deviation_m', 5.0)
+        self.declare_parameter('replan_cooldown_s', 20.0)
+        self.declare_parameter('max_h_acc_m', 10.0)
 
         shapefile_path = self.get_parameter('shapefile_path').value
         self.walk_only = self.get_parameter('walk_paths_only').value
         snap_tol = self.get_parameter('snap_tolerance_ft').value
+        self._snap_tol = snap_tol
         self.max_snap_ft = self.get_parameter('max_snap_distance_ft').value
         self.replan_dev = self.get_parameter('replan_deviation_m').value
+        self.replan_cooldown = self.get_parameter('replan_cooldown_s').value
+        self.max_h_acc_m = self.get_parameter('max_h_acc_m').value
 
         # State
         self.converter = StatePlaneConverter()
@@ -330,12 +337,18 @@ class PathPlannerNode(Node):
         self.current_lat = None
         self.current_lon = None
         self.current_fix_type = 0
+        self.current_h_acc = 0.0
+        self.current_hdop = 0.0
+        self.current_num_sats = 0
         self.goal_lat = None
         self.goal_lon = None
         self.current_path_latlon = None
+        self._last_plan_time = 0.0
+        self.graph_full = None   # fallback when walk_only network is disconnected
 
         # Pub/Sub
         self.waypoint_pub = self.create_publisher(WaypointList, 'nav/waypoints', 10)
+        self.path_geojson_pub = self.create_publisher(GeoJSON, 'nav/path_geojson', 1)
         self.gps_sub = self.create_subscription(GpsFix, 'can/gps', self.gps_callback, 10)
         self.goal_sub = self.create_subscription(NavGoal, 'nav/goal', self.goal_callback, 10)
         self.create_timer(2.0, self.check_replan)
@@ -358,16 +371,22 @@ class PathPlannerNode(Node):
         features = read_shapefile(shp_path, dbf_path)
         self.get_logger().info(f"  {len(features)} features loaded")
 
+        if self.walk_only:
+            self.graph_full = RoadNetworkGraph(snap_tolerance_ft=self._snap_tol)
+
         used = 0
         for feat in features:
-            if self.walk_only and feat['attrs'].get('Walk_Path', '') != 'Yes':
-                continue
+            if self.walk_only:
+                self.graph_full.add_feature(feat['points'])
+                if feat['attrs'].get('Walk_Path', '') != 'Yes':
+                    continue
             self.graph.add_feature(feat['points'])
             used += 1
 
         self.get_logger().info(
             f"  ✓ Built in {time.time()-t0:.2f}s: {self.graph.stats()} "
-            f"({used} features used)")
+            f"({used} features used)"
+            + (f" | fallback full graph: {self.graph_full.stats()}" if self.graph_full else ""))
 
         # Sanity check: convert a centroid point
         test_lat, test_lon = self.converter.to_latlon(6235000, 2300000)
@@ -375,9 +394,17 @@ class PathPlannerNode(Node):
             f"  Coord test: SP(6235000,2300000) → ({test_lat:.5f}, {test_lon:.5f})")
 
     def gps_callback(self, msg: GpsFix):
+        self.current_fix_type = msg.fix_type
+        self.current_h_acc = msg.h_acc
+        self.current_hdop = msg.hdop
+        self.current_num_sats = msg.num_sats
+        if msg.h_acc > self.max_h_acc_m and msg.h_acc > 0.0:
+            self.get_logger().warn(
+                f"GPS rejected: h_acc={msg.h_acc:.1f}m > {self.max_h_acc_m:.0f}m "
+                f"(sats={msg.num_sats}, HDOP={msg.hdop:.1f})", throttle_duration_sec=5.0)
+            return
         self.current_lat = msg.latitude
         self.current_lon = msg.longitude
-        self.current_fix_type = msg.fix_type
 
     def goal_callback(self, msg: NavGoal):
         self.goal_lat = msg.latitude
@@ -395,6 +422,10 @@ class PathPlannerNode(Node):
         if self.current_fix_type < 2:
             self.get_logger().warn(f"GPS fix type {self.current_fix_type} too low"); return
 
+        self.get_logger().info(
+            f"  GPS: fix={self.current_fix_type} sats={self.current_num_sats} "
+            f"HDOP={self.current_hdop:.1f} h_acc={self.current_h_acc:.1f}m")
+
         start_ft = self.converter.to_stateplane(self.current_lat, self.current_lon)
         goal_ft = self.converter.to_stateplane(self.goal_lat, self.goal_lon)
 
@@ -409,17 +440,31 @@ class PathPlannerNode(Node):
         self.get_logger().info(f"  Snapped start={sd:.1f}ft, goal={gd:.1f}ft")
 
         t0 = time.time()
+        active_graph = self.graph
         path_keys = self.graph.dijkstra(start_node, goal_node)
+
+        if path_keys is None and self.graph_full is not None:
+            self.get_logger().warn(
+                "Walk-only path not found — retrying with full network")
+            start_node_f, _ = self.graph_full.snap_to_nearest(
+                start_ft[0], start_ft[1], self.max_snap_ft)
+            goal_node_f, _ = self.graph_full.snap_to_nearest(
+                goal_ft[0], goal_ft[1], self.max_snap_ft)
+            if start_node_f is not None and goal_node_f is not None:
+                path_keys = self.graph_full.dijkstra(start_node_f, goal_node_f)
+                if path_keys is not None:
+                    active_graph = self.graph_full
 
         if path_keys is None:
             self.get_logger().error("No path found — network may be disconnected"); return
 
         self.get_logger().info(
-            f"  ✓ {len(path_keys)} waypoints in {time.time()-t0:.4f}s")
+            f"  ✓ {len(path_keys)} waypoints in {time.time()-t0:.4f}s"
+            + (" [full network fallback]" if active_graph is self.graph_full else ""))
 
         lats, lons = [], []
         for key in path_keys:
-            x, y = self.graph.node_coords[key]
+            x, y = active_graph.node_coords[key]
             lat, lon = self.converter.to_latlon(x, y)
             lats.append(lat)
             lons.append(lon)
@@ -431,11 +476,26 @@ class PathPlannerNode(Node):
         wp_msg.current_index = 0
         self.waypoint_pub.publish(wp_msg)
 
+        # Publish path as GeoJSON for Foxglove Map panel
+        # GeoJSON coordinates are [longitude, latitude]
+        coords = [[lon, lat] for lat, lon in zip(lats, lons)]
+        geo_msg = GeoJSON()
+        geo_msg.geojson = json.dumps({
+            "type": "FeatureCollection",
+            "features": [{
+                "type": "Feature",
+                "geometry": {"type": "LineString", "coordinates": coords},
+                "properties": {"name": "planned_path"}
+            }]
+        })
+        self.path_geojson_pub.publish(geo_msg)
+
         self.current_path_latlon = list(zip(lats, lons))
+        self._last_plan_time = time.time()
 
         total_ft = sum(
-            math.sqrt((self.graph.node_coords[path_keys[i+1]][0] - self.graph.node_coords[path_keys[i]][0])**2 +
-                       (self.graph.node_coords[path_keys[i+1]][1] - self.graph.node_coords[path_keys[i]][1])**2)
+            math.sqrt((active_graph.node_coords[path_keys[i+1]][0] - active_graph.node_coords[path_keys[i]][0])**2 +
+                       (active_graph.node_coords[path_keys[i+1]][1] - active_graph.node_coords[path_keys[i]][1])**2)
             for i in range(len(path_keys)-1))
         self.get_logger().info(f"  Distance: {total_ft*0.3048:.0f}m ({total_ft:.0f}ft)")
 
@@ -445,6 +505,8 @@ class PathPlannerNode(Node):
     def check_replan(self):
         """Check if rover has deviated from the planned path."""
         if not self.current_path_latlon or self.current_lat is None or len(self.current_path_latlon) < 2:
+            return
+        if time.time() - self._last_plan_time < self.replan_cooldown:
             return
 
         # Calculate distance to nearest path segment (not just nearest point)

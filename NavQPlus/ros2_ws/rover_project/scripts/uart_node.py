@@ -70,7 +70,7 @@ class UartNode(Node):
             sys.exit(1)
 
         # State
-        self.state = MANUAL
+        self.state = AI
         self.last_cmd_time = time.time()
         self.timeout_seconds = 3
 
