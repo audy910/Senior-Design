@@ -22,7 +22,6 @@ install(PROGRAMS
   scripts/path_planner_node.py
   scripts/waypoint_follower_node.py
   scripts/send_goal.py
-  scripts/fast_scnn_node.py
   DESTINATION lib/${PROJECT_NAME}
 )
 
