@@ -13,7 +13,7 @@ graph TD
     D(D: Sensor Integration - 3d)
     E(E: NPU CV Model Training - 7d)
     F(F: Audio I/O Setup - 3d)
-    G(G: Nav & SLAM Algorithms - 6d)
+    G(G: GPS/Path Planning - 6d)
     H(H: System Integration - 5d)
     I(I: Field Testing - 4d)
 
