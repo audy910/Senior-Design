@@ -21,6 +21,7 @@ graph TD
     style G stroke:#f00,stroke-width:4px
     style H stroke:#f00,stroke-width:4px
     style I stroke:#f00,stroke-width:4px
+```
 gantt
     title Robot Development Timeline
     dateFormat  YYYY-MM-DD
