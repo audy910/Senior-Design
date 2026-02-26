@@ -41,3 +41,24 @@ graph TD
     subgraph Legend
         CP[Red Border = Critical Path]
     end
+
+
+gantt
+    title Autonomous Service Robot Development Timeline
+    dateFormat  YYYY-MM-DD
+    section Hardware Spine (CRITICAL)
+    Procure Components           :active, a1, 2026-03-01, 5d
+    Chassis & Motor Mount        :a2, after a1, 3d
+    CAN Bus Logic & Wiring       :a3, after a2, 4d
+    Sensor Integration           :a4, after a3, 3d
+    
+    section AI & Navigation
+    NPU CV Model Training        :b1, after a1, 7d
+    GPS/Path Planning            :b2, after a4, 6d
+    
+    section Audio Subsystem
+    Audio I/O Setup              :c1, after a1, 3d
+    
+    section Final Phase
+    System Integration & Debug   :d1, after b2, 5d
+    Field Testing                :d2, after d1, 4d
