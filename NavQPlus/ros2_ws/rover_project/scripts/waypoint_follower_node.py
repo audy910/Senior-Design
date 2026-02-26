@@ -52,7 +52,7 @@ class WaypointFollowerNode(Node):
         self.declare_parameter('heading_offset_deg', 0.0)  # BNO055 mounting offset
         self.declare_parameter('max_h_acc_m', 10.0)
         self.declare_parameter('heading_hysteresis_deg', 10.0)
-        self.declare_parameter('invert_drive', False)
+        self.declare_parameter('invert_drive', True)
         self.declare_parameter('vision_timeout_s', 0.6)
         self.declare_parameter('vision_error_deadband_px', 40.0)
         self.declare_parameter('vision_error_strong_px', 100.0)

@@ -134,8 +134,8 @@ class CanBridgeNode(Node):
             # Proximity_Sensors (0x107)
             elif arb_id == self.id_map.get('Proximity_Sensors'):
                 prox_msg = Proximity()
-                prox_msg.proximity_front = int(decoded.get('Proximity_Front', 0))
-                prox_msg.proximity_rear = int(decoded.get('Proximity_Rear', 0))
+                prox_msg.proximity_rear = int(decoded.get('Proximity_Front', 0))
+                prox_msg.proximity_front = int(decoded.get('Proximity_Rear', 0))
                 prox_msg.proximity_cliff = int(decoded.get('Proximity_Cliff', 0))
                 prox_msg.cliff_detected = bool(decoded.get('Cliff_Detected', False))
                 prox_msg.front_valid = bool(decoded.get('Front_Valid', False))

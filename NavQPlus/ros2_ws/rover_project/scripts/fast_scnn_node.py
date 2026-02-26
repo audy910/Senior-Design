@@ -11,6 +11,7 @@ import time
 import os
 from ament_index_python.packages import get_package_share_directory
 
+
 CAM_WIDTH = 640
 CAM_HEIGHT = 480
 MODEL_SIZE = 512
@@ -25,25 +26,23 @@ NAV_COLORS = {
     6: (135, 206, 235),   # sky
 }
 
+# Hardcoded TFLite path
+MODEL_PATH = "/home/audy/Senior-Design/NavQPlus/models/fast_scnn_opt_int8.tflite"
+
 class FastSCNNNode(Node):
     def __init__(self):
         super().__init__('fast_scnn_node')
         self.bridge = CvBridge()
 
-        package_share = get_package_share_directory('rover_project')
-        default_model = os.path.abspath(
-            os.path.join(package_share, '..', '..', '..', 'models', 'fast_scnn_opt_int8.tflite'))
+        model_path = MODEL_PATH  # Hardcoded
 
-        self.declare_parameter('model_path', default_model)
-        self.declare_parameter('camera_index', 3)
-        model_path = self.get_parameter('model_path').value
-        camera_index = int(self.get_parameter('camera_index').value)
+        camera_index = 3  # Hardcoded camera index
 
         # Publishers
         self.overlay_pub = self.create_publisher(Image, '/segmentation/overlay', 1)
         self.error_pub = self.create_publisher(Float32, '/vision/error', 1)
 
-        # Speed Optimization: Pre-create Lookup Table
+        # Lookup Table for visualization
         self.lut = np.zeros((256, 3), dtype=np.uint8)
         for cid, color in NAV_COLORS.items():
             self.lut[cid] = color
@@ -63,7 +62,7 @@ class FastSCNNNode(Node):
             self.get_logger().error("Failed to open camera")
             return
 
-        # NPU Initialization
+        # TFLite Interpreter
         try:
             self.interpreter = tflite.Interpreter(
                 model_path=model_path,
@@ -78,7 +77,7 @@ class FastSCNNNode(Node):
         self.input_details = self.interpreter.get_input_details()
         self.output_details = self.interpreter.get_output_details()
 
-        # Timer: 0.1 = 10 FPS (Much better for sharing CPU with teammate)
+        # Timer: 0.1 = 10 FPS
         self.timer = self.create_timer(0.1, self.loop)
         self.get_logger().info("Fast-SCNN Optimized Node Started")
 

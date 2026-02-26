@@ -43,6 +43,15 @@ def generate_launch_description():
             name='uart_processor',
             output='screen',
         ),
+        # Fast-SCNN (camera → segmentation + error)
+        Node(
+            package='rover_project',
+            executable='fast_scnn_node.py',
+            name='fast_scnn_node',
+            output='screen',
+            emulate_tty=True,
+        ),
+
 
         # Path Planner (centerlines → waypoints)
         Node(
@@ -116,7 +125,7 @@ def generate_launch_description():
                 )
             ]
         ),
-
+        
         # Foxglove Bridge (visualization)
         Node(
             package='foxglove_bridge',
