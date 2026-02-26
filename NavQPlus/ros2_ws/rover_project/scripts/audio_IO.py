@@ -1,7 +1,8 @@
+#!/usr/bin/env python3
 import rclpy
 from rclpy.node import Node
 from std_msgs.msg import String
-
+import soundfile as sf
 import queue
 import sounddevice as sd
 from vosk import Model, KaldiRecognizer
@@ -9,7 +10,9 @@ import json
 import numpy as np
 from scipy.signal import resample_poly
 import sys
+import os  # Added to run system commands
 
+MAC_ADDR = "70:D5:EA:A4:84:1A"
 
 DEVICE_ID = 0
 RATE = 16000
@@ -20,6 +23,7 @@ class VoskNode(Node):
 
     def __init__(self):
         super().__init__('vosk_node')
+        sd.default.device = 'pulse'
         self.command_map = {
             "forward": "MOVE_FORWARD",
             "back": "MOVE_BACKWARD",
@@ -27,6 +31,16 @@ class VoskNode(Node):
             "left": "TURN_LEFT",
             "right": "TURN_RIGHT"
         }
+        
+        # Added mapping for what the robot should say back
+        self.speech_map = {
+            "MOVE_FORWARD": "Move",
+            "MOVE_BACKWARD": "Back",
+            "EMERGENCY_STOP": "Stop",
+            "TURN_LEFT": "left",
+            "TURN_RIGHT": "right"
+        }
+
         vocab_list = list(self.command_map.keys()) + ["[unk]"]
         vocab_json = json.dumps(vocab_list)
         
@@ -38,8 +52,9 @@ class VoskNode(Node):
         self.audio_queue = queue.Queue()
 
         try:
-            model = Model("/home/user/Senior-Design/NavQPlus/models/vosk-model")
-            self.rec = KaldiRecognizer(model, RATE)
+            # Note: Ensure this path is correct for your user (e.g., /home/marina/...)
+            model = Model("/home/marina/Senior-Design/NavQPlus/models/vosk-model")
+            self.rec = KaldiRecognizer(model, RATE, vocab_json)
         except Exception as e:
             self.get_logger().error(f"Model load failed: {e}")
             raise
@@ -81,7 +96,6 @@ class VoskNode(Node):
                     self.get_logger().info(f"Heard: '{text}'")
                     
                     # Check if any part of the heard text is in our command map
-                    # This handles "please go forward" or just "forward"
                     words = text.split()
                     for word in words:
                         if word in self.command_map:
@@ -90,9 +104,18 @@ class VoskNode(Node):
 
     def execute_command(self, cmd_string):
         self.get_logger().warn(f"PUBLISHING COMMAND: {cmd_string}")
+
         msg = String()
         msg.data = cmd_string
         self.cmd_pub.publish(msg)
+
+        response = self.speech_map.get(cmd_string, "Command received")
+        os.system(f"espeak -s 130 -p 45 -a 150 '{response}' -w /tmp/speech.wav")
+        aplay_cmd = (
+            f"aplay -D bluealsa:DEV={MAC_ADDR},PROFILE=a2dp "
+            f"-f cd --period-time=100000 /tmp/speech.wav > /dev/null 2>&1 &"
+        )
+        os.system(aplay_cmd)
 
 
 def main(args=None):
@@ -101,3 +124,6 @@ def main(args=None):
     rclpy.spin(node)
     node.destroy_node()
     rclpy.shutdown()
+
+if __name__ == '__main__':
+    main()

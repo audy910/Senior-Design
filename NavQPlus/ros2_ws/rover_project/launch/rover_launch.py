@@ -36,7 +36,30 @@ def generate_launch_description():
             name='uart_processor',
             output='screen',
         ),
-
+         # Audio Node ()
+        Node(
+            package='rover_project',
+            executable='audio_IO.py',
+            name='audio_io',
+            output='screen',
+        ),
+         # Autonomous Node (Arduino motor commands)
+        Node(
+            package='rover_project',
+            executable='autonomous_drive_node.py',
+            name='autonomous_drive',
+            output='screen',
+            emulate_tty=True,
+            parameters=[{
+                'invert_drive': True,          # must match waypoint_follower invert_drive
+                'wall_threshold_mm': 500.0,
+                'reverse_time_s': 1.0,
+                'sensor_time_s': 0.5,
+                'maneuver_time_s': 2.0,
+                'required_readings': 4,
+                'cliff_hold_s': 1.0,
+            }]
+        ),
         # Path Planner (centerlines → waypoints)
         Node(
             package='rover_project',
