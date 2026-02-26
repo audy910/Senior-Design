@@ -22,7 +22,7 @@ graph TD
     style H stroke:#f00,stroke-width:4px
     style I stroke:#f00,stroke-width:4px
 ```
-gantt
+```gantt
     title Robot Development Timeline
     dateFormat  YYYY-MM-DD
     section Hardware
@@ -38,3 +38,4 @@ gantt
     section Final
     System Integration           :d1, after b2, 5d
     Field Testing                :d2, after d1, 4d
+```
