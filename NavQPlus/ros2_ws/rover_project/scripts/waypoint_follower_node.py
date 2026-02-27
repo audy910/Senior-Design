@@ -45,6 +45,7 @@ class WaypointFollowerNode(Node):
         self.declare_parameter('waypoint_reached_m', 2.5)
         self.declare_parameter('heading_tolerance_deg', 60.0)       # Heading Tolerance
         self.declare_parameter('sharp_turn_deg', 45.0)
+        self.declare_parameter('vision_assist_max_heading_err_deg', 35.0)
         self.declare_parameter('command_rate_hz', 5.0)
         self.declare_parameter('gps_timeout_s', 5.0)
         self.declare_parameter('min_fix_type', 2)
@@ -59,7 +60,9 @@ class WaypointFollowerNode(Node):
 
         self.wp_threshold = self.get_parameter('waypoint_reached_m').value
         self.heading_tol = self.get_parameter('heading_tolerance_deg').value
+        self.sharp_turn_deg = self.get_parameter('sharp_turn_deg').value
         self.heading_hysteresis = self.get_parameter('heading_hysteresis_deg').value
+        self.vision_assist_max_heading_err = self.get_parameter('vision_assist_max_heading_err_deg').value
         self.gps_timeout = self.get_parameter('gps_timeout_s').value
         self.min_fix_type = self.get_parameter('min_fix_type').value
         self.obstacle_stop_mm = self.get_parameter('obstacle_stop_mm').value
@@ -233,37 +236,54 @@ class WaypointFollowerNode(Node):
         err = self.angle_diff(self.current_heading, bearing)
         abs_err = abs(err)
 
-        if abs_err <= self.heading_tol:
+        gps_turn_is_sharp = abs_err >= self.sharp_turn_deg
+
+        if gps_turn_is_sharp:
+            # Long-range waypoint tracking takes priority on large heading errors.
+            cmd = CMD_FORWARD_RIGHT if err > 0 else CMD_FORWARD_LEFT
+            command_source = 'gps-sharp-turn'
+        elif abs_err <= self.heading_tol:
             cmd = CMD_FORWARD_STRAIGHT
+            command_source = 'gps-straight'
         elif self.last_cmd == CMD_FORWARD_LEFT:
             # Already curving left — only switch right if error is well past centre
             cmd = CMD_FORWARD_RIGHT if err > self.heading_tol + self.heading_hysteresis else CMD_FORWARD_LEFT
+            command_source = 'gps-hysteresis'
         elif self.last_cmd == CMD_FORWARD_RIGHT:
             # Already curving right — only switch left if error is well past centre
             cmd = CMD_FORWARD_LEFT if err < -(self.heading_tol + self.heading_hysteresis) else CMD_FORWARD_RIGHT
+            command_source = 'gps-hysteresis'
         else:
             cmd = CMD_FORWARD_RIGHT if err > 0 else CMD_FORWARD_LEFT
+            command_source = 'gps-heading'
 
         vision_recent = (time.time() - self.last_vision_time) < self.vision_timeout_s
         vision_status = 'stale'
         if vision_recent and self.vision_error != 9999.0:
             v_err = self.vision_error
             vision_status = f"{v_err:.0f}px"
-            # Positive vision error means path center is to the right of image center.
-            if v_err > self.vision_error_strong_px:
-                cmd = CMD_FORWARD_RIGHT
-            elif v_err < -self.vision_error_strong_px:
-                cmd = CMD_FORWARD_LEFT
-            elif abs(v_err) > self.vision_error_deadband_px:
-                if cmd == CMD_FORWARD_STRAIGHT:
+            # Positive vision error means path center is right of image center.
+            # Vision is lane-centering assist only; GPS remains primary for sharp turns.
+            vision_allowed = (not gps_turn_is_sharp) and (abs_err <= self.vision_assist_max_heading_err)
+            if vision_allowed:
+                if v_err > self.vision_error_strong_px:
+                    cmd = CMD_FORWARD_RIGHT
+                    command_source = 'vision-strong'
+                elif v_err < -self.vision_error_strong_px:
+                    cmd = CMD_FORWARD_LEFT
+                    command_source = 'vision-strong'
+                elif abs(v_err) > self.vision_error_deadband_px and cmd == CMD_FORWARD_STRAIGHT:
                     cmd = CMD_FORWARD_RIGHT if v_err > 0 else CMD_FORWARD_LEFT
+                    command_source = 'vision-assist'
+            else:
+                vision_status = f"{v_err:.0f}px (gps-priority)"
 
         self.send_cmd(cmd)
 
         self.get_logger().info(
             f"  WP{self.current_wp_index}: {dist:.1f}m | "
             f"bearing={bearing:.0f}° heading={self.current_heading:.0f}° "
-            f"err={err:.0f}° vision={vision_status} → cmd={cmd} | "
+            f"err={err:.0f}° vision={vision_status} src={command_source} → cmd={cmd} | "
             f"GPS: {self.current_num_sats}sats HDOP={self.current_hdop:.1f} h_acc={self.current_h_acc:.1f}m")
 
     #  HELPERS

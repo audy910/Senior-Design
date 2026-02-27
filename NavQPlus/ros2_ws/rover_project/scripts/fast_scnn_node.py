@@ -26,7 +26,7 @@ NAV_COLORS = {
     6: (135, 206, 235),   # sky
 }
 
-# Hardcoded TFLite path
+# Preferred local fallback path (used if package-share lookup is unavailable)
 MODEL_PATH = "/home/audy/Senior-Design/NavQPlus/models/fast_scnn_opt_int8.tflite"
 
 class FastSCNNNode(Node):
@@ -34,7 +34,9 @@ class FastSCNNNode(Node):
         super().__init__('fast_scnn_node')
         self.bridge = CvBridge()
 
-        model_path = MODEL_PATH  # Hardcoded
+        pkg_share = get_package_share_directory('rover_project')
+        candidate_model_path = os.path.abspath(os.path.join(pkg_share, '..', '..', '..', 'models', 'fast_scnn_opt_int8.tflite'))
+        model_path = candidate_model_path if os.path.exists(candidate_model_path) else MODEL_PATH
 
         camera_index = 3  # Hardcoded camera index
 
@@ -137,20 +139,19 @@ class FastSCNNNode(Node):
         err_msg.data = error
         self.error_pub.publish(err_msg)
 
-        # --- VISUALIZATION  ---
-        # UNCOMMENT the block below if you need to see the image in Foxglove.
-        # KEEP COMMENTED to make htop look great for your teammate.
-        
+        # --- VISUALIZATION ---
         mask_large = cv2.resize(mask, (CAM_WIDTH, CAM_HEIGHT), interpolation=cv2.INTER_NEAREST)
         color_mask = self.lut[mask_large]
         overlay = cv2.addWeighted(color_mask, 0.5, frame, 0.5, 0)
-        '''
+
+        search_row_vis = int(CAM_HEIGHT * 0.75)
+        cv2.line(overlay, (CAM_WIDTH // 2, search_row_vis - 20),
+                 (CAM_WIDTH // 2, search_row_vis + 20), (255, 255, 255), 2)
         if error != 9999.0:
-            search_row_vis = int(CAM_HEIGHT * 0.75)
             cv2.circle(overlay, (path_center_x, search_row_vis), 10, (0, 255, 0), -1)
-            cv2.line(overlay, (CAM_WIDTH // 2, search_row_vis - 20), 
-                     (CAM_WIDTH // 2, search_row_vis + 20), (255, 255, 255), 2)
-'''
+        else:
+            cv2.circle(overlay, (CAM_WIDTH // 2, search_row_vis), 10, (0, 0, 255), 2)
+
         overlay_msg = self.bridge.cv2_to_imgmsg(overlay, encoding='bgr8')
         self.overlay_pub.publish(overlay_msg)
         
