@@ -61,8 +61,7 @@ class AutonomousDriveNode(Node):
         self.cliff_hold_seconds = self.get_parameter('cliff_hold_s').value
 
         # Wall validation
-        self.prev_proximity_front = 9999.0
-        self.valid_reading_count  = 0
+        self.valid_reading_count = 0
 
         # Cliff latch
         self.cliff_active    = False
@@ -139,13 +138,14 @@ class AutonomousDriveNode(Node):
             # SCAN_L/R already treat front_valid=False as "clear" (open space).
 
         # ── Wall validation (STATE_FORWARD only) ─────────────────────────────
-        is_getting_closer = msg.proximity_front < self.prev_proximity_front
-        if self.current_state == STATE_FORWARD and msg.front_valid and msg.proximity_front < self.wall_threshold:
-            if is_getting_closer:
+        # Count consecutive valid readings below threshold (regardless of direction).
+        # This correctly handles the case where waypoint_follower has already stopped
+        # the rover — the distance stabilises rather than continuing to decrease.
+        if self.current_state == STATE_FORWARD and msg.front_valid:
+            if msg.proximity_front < self.wall_threshold:
                 self.valid_reading_count += 1
             else:
-                self.valid_reading_count = max(0, self.valid_reading_count - 1)
-        self.prev_proximity_front = msg.proximity_front
+                self.valid_reading_count = 0  # clear reading — reset hysteresis
 
         # ── STATE_FORWARD: yield to waypoint_follower when safe ──────────────
         if self.current_state == STATE_FORWARD:
