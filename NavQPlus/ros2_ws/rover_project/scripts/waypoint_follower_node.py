@@ -27,10 +27,14 @@ class WaypointFollowerNode(Node):
         self.declare_parameter('waypoint_reached_m', 2.5)
         self.declare_parameter('heading_tolerance_deg', 60.0)
         self.declare_parameter('sharp_turn_deg', 45.0)
+        self.declare_parameter('pivot_turn_deg', 100.0)
         self.declare_parameter('heading_hysteresis_deg', 10.0)
         self.declare_parameter('vision_assist_max_heading_err_deg', 35.0)
         self.declare_parameter('command_rate_hz', 5.0)
         self.declare_parameter('invert_drive', True)
+        self.declare_parameter('near_waypoint_distance_m', 6.0)
+        self.declare_parameter('near_heading_tolerance_deg', 20.0)
+        self.declare_parameter('bearing_smoothing_alpha', 0.35)
 
         # Optional GPS parameters (kept for compatibility)
         self.declare_parameter('gps_timeout_s', 5.0)
@@ -43,10 +47,14 @@ class WaypointFollowerNode(Node):
         self.wp_threshold = self.get_parameter('waypoint_reached_m').value
         self.heading_tol = self.get_parameter('heading_tolerance_deg').value
         self.sharp_turn_deg = self.get_parameter('sharp_turn_deg').value
+        self.pivot_turn_deg = self.get_parameter('pivot_turn_deg').value
         self.heading_hysteresis = self.get_parameter('heading_hysteresis_deg').value
         self.vision_assist_max_heading_err = self.get_parameter(
             'vision_assist_max_heading_err_deg').value
         self.invert_drive = self.get_parameter('invert_drive').value
+        self.near_wp_distance = self.get_parameter('near_waypoint_distance_m').value
+        self.near_heading_tol = self.get_parameter('near_heading_tolerance_deg').value
+        self.bearing_smoothing_alpha = self.get_parameter('bearing_smoothing_alpha').value
         cmd_rate = self.get_parameter('command_rate_hz').value
 
         # --- State ---
@@ -62,6 +70,7 @@ class WaypointFollowerNode(Node):
         self.active = False
         self.last_cmd = CMD_STOP
         self.last_logical_cmd = CMD_STOP  # Added to fix hysteresis bug
+        self.filtered_bearing = None
 
         # Vision placeholders (safe defaults)
         self.last_vision_time = 0.0
@@ -90,6 +99,7 @@ class WaypointFollowerNode(Node):
         self.waypoint_lons = list(msg.longitudes)
         self.current_wp_index = 0  # Fixed: Start at the first waypoint
         self.active = len(self.waypoint_lats) > 0  # Fixed: Check if any waypoints exist
+        self.filtered_bearing = None
 
     def gps_callback(self, msg):
         self.current_lat = msg.latitude
@@ -123,23 +133,30 @@ class WaypointFollowerNode(Node):
 
         dist = self.haversine(self.current_lat, self.current_lon, tgt_lat, tgt_lon)
         bearing = self.bearing(self.current_lat, self.current_lon, tgt_lat, tgt_lon)
+        bearing = self.smooth_bearing(bearing)
 
         if dist < self.wp_threshold:
             self.current_wp_index += 1
+            self.filtered_bearing = None
+            self.send_cmd(CMD_STOP)
             return
 
+        heading_tol = self.near_heading_tol if dist <= self.near_wp_distance else self.heading_tol
         err = self.angle_diff(self.current_heading, bearing)
         abs_err = abs(err)
         gps_turn_is_sharp = abs_err >= self.sharp_turn_deg
+        gps_turn_is_pivot = abs_err >= self.pivot_turn_deg
 
-        if abs_err <= self.heading_tol:
+        if abs_err <= heading_tol:
             cmd = CMD_FORWARD_STRAIGHT
+        elif gps_turn_is_pivot:
+            cmd = CMD_RIGHT if err > 0 else CMD_LEFT
         elif gps_turn_is_sharp:
             cmd = CMD_FORWARD_RIGHT if err > 0 else CMD_FORWARD_LEFT
         elif self.last_logical_cmd == CMD_FORWARD_LEFT:  # Fixed: Compare against logical command
-            cmd = CMD_FORWARD_RIGHT if err > self.heading_tol + self.heading_hysteresis else CMD_FORWARD_LEFT
+            cmd = CMD_FORWARD_RIGHT if err > heading_tol + self.heading_hysteresis else CMD_FORWARD_LEFT
         elif self.last_logical_cmd == CMD_FORWARD_RIGHT: # Fixed: Compare against logical command
-            cmd = CMD_FORWARD_LEFT if err < -(self.heading_tol + self.heading_hysteresis) else CMD_FORWARD_RIGHT
+            cmd = CMD_FORWARD_LEFT if err < -(heading_tol + self.heading_hysteresis) else CMD_FORWARD_RIGHT
         else:
             cmd = CMD_FORWARD_RIGHT if err > 0 else CMD_FORWARD_LEFT
 
@@ -149,7 +166,7 @@ class WaypointFollowerNode(Node):
         self.get_logger().info(
             f"WP{self.current_wp_index}: {dist:.1f}m | "
             f"bearing={bearing:.0f}° heading={self.current_heading:.0f}° "
-            f"err={err:.0f}° → cmd={cmd}"
+            f"err={err:.0f}° tol={heading_tol:.0f}° → cmd={cmd}"
         )
 
     # --------------------------------------------------
@@ -192,6 +209,15 @@ class WaypointFollowerNode(Node):
     @staticmethod
     def angle_diff(a, b):
         return (b - a + 180.0) % 360.0 - 180.0
+
+    def smooth_bearing(self, new_bearing):
+        if self.filtered_bearing is None:
+            self.filtered_bearing = new_bearing
+            return new_bearing
+
+        delta = self.angle_diff(self.filtered_bearing, new_bearing)
+        self.filtered_bearing = (self.filtered_bearing + self.bearing_smoothing_alpha * delta) % 360.0
+        return self.filtered_bearing
 
 
 # --------------------------------------------------
