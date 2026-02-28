@@ -43,13 +43,14 @@ def generate_launch_description():
             name='uart_processor',
             output='screen',
         ),
-        # Fast-SCNN (camera → segmentation + error)
+
         Node(
             package='rover_project',
             executable='fast_scnn_node.py',
             name='fast_scnn_node',
             output='screen',
             emulate_tty=True,
+            prefix=['nice -n 10']   # lower CPU priority
         ),
 
 

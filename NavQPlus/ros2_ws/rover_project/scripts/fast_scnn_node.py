@@ -78,7 +78,8 @@ class FastSCNNNode(Node):
         self.output_details = self.interpreter.get_output_details()
 
         # Timer: 0.1 = 10 FPS
-        self.timer = self.create_timer(0.1, self.loop)
+        self.timer = self.create_timer(0.2, self.loop)
+        self._last_perf_log = 0.0
         self.get_logger().info("Fast-SCNN Optimized Node Started")
 
     def loop(self):
@@ -104,8 +105,11 @@ class FastSCNNNode(Node):
         self.interpreter.invoke()
         
         end = time.perf_counter()
-        # If this is < 0.05, the NPU is doing the heavy lifting!
-        print(f"Inference time: {end - start:.4f}s")
+        now = time.monotonic()
+
+        if now - self._last_perf_log >= 5.0:
+            self.get_logger().info(f"Inference time: {end - start:.4f}s")
+            self._last_perf_log = now
 
         # --- Postprocess (Optimized at 256x256 to save CPU) ---
         output = self.interpreter.get_tensor(self.output_details[0]['index'])[0]

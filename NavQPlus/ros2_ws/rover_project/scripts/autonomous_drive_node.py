@@ -55,11 +55,12 @@ class AutonomousDriveNode(Node):
         self.valid_reading_count = 0
 
         # Cliff latch
-        self.cliff_active    = False
-        self.last_cliff_time = 0.0
-        self.current_state = STATE_FORWARD
-        self.state_start_time = 0.0
-        self.chosen_turn_cmd = CMD_FORWARD_LEFT
+        self.cliff_detect_count = 0  # FIX 1: Initialized to prevent crash
+        self.cliff_active       = False
+        self.last_cliff_time    = 0.0
+        self.current_state      = STATE_FORWARD
+        self.state_start_time   = 0.0
+        self.chosen_turn_cmd    = CMD_FORWARD_LEFT
 
     _INVERT_MAP = {
         CMD_FORWARD_STRAIGHT: CMD_BACKWARD_STRAIGHT,
@@ -91,15 +92,27 @@ class AutonomousDriveNode(Node):
         now = self.get_clock().now().nanoseconds / 1e9
         elapsed = now - self.state_start_time
 
-        # ── Cliff Detection ──
+        # ── Cliff Detection (debounced + hysteresis) ──
+
+        # Require multiple consecutive detections to trigger cliff
         if msg.cliff_detected:
+            self.cliff_detect_count += 1
+        else:
+            self.cliff_detect_count = 0
+
+        # Trigger cliff only after N consecutive hits
+        if self.cliff_detect_count >= 3:
             if not self.cliff_active:
                 self.get_logger().warn("CLIFF! Emergency Stop")
             self.cliff_active = True
             self.last_cliff_time = now
-        elif self.cliff_active and (now - self.last_cliff_time) > self.cliff_hold_seconds:
-            self.cliff_active = False
 
+        # Release cliff only after hold time AND no recent detections
+        if self.cliff_active:
+            if (now - self.last_cliff_time) > self.cliff_hold_seconds and self.cliff_detect_count == 0:
+                self.cliff_active = False
+
+        # If cliff is active, override everything
         if self.cliff_active:
             self.publish_override(True)
             self.send_cmd(CMD_STOP)
@@ -108,26 +121,17 @@ class AutonomousDriveNode(Node):
             return
 
         # ── Front sensor invalid ─────────────────────────────────────────────
-        # HC-SR04 returns invalid when nothing is in range (open space).
-        # In STATE_FORWARD: release override and return — waypoint_follower drives.
-        # In correction states: fall through so time-based transitions (REVERSING,
-        # DRIVE_OUT, etc.) still complete even when the front sensor reads nothing.
         if not msg.front_valid:
             if self.current_state == STATE_FORWARD:
                 self.publish_override(False)
                 return
-            # Correction state: do NOT return — let the state machine run.
-            # SCAN_L/R already treat front_valid=False as "clear" (open space).
 
         # ── Wall validation (STATE_FORWARD only) ─────────────────────────────
-        # Count consecutive valid readings below threshold (regardless of direction).
-        # This correctly handles the case where waypoint_follower has already stopped
-        # the rover — the distance stabilises rather than continuing to decrease.
         if self.current_state == STATE_FORWARD and msg.front_valid:
             if msg.proximity_front < self.wall_threshold:
                 self.valid_reading_count += 1
             else:
-                self.valid_reading_count = 0  # clear reading — reset hysteresis
+                self.valid_reading_count = 0  
 
         # ── State Machine ──
         if self.current_state == STATE_FORWARD:
@@ -148,7 +152,9 @@ class AutonomousDriveNode(Node):
             if not rear_blocked:
                 self.set_state(STATE_REVERSING)
             else:
-                self.send_cmd(CMD_STOP)
+                # FIX 2: Prevent deadlock by skipping reverse if rear is blocked
+                self.get_logger().warn("Rear blocked! Skipping reverse.")
+                self.set_state(STATE_LOOK_L)
 
         elif self.current_state == STATE_REVERSING:
             if elapsed < self.reverse_time:
@@ -165,7 +171,8 @@ class AutonomousDriveNode(Node):
         elif self.current_state == STATE_SCAN_L:
             self.send_cmd(CMD_STOP)
             if elapsed > 0.5:
-                if msg.proximity_front > self.wall_threshold:
+                # FIX 3: Check for open space validity
+                if not msg.front_valid or msg.proximity_front > self.wall_threshold:
                     self.chosen_turn_cmd = CMD_FORWARD_LEFT
                     self.set_state(STATE_DRIVE_OUT)
                 else:
@@ -180,7 +187,8 @@ class AutonomousDriveNode(Node):
         elif self.current_state == STATE_SCAN_R:
             self.send_cmd(CMD_STOP)
             if elapsed > 0.5:
-                if msg.proximity_front > self.wall_threshold:
+                # FIX 3: Check for open space validity
+                if not msg.front_valid or msg.proximity_front > self.wall_threshold:
                     self.chosen_turn_cmd = CMD_FORWARD_RIGHT
                     self.set_state(STATE_DRIVE_OUT)
                 else:
