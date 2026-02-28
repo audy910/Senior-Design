@@ -51,8 +51,11 @@ class AutonomousDriveNode(Node):
         self.required_readings = self.get_parameter('required_readings').value
         self.cliff_hold_seconds = self.get_parameter('cliff_hold_s').value
 
+        # Wall validation
         self.valid_reading_count = 0
-        self.cliff_active = False
+
+        # Cliff latch
+        self.cliff_active    = False
         self.last_cliff_time = 0.0
         self.current_state = STATE_FORWARD
         self.state_start_time = 0.0
@@ -104,12 +107,27 @@ class AutonomousDriveNode(Node):
                 self.set_state(STATE_CLIFF_STOP)
             return
 
-        # ── Wall Validation ──
-        if self.current_state == STATE_FORWARD:
+        # ── Front sensor invalid ─────────────────────────────────────────────
+        # HC-SR04 returns invalid when nothing is in range (open space).
+        # In STATE_FORWARD: release override and return — waypoint_follower drives.
+        # In correction states: fall through so time-based transitions (REVERSING,
+        # DRIVE_OUT, etc.) still complete even when the front sensor reads nothing.
+        if not msg.front_valid:
+            if self.current_state == STATE_FORWARD:
+                self.publish_override(False)
+                return
+            # Correction state: do NOT return — let the state machine run.
+            # SCAN_L/R already treat front_valid=False as "clear" (open space).
+
+        # ── Wall validation (STATE_FORWARD only) ─────────────────────────────
+        # Count consecutive valid readings below threshold (regardless of direction).
+        # This correctly handles the case where waypoint_follower has already stopped
+        # the rover — the distance stabilises rather than continuing to decrease.
+        if self.current_state == STATE_FORWARD and msg.front_valid:
             if msg.proximity_front < self.wall_threshold:
                 self.valid_reading_count += 1
             else:
-                self.valid_reading_count = 0 # Reset if path clears
+                self.valid_reading_count = 0  # clear reading — reset hysteresis
 
         # ── State Machine ──
         if self.current_state == STATE_FORWARD:
