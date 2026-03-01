@@ -65,7 +65,6 @@ class UartNode(Node):
             time.sleep(0.01)
             self.ser.flush()
             self.get_logger().info(f"✓ UART connected on {port} @ {baudrate}")
-
         except Exception as e:
             self.get_logger().error(f"✗ UART ERROR: {e}")
             sys.exit(1)
@@ -76,6 +75,7 @@ class UartNode(Node):
         self.timeout_seconds = 3
 
         # Failsafe timer
+        self.create_timer(0.5, self.failsafe_check)
 
     def failsafe_check(self):
         if time.time() - self.last_cmd_time > self.timeout_seconds:
