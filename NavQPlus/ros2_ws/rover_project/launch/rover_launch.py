@@ -8,15 +8,14 @@ from launch_ros.actions import Node
 
 def generate_launch_description():
     pkg_share = get_package_share_directory('rover_project')
-    default_shapefile = os.path.join(pkg_share, 'maps', 'UCR_Centerlines.shp')
+    default_shapefile = os.path.join(pkg_share, 'UCR_Centerlines.json')
 
     return LaunchDescription([
 
-        # Launch Arguments
         DeclareLaunchArgument(
             'shapefile_path',
             default_value=default_shapefile,
-            description='Path to UCR_Centerlines.shp'
+            description='Path to UCR_Centerlines.json'
         ),
 
         # CAN Bridge (ESP32 sensor data)

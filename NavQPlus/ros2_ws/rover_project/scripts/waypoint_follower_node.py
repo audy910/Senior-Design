@@ -206,6 +206,8 @@ class WaypointFollowerNode(Node):
             nav_source = "VISION 👁️"
             v_err = self.vision_error_px
             cmd = CMD_FORWARD_STRAIGHT  
+
+            debug_err = f"{v_err:.0f}px"
             
             if v_err > self.vision_error_strong_px:
                 cmd = CMD_FORWARD_RIGHT
@@ -213,7 +215,7 @@ class WaypointFollowerNode(Node):
                 cmd = CMD_FORWARD_LEFT
             elif abs(v_err) > self.vision_error_deadband_px:
                 cmd = CMD_FORWARD_RIGHT if v_err > 0 else CMD_FORWARD_LEFT
-                debug_err = f"{v_err:.0f}px"
+                
 
         # 5. Execute Command
         self.last_logical_cmd = cmd 
