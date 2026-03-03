@@ -24,7 +24,7 @@
 
 // Thresholds
 #define TIMEOUT_US      30000  // 30ms timeout
-#define CLIFF_THRESHOLD 10     // ADC reading below this = lifted/cliff
+#define CLIFF_THRESHOLD 100    // ADC reading below this = lifted/cliff (raised for edge sensitivity)
 
 // Sensor IDs
 typedef enum {
