@@ -2,3 +2,4 @@
 .vscode/
 sdkconfig.*
 **/CMakeLists.txt
+src/platformio_ws*

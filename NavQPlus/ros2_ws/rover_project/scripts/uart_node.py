@@ -23,14 +23,14 @@ import sys
 CMD_OFF                 = 0
 CMD_AI                  = 1
 CMD_STOP                = 2
-CMD_FORWARD_STRAIGHT    = 3
-CMD_FORWARD_RIGHT       = 4
-CMD_FORWARD_LEFT        = 5
-CMD_BACKWARD_STRAIGHT   = 6
-CMD_BACKWARD_RIGHT      = 7
-CMD_BACKWARD_LEFT       = 8
-CMD_RIGHT               = 9
-CMD_LEFT                = 10
+CMD_FORWARD_STRAIGHT    = 6
+CMD_FORWARD_RIGHT       = 8
+CMD_FORWARD_LEFT        = 7
+CMD_BACKWARD_STRAIGHT   = 3
+CMD_BACKWARD_RIGHT      = 5
+CMD_BACKWARD_LEFT       = 4
+CMD_RIGHT               = 10
+CMD_LEFT                = 9
 
 MANUAL = 0
 AI     = 1
@@ -74,8 +74,7 @@ class UartNode(Node):
         self.last_cmd_time = time.time()
         self.timeout_seconds = 3
 
-        # Failsafe timer
-        self.create_timer(0.5, self.failsafe_check)
+
 
     def failsafe_check(self):
         if time.time() - self.last_cmd_time > self.timeout_seconds:
