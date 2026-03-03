@@ -37,7 +37,7 @@ class AutonomousDriveNode(Node):
 
         self.declare_parameter('invert_drive', False)
         self.declare_parameter('wall_threshold_mm', 400.0)
-        self.declare_parameter('reverse_time_s', 1.2)
+        self.declare_parameter('reverse_time_s', 1.0)
         self.declare_parameter('sensor_time_s', 0.5)
         self.declare_parameter('maneuver_time_s', 2.0)
         self.declare_parameter('required_readings', 2)
@@ -52,7 +52,7 @@ class AutonomousDriveNode(Node):
         self.cliff_hold_seconds = self.get_parameter('cliff_hold_s').value
 
         # Wall validation
-        self.valid_reading_count = 0
+        self.valid_reading_count = 2
 
         # Cliff latch
         self.cliff_active    = False
@@ -60,6 +60,7 @@ class AutonomousDriveNode(Node):
         self.current_state = STATE_FORWARD
         self.state_start_time = 0.0
         self.chosen_turn_cmd = CMD_FORWARD_LEFT
+        self._last_override_state = None
 
     _INVERT_MAP = {
         CMD_FORWARD_STRAIGHT: CMD_BACKWARD_STRAIGHT,
@@ -72,11 +73,21 @@ class AutonomousDriveNode(Node):
 
     def send_cmd(self, cmd: int):
         physical = self._INVERT_MAP.get(cmd, cmd) if self.invert_drive else cmd
+        
+        self.get_logger().info(f"[AUTONOMOUS DRIVING] Publishing CMD: {physical}")
+        
         msg = Int32()
         msg.data = physical
         self.cmd_pub.publish(msg)
 
     def publish_override(self, active: bool):
+        if self._last_override_state != active:
+            if active:
+                self.get_logger().info("[AUTONOMOUS] 🚨 TAKING CONTROL (Override ON)")
+            else:
+                self.get_logger().info("[AUTONOMOUS] 🤝 RELEASING CONTROL (Override OFF)")
+            self._last_override_state = active
+
         msg = Bool()
         msg.data = active
         self.override_pub.publish(msg)
@@ -113,9 +124,8 @@ class AutonomousDriveNode(Node):
         # In correction states: fall through so time-based transitions (REVERSING,
         # DRIVE_OUT, etc.) still complete even when the front sensor reads nothing.
         if not msg.front_valid:
-            if self.current_state == STATE_FORWARD:
-                self.publish_override(False)
-                return
+            self.publish_override(False)
+            return
             # Correction state: do NOT return — let the state machine run.
             # SCAN_L/R already treat front_valid=False as "clear" (open space).
 
