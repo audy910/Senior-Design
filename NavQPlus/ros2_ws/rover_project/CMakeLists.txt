@@ -4,6 +4,14 @@ project(rover_project)
 find_package(ament_cmake REQUIRED)
 find_package(rosidl_default_generators REQUIRED)
 
+if(BUILD_TESTING)
+  find_package(ament_cmake_pytest REQUIRED)
+  ament_add_pytest_test(test_coordinate_converter test/test_coordinate_converter.py)
+  ament_add_pytest_test(test_waypoint_math       test/test_waypoint_math.py)
+  ament_add_pytest_test(test_autonomous_drive    test/test_autonomous_drive.py)
+  ament_add_pytest_test(test_fast_scnn           test/test_fast_scnn.py)
+endif()
+
 # 1. Generate Messages (existing + new)
 rosidl_generate_interfaces(${PROJECT_NAME}
   "msg/Proximity.msg"
