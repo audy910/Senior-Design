@@ -1,24 +1,38 @@
 #!/usr/bin/env python3
 """
-Standalone CAN Bus Test Script
-Receives and decodes CAN messages using DBC file
-No ROS2 required
+Standalone CAN Bus Diagnostic Tool
+Receives and decodes CAN messages using the rover.dbc file.
+No ROS2 spin required — runs directly against the CAN hardware.
+
+Usage:
+  ros2 run rover_project test_can_receive.py              # uses installed rover.dbc
+  ros2 run rover_project test_can_receive.py --interface can0
+  ros2 run rover_project test_can_receive.py --dbc /path/to/custom.dbc
 """
 
 import can
 import cantools
 import sys
+import os
 from datetime import datetime
+from ament_index_python.packages import get_package_share_directory
+
+
+def _default_dbc_path():
+    try:
+        return os.path.join(get_package_share_directory('rover_project'), 'rover.dbc')
+    except Exception:
+        return None
 
 
 class CANTester:
-    def __init__(self, dbc_file, can_interface='can0'):
+    def __init__(self, dbc_file, can_interface='can1'):
         """
         Initialize CAN tester
 
         Args:
             dbc_file: Path to DBC file
-            can_interface: CAN interface name (default: can0)
+            can_interface: CAN interface name (default: can1)
         """
         print(f"Loading DBC file: {dbc_file}")
         try:
@@ -119,23 +133,23 @@ class CANTester:
         front_valid = data['Front_Valid']
         rear_valid = data['Rear_Valid']
         cliff_valid = data['Cliff_Valid']
-        
+
         # Convert mm to cm for display
         front_cm = front / 10.0
         rear_cm = rear / 10.0
         cliff_cm = cliff / 10.0
-        
+
         # Status indicators
         front_status = "✓" if front_valid else "✗"
         rear_status = "✓" if rear_valid else "✗"
         cliff_status = "✓" if cliff_valid else "✗"
-        
+
         # Emergency indicator
         if cliff_detected:
             alert = "🚨 CLIFF DETECTED - EMERGENCY STOP! 🚨"
         else:
             alert = "✓ Safe"
-        
+
         return (f"Front: {front_cm:.1f}cm {front_status} | "
                 f"Rear: {rear_cm:.1f}cm {rear_status} | "
                 f"Cliff: {cliff_cm:.1f}cm {cliff_status} | "
@@ -155,11 +169,8 @@ class CANTester:
             print(f"\n\033[91m[{timestamp}] {msg_name} (#{self.message_counts[msg_name]})\033[0m")  # Red
         else:
             print(f"\n[{timestamp}] {msg_name} (#{self.message_counts[msg_name]})")
-        
-        print(f"  {formatted}")
 
-        # Print raw values if verbose
-        # print(f"  Raw: {data}")
+        print(f"  {formatted}")
 
     def decode_message(self, msg):
         """Decode a CAN message using DBC"""
@@ -181,20 +192,17 @@ class CANTester:
 
         try:
             while True:
-                # Receive message (blocking with 1 second timeout)
                 msg = self.bus.recv(timeout=1.0)
 
                 if msg is None:
                     continue
 
-                # Decode message
                 msg_name, decoded = self.decode_message(msg)
 
                 if msg_name is None:
                     print(f"\n[Unknown] ID: 0x{msg.arbitration_id:03X} ({msg.arbitration_id}), Data: {msg.data.hex()}")
                     continue
 
-                # Format based on message type
                 if msg_name == "GPS_Position":
                     formatted = self.format_gps_position(decoded)
                 elif msg_name == "GPS_Velocity":
@@ -214,7 +222,6 @@ class CANTester:
                 else:
                     formatted = str(decoded)
 
-                # Print the message
                 self.print_message(msg_name, decoded, formatted)
 
         except KeyboardInterrupt:
@@ -239,65 +246,27 @@ class CANTester:
 
 
 def main():
-    """Main entry point"""
     import argparse
 
-    parser = argparse.ArgumentParser(description='Test CAN bus receiver with DBC decoding')
-    parser.add_argument('dbc_file', help='Path to DBC file')
+    default_dbc = _default_dbc_path()
+
+    parser = argparse.ArgumentParser(description='CAN bus diagnostic tool — decodes rover CAN messages via DBC')
+    parser.add_argument(
+        '--dbc', '-d',
+        default=default_dbc,
+        help=f'Path to DBC file (default: installed rover.dbc at {default_dbc})'
+    )
     parser.add_argument('--interface', '-i', default='can1', help='CAN interface (default: can1)')
 
     args = parser.parse_args()
 
-    tester = CANTester(args.dbc_file, args.interface)
+    if args.dbc is None:
+        print("ERROR: Could not find installed rover.dbc. Pass --dbc <path> explicitly.")
+        sys.exit(1)
+
+    tester = CANTester(args.dbc, args.interface)
     tester.run()
 
 
 if __name__ == '__main__':
     main()
-
-
-# ## Key Changes:
-
-# 1. **Added `format_proximity_sensors()` method** - formats all proximity data nicely
-# 2. **Added color coding** - proximity messages with cliff detection show in RED
-# 3. **Shows decimal IDs** - prints both hex and decimal in DBC loading and unknown messages
-# 4. **Handles Proximity_Sensors** in the main run loop
-# 5. **Better status indicators** - uses ✓/✗ for valid/invalid sensors
-
-# ## Expected Output:
-
-# ### Normal Operation:
-# ```
-# [14:23:45.123] Proximity_Sensors (#1)
-#   Front: 125.0cm ✓ | Rear: 89.3cm ✓ | Cliff: 5.0cm ✓ | ✓ Safe
-# ```
-
-# ### Cliff Detected (RED text):
-# ```
-# [14:23:45.345] Proximity_Sensors (#2)
-#   Front: 125.0cm ✓ | Rear: 89.3cm ✓ | Cliff: 100.0cm ✓ | 🚨 CLIFF DETECTED - EMERGENCY STOP! 🚨
-# ```
-
-# ### Invalid Readings:
-# ```
-# [14:23:45.567] Proximity_Sensors (#3)
-#   Front: 0.0cm ✗ | Rear: 89.3cm ✓ | Cliff: 5.0cm ✓ | ✓ Safe
-# ```
-
-# ## Statistics Output Example:
-# ```
-# ======================================================================
-# Statistics:
-# ======================================================================
-# Runtime: 30.5 seconds
-
-#   GPS_Accuracy        :   305 messages (10.0 Hz)
-#   GPS_Position        :   305 messages (10.0 Hz)
-#   GPS_Velocity        :   305 messages (10.0 Hz)
-#   IMU_Accel           :  1525 messages (50.0 Hz)
-#   IMU_Gyro            :  1525 messages (50.0 Hz)
-#   IMU_Orientation     :   610 messages (20.0 Hz)
-#   IMU_Quaternion      :   610 messages (20.0 Hz)
-#   Proximity_Sensors   :   610 messages (20.0 Hz)
-
-# ======================================================================

@@ -31,6 +31,7 @@ install(PROGRAMS
   scripts/waypoint_follower_node.py
   scripts/send_goal.py
   scripts/fast_scnn_node.py
+  scripts/test_can_receive.py
   DESTINATION lib/${PROJECT_NAME}
 )
 
