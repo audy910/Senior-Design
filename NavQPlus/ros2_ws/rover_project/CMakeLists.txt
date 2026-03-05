@@ -22,6 +22,7 @@ install(PROGRAMS
   scripts/path_planner_node.py
   scripts/waypoint_follower_node.py
   scripts/send_goal.py
+  scripts/fast_scnn_node.py
   DESTINATION lib/${PROJECT_NAME}
 )
 
@@ -39,6 +40,12 @@ install(FILES
 # 5. Install map data directory (shapefiles)
 install(DIRECTORY maps/
   DESTINATION share/${PROJECT_NAME}/maps
+  OPTIONAL
+)
+
+# 6. Install TFLite model
+install(DIRECTORY models/
+  DESTINATION share/${PROJECT_NAME}/models
   OPTIONAL
 )
 
