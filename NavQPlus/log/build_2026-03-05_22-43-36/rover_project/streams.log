@@ -1,0 +1,339 @@
+[0.080s] Invoking command in '/home/marina/Senior-Design/NavQPlus/build/rover_project': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --build /home/marina/Senior-Design/NavQPlus/build/rover_project -- -j4 -l4
+[0.232s] -- Found ament_cmake: 1.3.12 (/opt/ros/humble/share/ament_cmake/cmake)
+[1.304s] -- Found rosidl_default_generators: 1.2.0 (/opt/ros/humble/share/rosidl_default_generators/cmake)
+[1.320s] -- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+[1.347s] -- Found rosidl_adapter: 3.1.8 (/opt/ros/humble/share/rosidl_adapter/cmake)
+[1.623s] -- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+[4.023s] -- Found ament_cmake_ros: 0.10.0 (/opt/ros/humble/share/ament_cmake_ros/cmake)
+[5.413s] -- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+[7.229s] -- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+[7.402s] -- Found python_cmake_module: 0.10.0 (/opt/ros/humble/share/python_cmake_module/cmake)
+[7.578s] -- Using PYTHON_EXECUTABLE: /usr/bin/python3
+[7.580s] -- Using PYTHON_INCLUDE_DIRS: /usr/include/python3.10
+[7.581s] -- Using PYTHON_LIBRARIES: /usr/lib/aarch64-linux-gnu/libpython3.10.so
+[7.700s] -- Configuring done
+[7.950s] -- Generating done
+[8.038s] -- Build files have been written to: /home/marina/Senior-Design/NavQPlus/build/rover_project
+[8.303s] [  0%] Built target ament_cmake_python_copy_rover_project
+[8.802s] [  1%] Built target rover_project__cpp
+[8.833s] [35m[1mConsolidate compiler generated dependencies of target rover_project__rosidl_generator_c[0m
+[8.887s] [35m[1mConsolidate compiler generated dependencies of target rover_project__rosidl_typesupport_fastrtps_cpp[0m
+[8.925s] [  3%] [32mBuilding C object CMakeFiles/rover_project__rosidl_generator_c.dir/rosidl_generator_c/rover_project/msg/detail/proximity__functions.c.o[0m
+[9.063s] [  4%] [32mBuilding CXX object CMakeFiles/rover_project__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/rover_project/msg/detail/dds_fastrtps/proximity__type_support.cpp.o[0m
+[9.172s] [35m[1mConsolidate compiler generated dependencies of target rover_project__rosidl_typesupport_introspection_cpp[0m
+[9.279s] [  6%] [32mBuilding CXX object CMakeFiles/rover_project__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/rover_project/msg/detail/proximity__type_support.cpp.o[0m
+[9.918s] [  7%] [32mBuilding C object CMakeFiles/rover_project__rosidl_generator_c.dir/rosidl_generator_c/rover_project/msg/detail/gps_fix__functions.c.o[0m
+[10.317s] [  9%] [32mBuilding C object CMakeFiles/rover_project__rosidl_generator_c.dir/rosidl_generator_c/rover_project/msg/detail/imu_orientation__functions.c.o[0m
+[10.729s] [ 11%] [32mBuilding C object CMakeFiles/rover_project__rosidl_generator_c.dir/rosidl_generator_c/rover_project/msg/detail/nav_goal__functions.c.o[0m
+[11.182s] [ 12%] [32mBuilding C object CMakeFiles/rover_project__rosidl_generator_c.dir/rosidl_generator_c/rover_project/msg/detail/waypoint_list__functions.c.o[0m
+[11.585s] [ 14%] [32m[1mLinking C shared library librover_project__rosidl_generator_c.so[0m
+[11.954s] [ 15%] Built target rover_project__rosidl_generator_c
+[12.016s] [ 17%] [32mBuilding CXX object CMakeFiles/rover_project__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/rover_project/msg/detail/gps_fix__type_support.cpp.o[0m
+[12.072s] running egg_info
+[12.547s] writing rover_project.egg-info/PKG-INFO
+[12.553s] writing dependency_links to rover_project.egg-info/dependency_links.txt
+[12.558s] writing top-level names to rover_project.egg-info/top_level.txt
+[13.435s] [35m[1mConsolidate compiler generated dependencies of target rover_project__rosidl_typesupport_cpp[0m
+[13.550s] [ 19%] [32mBuilding CXX object CMakeFiles/rover_project__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/rover_project/msg/proximity__type_support.cpp.o[0m
+[13.604s] [ 20%] [32mBuilding CXX object CMakeFiles/rover_project__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/rover_project/msg/detail/dds_fastrtps/gps_fix__type_support.cpp.o[0m
+[16.063s] [ 22%] [32mBuilding CXX object CMakeFiles/rover_project__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/rover_project/msg/detail/imu_orientation__type_support.cpp.o[0m
+[16.139s] [ 23%] [32mBuilding CXX object CMakeFiles/rover_project__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/rover_project/msg/gps_fix__type_support.cpp.o[0m
+[17.874s] [ 25%] [32mBuilding CXX object CMakeFiles/rover_project__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/rover_project/msg/detail/dds_fastrtps/imu_orientation__type_support.cpp.o[0m
+[17.971s] reading manifest file 'rover_project.egg-info/SOURCES.txt'
+[17.992s] writing manifest file 'rover_project.egg-info/SOURCES.txt'
+[18.399s] [ 25%] Built target ament_cmake_python_build_rover_project_egg
+[18.601s] [35m[1mConsolidate compiler generated dependencies of target rover_project__rosidl_typesupport_fastrtps_c[0m
+[18.713s] [ 26%] [32mBuilding CXX object CMakeFiles/rover_project__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/rover_project/msg/imu_orientation__type_support.cpp.o[0m
+[18.755s] [ 28%] [32mBuilding CXX object CMakeFiles/rover_project__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/rover_project/msg/detail/proximity__type_support_c.cpp.o[0m
+[19.928s] [ 30%] [32mBuilding CXX object CMakeFiles/rover_project__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/rover_project/msg/detail/nav_goal__type_support.cpp.o[0m
+[21.120s] [ 31%] [32mBuilding CXX object CMakeFiles/rover_project__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/rover_project/msg/nav_goal__type_support.cpp.o[0m
+[21.571s] [ 33%] [32mBuilding CXX object CMakeFiles/rover_project__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/rover_project/msg/detail/dds_fastrtps/nav_goal__type_support.cpp.o[0m
+[22.255s] [ 34%] [32mBuilding CXX object CMakeFiles/rover_project__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/rover_project/msg/detail/gps_fix__type_support_c.cpp.o[0m
+[23.465s] [ 36%] [32mBuilding CXX object CMakeFiles/rover_project__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/rover_project/msg/detail/waypoint_list__type_support.cpp.o[0m
+[23.714s] [ 38%] [32mBuilding CXX object CMakeFiles/rover_project__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/rover_project/msg/waypoint_list__type_support.cpp.o[0m
+[25.367s] [ 39%] [32mBuilding CXX object CMakeFiles/rover_project__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/rover_project/msg/detail/imu_orientation__type_support_c.cpp.o[0m
+[25.550s] [ 41%] [32mBuilding CXX object CMakeFiles/rover_project__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/rover_project/msg/detail/dds_fastrtps/waypoint_list__type_support.cpp.o[0m
+[26.396s] [ 42%] [32m[1mLinking CXX shared library librover_project__rosidl_typesupport_cpp.so[0m
+[26.713s] [ 44%] Built target rover_project__rosidl_typesupport_cpp
+[26.787s] [ 46%] [32mBuilding CXX object CMakeFiles/rover_project__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/rover_project/msg/detail/nav_goal__type_support_c.cpp.o[0m
+[27.657s] [ 47%] [32m[1mLinking CXX shared library librover_project__rosidl_typesupport_introspection_cpp.so[0m
+[28.417s] [ 49%] Built target rover_project__rosidl_typesupport_introspection_cpp
+[28.496s] [35m[1mConsolidate compiler generated dependencies of target rover_project__rosidl_typesupport_introspection_c[0m
+[28.575s] [ 50%] [32mBuilding CXX object CMakeFiles/rover_project__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/rover_project/msg/detail/waypoint_list__type_support_c.cpp.o[0m
+[28.602s] [ 52%] [32mBuilding C object CMakeFiles/rover_project__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/rover_project/msg/detail/proximity__type_support.c.o[0m
+[28.885s] [ 53%] [32mBuilding C object CMakeFiles/rover_project__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/rover_project/msg/detail/gps_fix__type_support.c.o[0m
+[29.154s] [ 55%] [32mBuilding C object CMakeFiles/rover_project__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/rover_project/msg/detail/imu_orientation__type_support.c.o[0m
+[29.462s] [ 57%] [32mBuilding C object CMakeFiles/rover_project__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/rover_project/msg/detail/nav_goal__type_support.c.o[0m
+[29.726s] [ 58%] [32m[1mLinking CXX shared library librover_project__rosidl_typesupport_fastrtps_cpp.so[0m
+[29.773s] [ 60%] [32mBuilding C object CMakeFiles/rover_project__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/rover_project/msg/detail/waypoint_list__type_support.c.o[0m
+[29.950s] [35m[1mConsolidate compiler generated dependencies of target rover_project__rosidl_typesupport_c[0m
+[30.031s] [ 61%] [32mBuilding CXX object CMakeFiles/rover_project__rosidl_typesupport_c.dir/rosidl_typesupport_c/rover_project/msg/proximity__type_support.cpp.o[0m
+[30.067s] [ 63%] [32m[1mLinking C shared library librover_project__rosidl_typesupport_introspection_c.so[0m
+[30.293s] [ 65%] [32mBuilding CXX object CMakeFiles/rover_project__rosidl_typesupport_c.dir/rosidl_typesupport_c/rover_project/msg/gps_fix__type_support.cpp.o[0m
+[30.321s] [ 66%] Built target rover_project__rosidl_typesupport_introspection_c
+[30.372s] [ 68%] Built target rover_project__rosidl_typesupport_fastrtps_cpp
+[30.382s] [ 69%] [32mBuilding CXX object CMakeFiles/rover_project__rosidl_typesupport_c.dir/rosidl_typesupport_c/rover_project/msg/imu_orientation__type_support.cpp.o[0m
+[30.432s] [ 71%] [32mBuilding CXX object CMakeFiles/rover_project__rosidl_typesupport_c.dir/rosidl_typesupport_c/rover_project/msg/nav_goal__type_support.cpp.o[0m
+[30.506s] [ 73%] [32mBuilding CXX object CMakeFiles/rover_project__rosidl_typesupport_c.dir/rosidl_typesupport_c/rover_project/msg/waypoint_list__type_support.cpp.o[0m
+[30.702s] [ 74%] [32m[1mLinking CXX shared library librover_project__rosidl_typesupport_c.so[0m
+[30.946s] [ 76%] Built target rover_project__rosidl_typesupport_c
+[31.638s] [ 77%] [32m[1mLinking CXX shared library librover_project__rosidl_typesupport_fastrtps_c.so[0m
+[32.152s] [ 79%] Built target rover_project__rosidl_typesupport_fastrtps_c
+[32.246s] [ 79%] Built target rover_project
+[32.348s] [ 80%] Built target rover_project__py
+[32.406s] [35m[1mConsolidate compiler generated dependencies of target rover_project__rosidl_generator_py[0m
+[32.517s] [ 85%] [32mBuilding C object CMakeFiles/rover_project__rosidl_generator_py.dir/rosidl_generator_py/rover_project/msg/_imu_orientation_s.c.o[0m
+[32.518s] [ 85%] [32mBuilding C object CMakeFiles/rover_project__rosidl_generator_py.dir/rosidl_generator_py/rover_project/msg/_gps_fix_s.c.o[0m
+[32.521s] [ 85%] [32mBuilding C object CMakeFiles/rover_project__rosidl_generator_py.dir/rosidl_generator_py/rover_project/msg/_proximity_s.c.o[0m
+[32.523s] [ 87%] [32mBuilding C object CMakeFiles/rover_project__rosidl_generator_py.dir/rosidl_generator_py/rover_project/msg/_nav_goal_s.c.o[0m
+[33.375s] [ 88%] [32mBuilding C object CMakeFiles/rover_project__rosidl_generator_py.dir/rosidl_generator_py/rover_project/msg/_waypoint_list_s.c.o[0m
+[34.250s] [ 90%] [32m[1mLinking C shared library rosidl_generator_py/rover_project/librover_project__rosidl_generator_py.so[0m
+[34.518s] [ 90%] Built target rover_project__rosidl_generator_py
+[34.569s] [35m[1mConsolidate compiler generated dependencies of target rover_project__rosidl_typesupport_fastrtps_c__pyext[0m
+[34.574s] [35m[1mConsolidate compiler generated dependencies of target rover_project__rosidl_typesupport_c__pyext[0m
+[34.587s] [35m[1mConsolidate compiler generated dependencies of target rover_project__rosidl_typesupport_introspection_c__pyext[0m
+[34.655s] [ 92%] [32mBuilding C object CMakeFiles/rover_project__rosidl_typesupport_c__pyext.dir/rosidl_generator_py/rover_project/_rover_project_s.ep.rosidl_typesupport_c.c.o[0m
+[34.676s] [ 93%] [32mBuilding C object CMakeFiles/rover_project__rosidl_typesupport_fastrtps_c__pyext.dir/rosidl_generator_py/rover_project/_rover_project_s.ep.rosidl_typesupport_fastrtps_c.c.o[0m
+[34.698s] [ 95%] [32mBuilding C object CMakeFiles/rover_project__rosidl_typesupport_introspection_c__pyext.dir/rosidl_generator_py/rover_project/_rover_project_s.ep.rosidl_typesupport_introspection_c.c.o[0m
+[35.725s] [ 96%] [32m[1mLinking C shared library rosidl_generator_py/rover_project/rover_project_s__rosidl_typesupport_introspection_c.cpython-310-aarch64-linux-gnu.so[0m
+[35.770s] [ 98%] [32m[1mLinking C shared library rosidl_generator_py/rover_project/rover_project_s__rosidl_typesupport_fastrtps_c.cpython-310-aarch64-linux-gnu.so[0m
+[35.791s] [100%] [32m[1mLinking C shared library rosidl_generator_py/rover_project/rover_project_s__rosidl_typesupport_c.cpython-310-aarch64-linux-gnu.so[0m
+[35.953s] [100%] Built target rover_project__rosidl_typesupport_introspection_c__pyext
+[36.009s] [100%] Built target rover_project__rosidl_typesupport_c__pyext
+[36.017s] [100%] Built target rover_project__rosidl_typesupport_fastrtps_c__pyext
+[36.080s] Invoked command in '/home/marina/Senior-Design/NavQPlus/build/rover_project' returned '0': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --build /home/marina/Senior-Design/NavQPlus/build/rover_project -- -j4 -l4
+[36.132s] Invoking command in '/home/marina/Senior-Design/NavQPlus/build/rover_project': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --install /home/marina/Senior-Design/NavQPlus/build/rover_project
+[36.176s] -- Install configuration: ""
+[36.178s] -- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/share/ament_index/resource_index/rosidl_interfaces/rover_project
+[36.179s] -- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project
+[36.181s] -- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg
+[36.183s] -- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/rosidl_generator_c__visibility_control.h
+[36.184s] -- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/gps_fix.h
+[36.185s] -- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/detail
+[36.187s] -- Installing: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/detail/gps_fix__functions.h
+[36.188s] -- Installing: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/detail/imu_orientation__type_support.h
+[36.190s] -- Installing: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/detail/proximity__functions.h
+[36.191s] -- Installing: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/detail/waypoint_list__struct.h
+[36.193s] -- Installing: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/detail/nav_goal__type_support.h
+[36.194s] -- Installing: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/detail/proximity__functions.c
+[36.196s] -- Installing: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/detail/waypoint_list__functions.c
+[36.197s] -- Installing: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/detail/imu_orientation__functions.h
+[36.199s] -- Installing: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/detail/imu_orientation__struct.h
+[36.200s] -- Installing: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/detail/waypoint_list__functions.h
+[36.201s] -- Installing: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/detail/gps_fix__functions.c
+[36.202s] -- Installing: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/detail/gps_fix__type_support.h
+[36.204s] -- Installing: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/detail/nav_goal__functions.h
+[36.205s] -- Installing: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/detail/nav_goal__struct.h
+[36.206s] -- Installing: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/detail/waypoint_list__type_support.h
+[36.207s] -- Installing: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/detail/imu_orientation__functions.c
+[36.209s] -- Installing: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/detail/proximity__type_support.h
+[36.211s] -- Installing: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/detail/proximity__struct.h
+[36.213s] -- Installing: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/detail/gps_fix__struct.h
+[36.213s] -- Installing: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/detail/nav_goal__functions.c
+[36.214s] -- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/imu_orientation.h
+[36.215s] -- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/nav_goal.h
+[36.217s] -- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/proximity.h
+[36.218s] -- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/waypoint_list.h
+[36.219s] -- Installing: /home/marina/Senior-Design/NavQPlus/install/rover_project/share/rover_project/environment/library_path.sh
+[36.221s] -- Installing: /home/marina/Senior-Design/NavQPlus/install/rover_project/share/rover_project/environment/library_path.dsv
+[36.223s] -- Installing: /home/marina/Senior-Design/NavQPlus/install/rover_project/lib/librover_project__rosidl_generator_c.so
+[36.224s] -- Set runtime path of "/home/marina/Senior-Design/NavQPlus/install/rover_project/lib/librover_project__rosidl_generator_c.so" to ""
+[36.225s] -- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project
+[36.227s] -- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg
+[36.228s] -- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/detail
+[36.229s] -- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/detail/imu_orientation__rosidl_typesupport_fastrtps_c.h
+[36.231s] -- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/detail/nav_goal__rosidl_typesupport_fastrtps_c.h
+[36.232s] -- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/detail/waypoint_list__rosidl_typesupport_fastrtps_c.h
+[36.233s] -- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/detail/proximity__rosidl_typesupport_fastrtps_c.h
+[36.234s] -- Installing: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/detail/gps_fix__rosidl_typesupport_fastrtps_c.h
+[36.237s] -- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/rosidl_typesupport_fastrtps_c__visibility_control.h
+[36.238s] -- Installing: /home/marina/Senior-Design/NavQPlus/install/rover_project/lib/librover_project__rosidl_typesupport_fastrtps_c.so
+[36.240s] -- Set runtime path of "/home/marina/Senior-Design/NavQPlus/install/rover_project/lib/librover_project__rosidl_typesupport_fastrtps_c.so" to ""
+[36.241s] -- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project
+[36.242s] -- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg
+[36.243s] -- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/rosidl_typesupport_introspection_c__visibility_control.h
+[36.246s] -- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/detail
+[36.247s] -- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/detail/imu_orientation__rosidl_typesupport_introspection_c.h
+[36.249s] -- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/detail/gps_fix__rosidl_typesupport_introspection_c.h
+[36.250s] -- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/detail/nav_goal__type_support.c
+[36.252s] -- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/detail/waypoint_list__rosidl_typesupport_introspection_c.h
+[36.253s] -- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/detail/gps_fix__type_support.c
+[36.254s] -- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/detail/waypoint_list__type_support.c
+[36.255s] -- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/detail/nav_goal__rosidl_typesupport_introspection_c.h
+[36.256s] -- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/detail/proximity__rosidl_typesupport_introspection_c.h
+[36.257s] -- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/detail/proximity__type_support.c
+[36.259s] -- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/detail/imu_orientation__type_support.c
+[36.260s] -- Installing: /home/marina/Senior-Design/NavQPlus/install/rover_project/lib/librover_project__rosidl_typesupport_introspection_c.so
+[36.261s] -- Set runtime path of "/home/marina/Senior-Design/NavQPlus/install/rover_project/lib/librover_project__rosidl_typesupport_introspection_c.so" to ""
+[36.262s] -- Installing: /home/marina/Senior-Design/NavQPlus/install/rover_project/lib/librover_project__rosidl_typesupport_c.so
+[36.264s] -- Set runtime path of "/home/marina/Senior-Design/NavQPlus/install/rover_project/lib/librover_project__rosidl_typesupport_c.so" to ""
+[36.265s] -- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project
+[36.267s] -- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg
+[36.268s] -- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/rosidl_generator_cpp__visibility_control.hpp
+[36.270s] -- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/proximity.hpp
+[36.273s] -- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/detail
+[36.274s] -- Installing: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/detail/proximity__type_support.hpp
+[36.275s] -- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/detail/waypoint_list__type_support.hpp
+[36.276s] -- Installing: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/detail/gps_fix__type_support.hpp
+[36.277s] -- Installing: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/detail/nav_goal__type_support.hpp
+[36.278s] -- Installing: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/detail/imu_orientation__type_support.hpp
+[36.279s] -- Installing: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/detail/nav_goal__struct.hpp
+[36.280s] -- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/detail/waypoint_list__traits.hpp
+[36.281s] -- Installing: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/detail/proximity__builder.hpp
+[36.282s] -- Installing: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/detail/imu_orientation__builder.hpp
+[36.283s] -- Installing: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/detail/proximity__traits.hpp
+[36.284s] -- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/detail/waypoint_list__struct.hpp
+[36.285s] -- Installing: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/detail/imu_orientation__struct.hpp
+[36.285s] -- Installing: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/detail/nav_goal__builder.hpp
+[36.286s] -- Installing: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/detail/waypoint_list__builder.hpp
+[36.287s] -- Installing: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/detail/gps_fix__traits.hpp
+[36.288s] -- Installing: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/detail/proximity__struct.hpp
+[36.289s] -- Installing: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/detail/imu_orientation__traits.hpp
+[36.290s] -- Installing: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/detail/gps_fix__struct.hpp
+[36.291s] -- Installing: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/detail/nav_goal__traits.hpp
+[36.292s] -- Installing: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/detail/gps_fix__builder.hpp
+[36.293s] -- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/waypoint_list.hpp
+[36.294s] -- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/imu_orientation.hpp
+[36.295s] -- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/nav_goal.hpp
+[36.296s] -- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/gps_fix.hpp
+[36.297s] -- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project
+[36.298s] -- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg
+[36.299s] -- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/rosidl_typesupport_fastrtps_cpp__visibility_control.h
+[36.299s] -- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/detail
+[36.300s] -- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/detail/nav_goal__rosidl_typesupport_fastrtps_cpp.hpp
+[36.301s] -- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/detail/imu_orientation__rosidl_typesupport_fastrtps_cpp.hpp
+[36.302s] -- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/detail/waypoint_list__rosidl_typesupport_fastrtps_cpp.hpp
+[36.303s] -- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/detail/proximity__rosidl_typesupport_fastrtps_cpp.hpp
+[36.304s] -- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/detail/gps_fix__rosidl_typesupport_fastrtps_cpp.hpp
+[36.305s] -- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/detail/dds_fastrtps
+[36.306s] -- Installing: /home/marina/Senior-Design/NavQPlus/install/rover_project/lib/librover_project__rosidl_typesupport_fastrtps_cpp.so
+[36.307s] -- Set runtime path of "/home/marina/Senior-Design/NavQPlus/install/rover_project/lib/librover_project__rosidl_typesupport_fastrtps_cpp.so" to ""
+[36.307s] -- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project
+[36.308s] -- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg
+[36.309s] -- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/detail
+[36.310s] -- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/detail/proximity__type_support.cpp
+[36.310s] -- Installing: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/detail/nav_goal__rosidl_typesupport_introspection_cpp.hpp
+[36.311s] -- Installing: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/detail/nav_goal__type_support.cpp
+[36.312s] -- Installing: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/detail/gps_fix__type_support.cpp
+[36.313s] -- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/detail/proximity__rosidl_typesupport_introspection_cpp.hpp
+[36.314s] -- Installing: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/detail/gps_fix__rosidl_typesupport_introspection_cpp.hpp
+[36.315s] -- Installing: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/detail/imu_orientation__type_support.cpp
+[36.316s] -- Installing: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/detail/imu_orientation__rosidl_typesupport_introspection_cpp.hpp
+[36.317s] -- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/detail/waypoint_list__rosidl_typesupport_introspection_cpp.hpp
+[36.318s] -- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/detail/waypoint_list__type_support.cpp
+[36.319s] -- Installing: /home/marina/Senior-Design/NavQPlus/install/rover_project/lib/librover_project__rosidl_typesupport_introspection_cpp.so
+[36.319s] -- Set runtime path of "/home/marina/Senior-Design/NavQPlus/install/rover_project/lib/librover_project__rosidl_typesupport_introspection_cpp.so" to ""
+[36.320s] -- Installing: /home/marina/Senior-Design/NavQPlus/install/rover_project/lib/librover_project__rosidl_typesupport_cpp.so
+[36.321s] -- Set runtime path of "/home/marina/Senior-Design/NavQPlus/install/rover_project/lib/librover_project__rosidl_typesupport_cpp.so" to ""
+[36.322s] -- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/share/rover_project/environment/pythonpath.sh
+[36.323s] -- Installing: /home/marina/Senior-Design/NavQPlus/install/rover_project/share/rover_project/environment/pythonpath.dsv
+[36.324s] -- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/local/lib/python3.10/dist-packages/rover_project-0.0.0-py3.10.egg-info
+[36.325s] -- Installing: /home/marina/Senior-Design/NavQPlus/install/rover_project/local/lib/python3.10/dist-packages/rover_project-0.0.0-py3.10.egg-info/PKG-INFO
+[36.326s] -- Installing: /home/marina/Senior-Design/NavQPlus/install/rover_project/local/lib/python3.10/dist-packages/rover_project-0.0.0-py3.10.egg-info/SOURCES.txt
+[36.326s] -- Installing: /home/marina/Senior-Design/NavQPlus/install/rover_project/local/lib/python3.10/dist-packages/rover_project-0.0.0-py3.10.egg-info/dependency_links.txt
+[36.327s] -- Installing: /home/marina/Senior-Design/NavQPlus/install/rover_project/local/lib/python3.10/dist-packages/rover_project-0.0.0-py3.10.egg-info/top_level.txt
+[36.328s] -- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/local/lib/python3.10/dist-packages/rover_project
+[36.329s] -- Installing: /home/marina/Senior-Design/NavQPlus/install/rover_project/local/lib/python3.10/dist-packages/rover_project/rover_project_s__rosidl_typesupport_introspection_c.cpython-310-aarch64-linux-gnu.so
+[36.330s] -- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/local/lib/python3.10/dist-packages/rover_project/_rover_project_s.ep.rosidl_typesupport_fastrtps_c.c
+[36.331s] -- Installing: /home/marina/Senior-Design/NavQPlus/install/rover_project/local/lib/python3.10/dist-packages/rover_project/__init__.py
+[36.332s] -- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/local/lib/python3.10/dist-packages/rover_project/_rover_project_s.ep.rosidl_typesupport_introspection_c.c
+[36.333s] -- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/local/lib/python3.10/dist-packages/rover_project/msg
+[36.334s] -- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/local/lib/python3.10/dist-packages/rover_project/msg/_proximity.py
+[36.334s] -- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/local/lib/python3.10/dist-packages/rover_project/msg/_nav_goal.py
+[36.335s] -- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/local/lib/python3.10/dist-packages/rover_project/msg/_gps_fix_s.c
+[36.337s] -- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/local/lib/python3.10/dist-packages/rover_project/msg/_imu_orientation.py
+[36.338s] -- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/local/lib/python3.10/dist-packages/rover_project/msg/__init__.py
+[36.339s] -- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/local/lib/python3.10/dist-packages/rover_project/msg/_imu_orientation_s.c
+[36.340s] -- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/local/lib/python3.10/dist-packages/rover_project/msg/_waypoint_list_s.c
+[36.341s] -- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/local/lib/python3.10/dist-packages/rover_project/msg/_waypoint_list.py
+[36.342s] -- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/local/lib/python3.10/dist-packages/rover_project/msg/_gps_fix.py
+[36.343s] -- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/local/lib/python3.10/dist-packages/rover_project/msg/_proximity_s.c
+[36.344s] -- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/local/lib/python3.10/dist-packages/rover_project/msg/_nav_goal_s.c
+[36.346s] -- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/local/lib/python3.10/dist-packages/rover_project/_rover_project_s.ep.rosidl_typesupport_c.c
+[36.347s] -- Installing: /home/marina/Senior-Design/NavQPlus/install/rover_project/local/lib/python3.10/dist-packages/rover_project/rover_project_s__rosidl_typesupport_c.cpython-310-aarch64-linux-gnu.so
+[36.348s] -- Installing: /home/marina/Senior-Design/NavQPlus/install/rover_project/local/lib/python3.10/dist-packages/rover_project/librover_project__rosidl_generator_py.so
+[36.349s] -- Installing: /home/marina/Senior-Design/NavQPlus/install/rover_project/local/lib/python3.10/dist-packages/rover_project/rover_project_s__rosidl_typesupport_fastrtps_c.cpython-310-aarch64-linux-gnu.so
+[36.596s] Listing '/home/marina/Senior-Design/NavQPlus/install/rover_project/local/lib/python3.10/dist-packages/rover_project'...
+[36.597s] Compiling '/home/marina/Senior-Design/NavQPlus/install/rover_project/local/lib/python3.10/dist-packages/rover_project/__init__.py'...
+[36.598s] Listing '/home/marina/Senior-Design/NavQPlus/install/rover_project/local/lib/python3.10/dist-packages/rover_project/msg'...
+[36.599s] Compiling '/home/marina/Senior-Design/NavQPlus/install/rover_project/local/lib/python3.10/dist-packages/rover_project/msg/__init__.py'...
+[36.600s] Compiling '/home/marina/Senior-Design/NavQPlus/install/rover_project/local/lib/python3.10/dist-packages/rover_project/msg/_gps_fix.py'...
+[36.601s] Compiling '/home/marina/Senior-Design/NavQPlus/install/rover_project/local/lib/python3.10/dist-packages/rover_project/msg/_imu_orientation.py'...
+[36.602s] Compiling '/home/marina/Senior-Design/NavQPlus/install/rover_project/local/lib/python3.10/dist-packages/rover_project/msg/_nav_goal.py'...
+[36.603s] Compiling '/home/marina/Senior-Design/NavQPlus/install/rover_project/local/lib/python3.10/dist-packages/rover_project/msg/_proximity.py'...
+[36.604s] Compiling '/home/marina/Senior-Design/NavQPlus/install/rover_project/local/lib/python3.10/dist-packages/rover_project/msg/_waypoint_list.py'...
+[36.655s] -- Installing: /home/marina/Senior-Design/NavQPlus/install/rover_project/local/lib/python3.10/dist-packages/rover_project/rover_project_s__rosidl_typesupport_fastrtps_c.cpython-310-aarch64-linux-gnu.so
+[36.656s] -- Set runtime path of "/home/marina/Senior-Design/NavQPlus/install/rover_project/local/lib/python3.10/dist-packages/rover_project/rover_project_s__rosidl_typesupport_fastrtps_c.cpython-310-aarch64-linux-gnu.so" to ""
+[36.658s] -- Installing: /home/marina/Senior-Design/NavQPlus/install/rover_project/local/lib/python3.10/dist-packages/rover_project/rover_project_s__rosidl_typesupport_introspection_c.cpython-310-aarch64-linux-gnu.so
+[36.659s] -- Set runtime path of "/home/marina/Senior-Design/NavQPlus/install/rover_project/local/lib/python3.10/dist-packages/rover_project/rover_project_s__rosidl_typesupport_introspection_c.cpython-310-aarch64-linux-gnu.so" to ""
+[36.660s] -- Installing: /home/marina/Senior-Design/NavQPlus/install/rover_project/local/lib/python3.10/dist-packages/rover_project/rover_project_s__rosidl_typesupport_c.cpython-310-aarch64-linux-gnu.so
+[36.661s] -- Set runtime path of "/home/marina/Senior-Design/NavQPlus/install/rover_project/local/lib/python3.10/dist-packages/rover_project/rover_project_s__rosidl_typesupport_c.cpython-310-aarch64-linux-gnu.so" to ""
+[36.662s] -- Installing: /home/marina/Senior-Design/NavQPlus/install/rover_project/lib/librover_project__rosidl_generator_py.so
+[36.664s] -- Set runtime path of "/home/marina/Senior-Design/NavQPlus/install/rover_project/lib/librover_project__rosidl_generator_py.so" to ""
+[36.666s] -- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/share/rover_project/msg/Proximity.idl
+[36.668s] -- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/share/rover_project/msg/GpsFix.idl
+[36.671s] -- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/share/rover_project/msg/ImuOrientation.idl
+[36.673s] -- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/share/rover_project/msg/NavGoal.idl
+[36.674s] -- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/share/rover_project/msg/WaypointList.idl
+[36.675s] -- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/share/rover_project/msg/Proximity.msg
+[36.676s] -- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/share/rover_project/msg/GpsFix.msg
+[36.678s] -- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/share/rover_project/msg/ImuOrientation.msg
+[36.679s] -- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/share/rover_project/msg/NavGoal.msg
+[36.680s] -- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/share/rover_project/msg/WaypointList.msg
+[36.682s] -- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/lib/rover_project/can_bridge_node.py
+[36.684s] -- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/lib/rover_project/uart_node.py
+[36.685s] -- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/lib/rover_project/autonomous_drive_node.py
+[36.687s] -- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/lib/rover_project/bluetooth_node.py
+[36.689s] -- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/lib/rover_project/path_planner_node.py
+[36.691s] -- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/lib/rover_project/waypoint_follower_node.py
+[36.693s] -- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/lib/rover_project/send_goal.py
+[36.695s] -- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/lib/rover_project/audio_IO.py
+[36.696s] -- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/share/rover_project/launch
+[36.697s] -- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/share/rover_project/launch/rover_launch.py
+[36.698s] -- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/share/rover_project/rover.dbc
+[36.698s] -- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/share/rover_project/maps
+[36.699s] -- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/share/rover_project/maps/UCR_Centerlines.shp
+[36.700s] -- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/share/rover_project/maps/UCR_Centerlines.dbf
+[36.701s] -- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/share/rover_project/maps/UCR_Centerlines.shx
+[36.702s] -- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/share/rover_project/maps/UCR_Centerlines.prj
+[36.702s] -- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/share/rover_project/package.xml
+[36.705s] -- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/share/ament_index/resource_index/package_run_dependencies/rover_project
+[36.709s] -- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/share/ament_index/resource_index/parent_prefix_path/rover_project
+[36.710s] -- Installing: /home/marina/Senior-Design/NavQPlus/install/rover_project/share/rover_project/environment/ament_prefix_path.sh
+[36.711s] -- Installing: /home/marina/Senior-Design/NavQPlus/install/rover_project/share/rover_project/environment/ament_prefix_path.dsv
+[36.713s] -- Installing: /home/marina/Senior-Design/NavQPlus/install/rover_project/share/rover_project/environment/path.sh
+[36.714s] -- Installing: /home/marina/Senior-Design/NavQPlus/install/rover_project/share/rover_project/environment/path.dsv
+[36.715s] -- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/share/rover_project/local_setup.bash
+[36.717s] -- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/share/rover_project/local_setup.sh
+[36.718s] -- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/share/rover_project/local_setup.zsh
+[36.720s] -- Installing: /home/marina/Senior-Design/NavQPlus/install/rover_project/share/rover_project/local_setup.dsv
+[36.721s] -- Installing: /home/marina/Senior-Design/NavQPlus/install/rover_project/share/rover_project/package.dsv
+[36.723s] -- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/share/ament_index/resource_index/packages/rover_project
+[36.724s] -- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/share/rover_project/cmake/export_rover_project__rosidl_generator_cExport.cmake
+[36.726s] -- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/share/rover_project/cmake/export_rover_project__rosidl_generator_cExport-noconfig.cmake
+[36.727s] -- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/share/rover_project/cmake/export_rover_project__rosidl_typesupport_fastrtps_cExport.cmake
+[36.729s] -- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/share/rover_project/cmake/export_rover_project__rosidl_typesupport_fastrtps_cExport-noconfig.cmake
+[36.730s] -- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/share/rover_project/cmake/rover_project__rosidl_typesupport_introspection_cExport.cmake
+[36.733s] -- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/share/rover_project/cmake/rover_project__rosidl_typesupport_introspection_cExport-noconfig.cmake
+[36.734s] -- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/share/rover_project/cmake/rover_project__rosidl_typesupport_cExport.cmake
+[36.736s] -- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/share/rover_project/cmake/rover_project__rosidl_typesupport_cExport-noconfig.cmake
+[36.737s] -- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/share/rover_project/cmake/export_rover_project__rosidl_generator_cppExport.cmake
+[36.740s] -- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/share/rover_project/cmake/export_rover_project__rosidl_typesupport_fastrtps_cppExport.cmake
+[36.741s] -- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/share/rover_project/cmake/export_rover_project__rosidl_typesupport_fastrtps_cppExport-noconfig.cmake
+[36.742s] -- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/share/rover_project/cmake/rover_project__rosidl_typesupport_introspection_cppExport.cmake
+[36.745s] -- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/share/rover_project/cmake/rover_project__rosidl_typesupport_introspection_cppExport-noconfig.cmake
+[36.752s] -- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/share/rover_project/cmake/rover_project__rosidl_typesupport_cppExport.cmake
+[36.754s] -- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/share/rover_project/cmake/rover_project__rosidl_typesupport_cppExport-noconfig.cmake
+[36.756s] -- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/share/rover_project/cmake/export_rover_project__rosidl_generator_pyExport.cmake
+[36.757s] -- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/share/rover_project/cmake/export_rover_project__rosidl_generator_pyExport-noconfig.cmake
+[36.758s] -- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/share/rover_project/cmake/rosidl_cmake-extras.cmake
+[36.759s] -- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/share/rover_project/cmake/ament_cmake_export_include_directories-extras.cmake
+[36.760s] -- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/share/rover_project/cmake/ament_cmake_export_libraries-extras.cmake
+[36.761s] -- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/share/rover_project/cmake/ament_cmake_export_targets-extras.cmake
+[36.762s] -- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/share/rover_project/cmake/rosidl_cmake_export_typesupport_targets-extras.cmake
+[36.763s] -- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/share/rover_project/cmake/ament_cmake_export_dependencies-extras.cmake
+[36.764s] -- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/share/rover_project/cmake/rosidl_cmake_export_typesupport_libraries-extras.cmake
+[36.765s] -- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/share/rover_project/cmake/rover_projectConfig.cmake
+[36.766s] -- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/share/rover_project/cmake/rover_projectConfig-version.cmake
+[36.767s] -- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/share/rover_project/package.xml
+[36.769s] Invoked command in '/home/marina/Senior-Design/NavQPlus/build/rover_project' returned '0': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --install /home/marina/Senior-Design/NavQPlus/build/rover_project

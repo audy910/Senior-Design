@@ -1,0 +1,233 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"childIndexes" : 
+					[
+						1
+					],
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-.-acedd79aaa12c7290da6.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.12"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3,
+						5,
+						6,
+						7,
+						8,
+						9,
+						10,
+						11,
+						12,
+						13,
+						14,
+						15,
+						16,
+						17
+					]
+				},
+				{
+					"build" : "rover_project__py",
+					"jsonFile" : "directory-rover_project__py-ceacb48218fa547571fe.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.12"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "/home/marina/Senior-Design/NavQPlus/build/rover_project/rover_project__py",
+					"targetIndexes" : 
+					[
+						4
+					]
+				}
+			],
+			"name" : "",
+			"projects" : 
+			[
+				{
+					"directoryIndexes" : 
+					[
+						0,
+						1
+					],
+					"name" : "rover_project",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3,
+						4,
+						5,
+						6,
+						7,
+						8,
+						9,
+						10,
+						11,
+						12,
+						13,
+						14,
+						15,
+						16,
+						17
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "ament_cmake_python_build_rover_project_egg::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-ament_cmake_python_build_rover_project_egg-0f9cf0ee82deb7bea474.json",
+					"name" : "ament_cmake_python_build_rover_project_egg",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "ament_cmake_python_copy_rover_project::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-ament_cmake_python_copy_rover_project-01be08924c4bd2f0a7d0.json",
+					"name" : "ament_cmake_python_copy_rover_project",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "rover_project::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-rover_project-9ce1d70f646946f9473c.json",
+					"name" : "rover_project",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "rover_project__cpp::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-rover_project__cpp-563f52e0478088157c6d.json",
+					"name" : "rover_project__cpp",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "rover_project__py::@a97cced1ead964cc7d5a",
+					"jsonFile" : "target-rover_project__py-1587384128f370f516b1.json",
+					"name" : "rover_project__py",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "rover_project__rosidl_generator_c::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-rover_project__rosidl_generator_c-6d74e8e5525077f76db0.json",
+					"name" : "rover_project__rosidl_generator_c",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "rover_project__rosidl_generator_py::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-rover_project__rosidl_generator_py-bc41cceefdce983749c6.json",
+					"name" : "rover_project__rosidl_generator_py",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "rover_project__rosidl_typesupport_c::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-rover_project__rosidl_typesupport_c-74ecb36799d1ace33058.json",
+					"name" : "rover_project__rosidl_typesupport_c",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "rover_project__rosidl_typesupport_c__pyext::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-rover_project__rosidl_typesupport_c__pyext-df77e46814ed4e1a68b1.json",
+					"name" : "rover_project__rosidl_typesupport_c__pyext",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "rover_project__rosidl_typesupport_cpp::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-rover_project__rosidl_typesupport_cpp-6b449cfef22be952c3a3.json",
+					"name" : "rover_project__rosidl_typesupport_cpp",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "rover_project__rosidl_typesupport_fastrtps_c::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-rover_project__rosidl_typesupport_fastrtps_c-000a528b64b5804190b0.json",
+					"name" : "rover_project__rosidl_typesupport_fastrtps_c",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "rover_project__rosidl_typesupport_fastrtps_c__pyext::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-rover_project__rosidl_typesupport_fastrtps_c__pyext-b5aa5dae13675102264d.json",
+					"name" : "rover_project__rosidl_typesupport_fastrtps_c__pyext",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "rover_project__rosidl_typesupport_fastrtps_cpp::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-rover_project__rosidl_typesupport_fastrtps_cpp-aca2d82c7ccbcb4b44bf.json",
+					"name" : "rover_project__rosidl_typesupport_fastrtps_cpp",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "rover_project__rosidl_typesupport_introspection_c::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-rover_project__rosidl_typesupport_introspection_c-07d0c19f40f48064217d.json",
+					"name" : "rover_project__rosidl_typesupport_introspection_c",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "rover_project__rosidl_typesupport_introspection_c__pyext::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-rover_project__rosidl_typesupport_introspection_c__pyext-0341b6dc93249b10722b.json",
+					"name" : "rover_project__rosidl_typesupport_introspection_c__pyext",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "rover_project__rosidl_typesupport_introspection_cpp::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-rover_project__rosidl_typesupport_introspection_cpp-5bb0dff3d7bdaf0134db.json",
+					"name" : "rover_project__rosidl_typesupport_introspection_cpp",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "rover_project_uninstall::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-rover_project_uninstall-ea65d08d02e56cde0b21.json",
+					"name" : "rover_project_uninstall",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "uninstall::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-uninstall-65cb215f1952f459d8fe.json",
+					"name" : "uninstall",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "/home/marina/Senior-Design/NavQPlus/build/rover_project",
+		"source" : "/home/marina/Senior-Design/NavQPlus/ros2_ws/rover_project"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 3
+	}
+}

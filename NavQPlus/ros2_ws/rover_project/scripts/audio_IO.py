@@ -53,17 +53,14 @@ class VoskNode(Node):
         vocab_json = json.dumps(vocab_list)
         
         try:
-            model = Model("/home/marina/Senior-Design/NavQPlus/models/vosk-model")
+            model = Model("/home/marina/Senior-Design/NavQPlus/ros2_ws/rover_project/models/vosk-model")
             self.rec = KaldiRecognizer(model, RATE, vocab_json)
         except Exception as e:
             self.get_logger().error(f"Model load failed: {e}")
             raise
 
         # Audio Input Stream
-        self.stream = sd.InputStream(
-            samplerate=48000, blocksize=8000, device=DEVICE_ID,
-            dtype='int16', channels=CHANNELS, callback=self.audio_callback
-        )
+        self.stream = sd.InputStream(samplerate=16000,channels=1,dtype='int16',blocksize=4000,callback=self.audio_callback,device=0)
         self.stream.start()
         self.timer = self.create_timer(0.05, self.process_audio)
 
