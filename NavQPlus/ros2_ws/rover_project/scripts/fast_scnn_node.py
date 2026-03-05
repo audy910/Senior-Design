@@ -46,7 +46,7 @@ class FastSCNNNode(Node):
 
         # Publishers
         self.overlay_pub = self.create_publisher(Image, '/segmentation/overlay', 1)
-        self.error_pub = self.create_publisher(Float32, '/vision/error', 1)
+        self.error_pub = self.create_publisher(Float32, 'nav/vision_error', 1)
 
         # Lookup Table for visualization
         self.lut = np.zeros((256, 3), dtype=np.uint8)
