@@ -1,0 +1,12 @@
+setup.py
+rover_project/__init__.py
+rover_project.egg-info/PKG-INFO
+rover_project.egg-info/SOURCES.txt
+rover_project.egg-info/dependency_links.txt
+rover_project.egg-info/top_level.txt
+rover_project/msg/__init__.py
+rover_project/msg/_gps_fix.py
+rover_project/msg/_imu_orientation.py
+rover_project/msg/_nav_goal.py
+rover_project/msg/_proximity.py
+rover_project/msg/_waypoint_list.py

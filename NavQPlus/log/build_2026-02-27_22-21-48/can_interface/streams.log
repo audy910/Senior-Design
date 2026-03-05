@@ -1,0 +1,36 @@
+[8.731s] Invoking command in '/home/marina/Senior-Design/NavQPlus/can_comms/rover_ws/src/can_interface': PYTHONPATH=/home/marina/Senior-Design/NavQPlus/build/can_interface/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/marina/Senior-Design/NavQPlus/install/can_interface/lib/python3.10/site-packages: /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../../../build/can_interface build --build-base /home/marina/Senior-Design/NavQPlus/build/can_interface/build install --record /home/marina/Senior-Design/NavQPlus/build/can_interface/install.log --single-version-externally-managed install_data
+[11.352s] running egg_info
+[11.520s] creating ../../../../build/can_interface/can_interface.egg-info
+[11.542s] writing ../../../../build/can_interface/can_interface.egg-info/PKG-INFO
+[11.543s] writing dependency_links to ../../../../build/can_interface/can_interface.egg-info/dependency_links.txt
+[11.544s] writing entry points to ../../../../build/can_interface/can_interface.egg-info/entry_points.txt
+[11.548s] writing requirements to ../../../../build/can_interface/can_interface.egg-info/requires.txt
+[11.560s] writing top-level names to ../../../../build/can_interface/can_interface.egg-info/top_level.txt
+[13.106s] writing manifest file '../../../../build/can_interface/can_interface.egg-info/SOURCES.txt'
+[13.369s] reading manifest file '../../../../build/can_interface/can_interface.egg-info/SOURCES.txt'
+[13.382s] writing manifest file '../../../../build/can_interface/can_interface.egg-info/SOURCES.txt'
+[13.386s] running build
+[13.387s] running build_py
+[13.397s] creating /home/marina/Senior-Design/NavQPlus/build/can_interface/build/lib/can_interface
+[13.399s] copying can_interface/can_bridge_node.py -> /home/marina/Senior-Design/NavQPlus/build/can_interface/build/lib/can_interface
+[13.402s] copying can_interface/__init__.py -> /home/marina/Senior-Design/NavQPlus/build/can_interface/build/lib/can_interface
+[13.403s] running install
+[13.436s] running install_lib
+[13.558s] creating /home/marina/Senior-Design/NavQPlus/install/can_interface/lib/python3.10/site-packages/can_interface
+[13.565s] copying /home/marina/Senior-Design/NavQPlus/build/can_interface/build/lib/can_interface/can_bridge_node.py -> /home/marina/Senior-Design/NavQPlus/install/can_interface/lib/python3.10/site-packages/can_interface
+[13.570s] copying /home/marina/Senior-Design/NavQPlus/build/can_interface/build/lib/can_interface/__init__.py -> /home/marina/Senior-Design/NavQPlus/install/can_interface/lib/python3.10/site-packages/can_interface
+[13.584s] byte-compiling /home/marina/Senior-Design/NavQPlus/install/can_interface/lib/python3.10/site-packages/can_interface/can_bridge_node.py to can_bridge_node.cpython-310.pyc
+[13.591s] byte-compiling /home/marina/Senior-Design/NavQPlus/install/can_interface/lib/python3.10/site-packages/can_interface/__init__.py to __init__.cpython-310.pyc
+[13.594s] running install_data
+[13.595s] creating /home/marina/Senior-Design/NavQPlus/install/can_interface/share/ament_index/resource_index/packages
+[13.596s] copying resource/can_interface -> /home/marina/Senior-Design/NavQPlus/install/can_interface/share/ament_index/resource_index/packages
+[13.597s] copying package.xml -> /home/marina/Senior-Design/NavQPlus/install/can_interface/share/can_interface
+[13.598s] creating /home/marina/Senior-Design/NavQPlus/install/can_interface/share/can_interface/launch
+[13.601s] copying launch/rover_launch.py -> /home/marina/Senior-Design/NavQPlus/install/can_interface/share/can_interface/launch
+[13.601s] copying can_interface/rover_optimized.dbc -> /home/marina/Senior-Design/NavQPlus/install/can_interface/share/can_interface
+[13.602s] running install_egg_info
+[13.730s] Copying ../../../../build/can_interface/can_interface.egg-info to /home/marina/Senior-Design/NavQPlus/install/can_interface/lib/python3.10/site-packages/can_interface-0.0.0-py3.10.egg-info
+[13.739s] running install_scripts
+[14.028s] Installing can_bridge_node script to /home/marina/Senior-Design/NavQPlus/install/can_interface/lib/can_interface
+[14.032s] writing list of installed files to '/home/marina/Senior-Design/NavQPlus/build/can_interface/install.log'
+[14.328s] Invoked command in '/home/marina/Senior-Design/NavQPlus/can_comms/rover_ws/src/can_interface' returned '0': PYTHONPATH=/home/marina/Senior-Design/NavQPlus/build/can_interface/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/marina/Senior-Design/NavQPlus/install/can_interface/lib/python3.10/site-packages: /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../../../build/can_interface build --build-base /home/marina/Senior-Design/NavQPlus/build/can_interface/build install --record /home/marina/Senior-Design/NavQPlus/build/can_interface/install.log --single-version-externally-managed install_data

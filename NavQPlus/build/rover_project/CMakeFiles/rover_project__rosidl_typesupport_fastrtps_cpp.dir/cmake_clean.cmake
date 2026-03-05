@@ -1,0 +1,29 @@
+file(REMOVE_RECURSE
+  "CMakeFiles/rover_project__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/rover_project/msg/detail/dds_fastrtps/gps_fix__type_support.cpp.o"
+  "CMakeFiles/rover_project__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/rover_project/msg/detail/dds_fastrtps/gps_fix__type_support.cpp.o.d"
+  "CMakeFiles/rover_project__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/rover_project/msg/detail/dds_fastrtps/imu_orientation__type_support.cpp.o"
+  "CMakeFiles/rover_project__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/rover_project/msg/detail/dds_fastrtps/imu_orientation__type_support.cpp.o.d"
+  "CMakeFiles/rover_project__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/rover_project/msg/detail/dds_fastrtps/nav_goal__type_support.cpp.o"
+  "CMakeFiles/rover_project__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/rover_project/msg/detail/dds_fastrtps/nav_goal__type_support.cpp.o.d"
+  "CMakeFiles/rover_project__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/rover_project/msg/detail/dds_fastrtps/proximity__type_support.cpp.o"
+  "CMakeFiles/rover_project__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/rover_project/msg/detail/dds_fastrtps/proximity__type_support.cpp.o.d"
+  "CMakeFiles/rover_project__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/rover_project/msg/detail/dds_fastrtps/waypoint_list__type_support.cpp.o"
+  "CMakeFiles/rover_project__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/rover_project/msg/detail/dds_fastrtps/waypoint_list__type_support.cpp.o.d"
+  "librover_project__rosidl_typesupport_fastrtps_cpp.pdb"
+  "librover_project__rosidl_typesupport_fastrtps_cpp.so"
+  "rosidl_typesupport_fastrtps_cpp/rover_project/msg/detail/dds_fastrtps/gps_fix__type_support.cpp"
+  "rosidl_typesupport_fastrtps_cpp/rover_project/msg/detail/dds_fastrtps/imu_orientation__type_support.cpp"
+  "rosidl_typesupport_fastrtps_cpp/rover_project/msg/detail/dds_fastrtps/nav_goal__type_support.cpp"
+  "rosidl_typesupport_fastrtps_cpp/rover_project/msg/detail/dds_fastrtps/proximity__type_support.cpp"
+  "rosidl_typesupport_fastrtps_cpp/rover_project/msg/detail/dds_fastrtps/waypoint_list__type_support.cpp"
+  "rosidl_typesupport_fastrtps_cpp/rover_project/msg/detail/gps_fix__rosidl_typesupport_fastrtps_cpp.hpp"
+  "rosidl_typesupport_fastrtps_cpp/rover_project/msg/detail/imu_orientation__rosidl_typesupport_fastrtps_cpp.hpp"
+  "rosidl_typesupport_fastrtps_cpp/rover_project/msg/detail/nav_goal__rosidl_typesupport_fastrtps_cpp.hpp"
+  "rosidl_typesupport_fastrtps_cpp/rover_project/msg/detail/proximity__rosidl_typesupport_fastrtps_cpp.hpp"
+  "rosidl_typesupport_fastrtps_cpp/rover_project/msg/detail/waypoint_list__rosidl_typesupport_fastrtps_cpp.hpp"
+)
+
+# Per-language clean rules from dependency scanning.
+foreach(lang CXX)
+  include(CMakeFiles/rover_project__rosidl_typesupport_fastrtps_cpp.dir/cmake_clean_${lang}.cmake OPTIONAL)
+endforeach()
