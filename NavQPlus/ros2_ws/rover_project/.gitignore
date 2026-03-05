@@ -4,3 +4,6 @@ log/
 .vscode/
 test/
 resource/
+
+msg/__init__.py
+scripts/__init__.py

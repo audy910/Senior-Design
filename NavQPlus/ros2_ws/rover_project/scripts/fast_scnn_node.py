@@ -10,6 +10,7 @@ from std_msgs.msg import Float32
 import time
 import os
 import sys
+from ament_index_python.packages import get_package_share_directory
 
 CAM_WIDTH = 640
 CAM_HEIGHT = 480
@@ -25,8 +26,11 @@ NAV_COLORS = {
     6: (135, 206, 235),   # sky
 }
 
-# Hardcoded TFLite path
-MODEL_PATH = "/home/audy/Senior-Design/NavQPlus/models/fast_scnn_opt_int8.tflite"
+MODEL_PATH = os.path.join(
+    get_package_share_directory('rover_project'),
+    'models',
+    'fast_scnn_opt_int8.tflite'
+)
 
 class FastSCNNNode(Node):
     def __init__(self):
@@ -42,7 +46,7 @@ class FastSCNNNode(Node):
 
         # Publishers
         self.overlay_pub = self.create_publisher(Image, '/segmentation/overlay', 1)
-        self.error_pub = self.create_publisher(Float32, '/vision/error', 1)
+        self.error_pub = self.create_publisher(Float32, 'nav/vision_error', 1)
 
         # Lookup Table for visualization
         self.lut = np.zeros((256, 3), dtype=np.uint8)
