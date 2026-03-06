@@ -38,6 +38,7 @@ class WaypointFollowerNode(Node):
         
         self.declare_parameter('command_rate_hz', 5.0)
         self.declare_parameter('invert_drive', False)
+        self.declare_parameter('heading_offset_deg', 0.0)
 
         # --- NEW: Progress Tracking Parameters ---
         # How often to check if we are making progress (seconds)
@@ -54,6 +55,7 @@ class WaypointFollowerNode(Node):
         self.vision_error_strong_px = self.get_parameter('vision_error_strong_px').value
         self.vision_error_deadband_px = self.get_parameter('vision_error_deadband_px').value
         self.invert_drive = self.get_parameter('invert_drive').value
+        self.heading_offset_deg = self.get_parameter('heading_offset_deg').value
         
         self.progress_interval = self.get_parameter('progress_check_interval_sec').value
         self.progress_tolerance = self.get_parameter('progress_tolerance_m').value
@@ -86,6 +88,7 @@ class WaypointFollowerNode(Node):
 
         # --- ROS Interfaces ---
         self.cmd_pub = self.create_publisher(Int32, 'nav/drive_cmd', 10)
+        self.corrected_heading_pub = self.create_publisher(Float32, 'nav/corrected_heading', 10)
 
         self.create_subscription(WaypointList, 'nav/waypoints', self.waypoint_callback, 10)
         self.create_subscription(GpsFix, 'can/gps', self.gps_callback, 10)
@@ -109,7 +112,10 @@ class WaypointFollowerNode(Node):
         self.current_lon = msg.longitude
 
     def imu_callback(self, msg):
-        self.current_heading = msg.heading
+        self.current_heading = (msg.heading + self.heading_offset_deg) % 360.0
+        h = Float32()
+        h.data = self.current_heading
+        self.corrected_heading_pub.publish(h)
 
     def safety_override_callback(self, msg):
         self.safety_override = msg.data
