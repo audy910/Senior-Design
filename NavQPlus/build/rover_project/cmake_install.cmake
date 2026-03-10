@@ -405,6 +405,7 @@ if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_
     "/home/marina/Senior-Design/NavQPlus/ros2_ws/rover_project/scripts/waypoint_follower_node.py"
     "/home/marina/Senior-Design/NavQPlus/ros2_ws/rover_project/scripts/send_goal.py"
     "/home/marina/Senior-Design/NavQPlus/ros2_ws/rover_project/scripts/audio_IO.py"
+    "/home/marina/Senior-Design/NavQPlus/ros2_ws/rover_project/scripts/fast_scnn_node.py"
     )
 endif()
 
@@ -418,6 +419,10 @@ endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/rover_project/maps" TYPE DIRECTORY OPTIONAL FILES "/home/marina/Senior-Design/NavQPlus/ros2_ws/rover_project/maps/")
+endif()
+
+if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/rover_project/models" TYPE DIRECTORY OPTIONAL FILES "/home/marina/Senior-Design/NavQPlus/ros2_ws/rover_project/models/")
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)

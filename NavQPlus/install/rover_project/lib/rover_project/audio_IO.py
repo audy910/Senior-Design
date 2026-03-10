@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+
 import rclpy
 from rclpy.node import Node
 from std_msgs.msg import String
@@ -13,7 +14,7 @@ import os
 import time
 
 MAC_ADDR = "70:D5:EA:A4:84:1A"
-DEVICE_ID = 0
+DEVICE_ID = 1
 RATE = 16000
 CHANNELS = 2
 
@@ -38,7 +39,7 @@ class VoskNode(Node):
             "left": "TURN_LEFT",
             "right": "TURN_RIGHT"
         }
-        
+
         self.speech_map = {
             "MOVE_FORWARD": "Move",
             "MOVE_BACKWARD": "Back",
@@ -51,7 +52,7 @@ class VoskNode(Node):
         self.audio_queue = queue.Queue()
         vocab_list = list(self.command_map.keys()) + ["[unk]"]
         vocab_json = json.dumps(vocab_list)
-        
+
         try:
             model = Model("/home/marina/Senior-Design/NavQPlus/ros2_ws/rover_project/models/vosk-model")
             self.rec = KaldiRecognizer(model, RATE, vocab_json)
@@ -60,13 +61,19 @@ class VoskNode(Node):
             raise
 
         # Audio Input Stream
-        self.stream = sd.InputStream(samplerate=16000,channels=1,dtype='int16',blocksize=4000,callback=self.audio_callback,device=0)
+        self.stream = sd.InputStream(
+            samplerate=48000,
+            blocksize=12000,
+            device=1,
+            dtype='int16',
+            channels=2,
+            callback=self.audio_callback
+        )
         self.stream.start()
         self.timer = self.create_timer(0.05, self.process_audio)
 
     def voice_trigger_callback(self, msg):
         """Plays audio when requested by the Autonomous Drive node (e.g., 'Stop')"""
-        # We don't log the command here, just play it
         self.play_audio_out(msg.data)
 
     def audio_callback(self, indata, frames, time, status):
@@ -74,7 +81,7 @@ class VoskNode(Node):
             print(status, file=sys.stderr)
         audio = np.frombuffer(indata, dtype=np.int16).reshape(-1, CHANNELS)
         mono = audio.mean(axis=1)
-        downsampled = resample_poly(mono, up=1, down=3)
+        downsampled = resample_poly(mono, up=1, down=3)  # 48000 -> 16000
         self.audio_queue.put(downsampled.astype(np.int16).tobytes())
 
     def process_audio(self):
@@ -94,25 +101,20 @@ class VoskNode(Node):
         msg = String()
         msg.data = cmd_string
         self.cmd_pub.publish(msg)
-        
-        response = self.speech_map.get(cmd_string, "Command received")
-        self.play_audio_out(response)
+        self.play_audio_out(self.speech_map.get(cmd_string, "Command received"))
 
     def play_audio_out(self, text):
+        """The single source of truth for making the robot speak with cooldown."""
         now = time.time()
         if (now - self.last_speech_time) < self.speech_cooldown:
-            self.get_logger().warn(f"Audio blocked by cooldown: '{text}'")
             return
         self.get_logger().info(f"Speaking: {text}")
-        os.system(
-            f"espeak -s 130 -p 45 -a 150 --stdout '{text}' | "
-            f"sox -t raw -r 22050 -e signed -b 16 -c 1 - -t wav -r 48000 -c 2 /tmp/speech.wav"
+        os.system(f"espeak -s 130 -p 45 -a 150 '{text}' -w /tmp/speech.wav")
+        aplay_cmd = (
+            f"aplay -D bluealsa:DEV={MAC_ADDR},PROFILE=a2dp "
+            f"-f cd --period-time=100000 /tmp/speech.wav > /dev/null 2>&1 &"
         )
-        os.system(f"bluetoothctl disconnect {MAC_ADDR}")
-        os.system("sleep 2")
-        os.system(f"bluetoothctl connect {MAC_ADDR}")
-        os.system("sleep 3")
-        os.system(f"aplay -D bluealsa:DEV={MAC_ADDR},PROFILE=a2dp /tmp/speech.wav")
+        os.system(aplay_cmd)
         self.last_speech_time = now
 
 def main(args=None):
@@ -124,7 +126,8 @@ def main(args=None):
         pass
     finally:
         node.destroy_node()
-        rclpy.shutdown()
+        if rclpy.ok():
+            rclpy.shutdown()
 
 if __name__ == '__main__':
     main()

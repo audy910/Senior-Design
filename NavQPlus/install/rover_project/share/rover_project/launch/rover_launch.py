@@ -36,6 +36,7 @@ def generate_launch_description():
             name='uart_processor',
             output='screen',
         ),
+
          # Audio Node ()
         Node(
             package='rover_project',
@@ -43,23 +44,15 @@ def generate_launch_description():
             name='audio_io',
             output='screen',
         ),
-         # Autonomous Node (Arduino motor commands)
+        # Fast-SCNN (camera → segmentation + error)
         Node(
             package='rover_project',
-            executable='autonomous_drive_node.py',
-            name='autonomous_drive',
+            executable='fast_scnn_node.py',
+            name='fast_scnn_node',
             output='screen',
             emulate_tty=True,
-            parameters=[{
-                'invert_drive': True,          # must match waypoint_follower invert_drive
-                'wall_threshold_mm': 500.0,
-                'reverse_time_s': 1.0,
-                'sensor_time_s': 0.5,
-                'maneuver_time_s': 2.0,
-                'required_readings': 4,
-                'cliff_hold_s': 1.0,
-            }]
         ),
+
         # Path Planner (centerlines → waypoints)
         Node(
             package='rover_project',
@@ -77,6 +70,25 @@ def generate_launch_description():
             }]
         ),
 
+        # Autonomous Drive (safety override: cliff + wall avoidance)
+        # Publishes safety/override_active to silence waypoint_follower during corrections.
+        Node(
+            package='rover_project',
+            executable='autonomous_drive_node.py',
+            name='autonomous_drive',
+            output='screen',
+            emulate_tty=True,
+            parameters=[{
+                'invert_drive': True,          # must match waypoint_follower invert_drive
+                'wall_threshold_mm': 500.0,
+                'reverse_time_s': 1.0,
+                'sensor_time_s': 0.5,
+                'maneuver_time_s': 2.0,
+                'required_readings': 4,
+                'cliff_hold_s': 1.0,
+            }]
+        ),
+
         # Waypoint Follower (GPS+IMU → motor commands)
         Node(
             package='rover_project',
@@ -85,8 +97,10 @@ def generate_launch_description():
             output='screen',
             parameters=[{
                 'waypoint_reached_m': 3.0,
-                'heading_tolerance_deg': 20.0,
+                'heading_tolerance_deg': 60.0,
+                'sharp_turn_deg': 40.0,
                 'heading_hysteresis_deg': 10.0,
+                'vision_assist_max_heading_err_deg': 35.0,
                 'command_rate_hz': 5.0,
                 'gps_timeout_s': 5.0,
                 'min_fix_type': 2,
@@ -110,7 +124,7 @@ def generate_launch_description():
                 )
             ]
         ),
-
+        
         # Foxglove Bridge (visualization)
         Node(
             package='foxglove_bridge',
