@@ -404,7 +404,7 @@ if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_
     "/home/marina/Senior-Design/NavQPlus/ros2_ws/rover_project/scripts/path_planner_node.py"
     "/home/marina/Senior-Design/NavQPlus/ros2_ws/rover_project/scripts/waypoint_follower_node.py"
     "/home/marina/Senior-Design/NavQPlus/ros2_ws/rover_project/scripts/send_goal.py"
-    "/home/marina/Senior-Design/NavQPlus/ros2_ws/rover_project/scripts/audio_IO.py"
+    "/home/marina/Senior-Design/NavQPlus/ros2_ws/rover_project/scripts/audio_input_node.py"
     "/home/marina/Senior-Design/NavQPlus/ros2_ws/rover_project/scripts/fast_scnn_node.py"
     )
 endif()

@@ -40,8 +40,8 @@ def generate_launch_description():
          # Audio Node ()
         Node(
             package='rover_project',
-            executable='audio_IO.py',
-            name='audio_io',
+            executable='audio_input_node.py',
+            name='audio_input',
             output='screen',
         ),
         # Fast-SCNN (camera → segmentation + error)
