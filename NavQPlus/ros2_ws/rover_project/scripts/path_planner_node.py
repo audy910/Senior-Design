@@ -37,7 +37,7 @@ import json
 
 def haversine_m(lat1, lon1, lat2, lon2):
     """Calculate the great-circle distance between two points in meters."""
-    R = 6371000.0  # Earth radius in meters
+    R = 6371000.0
     p1, p2 = math.radians(lat1), math.radians(lat2)
     dp, dl = math.radians(lat2 - lat1), math.radians(lon2 - lon1)
     a = math.sin(dp / 2)**2 + math.cos(p1) * math.cos(p2) * math.sin(dl / 2)**2
@@ -52,7 +52,6 @@ class RoadNetworkGraph:
     Edges = line segments weighted by actual distance in meters.
     """
     def __init__(self, snap_decimals=6):
-        # 6 decimals in lat/lon is approx 0.11 meters of precision
         self.snap_decimals = snap_decimals
         self.adj = {}           # node_key -> [(neighbor_key, distance_m)]
         self.node_coords = {}   # node_key -> (lon, lat)
@@ -67,18 +66,18 @@ class RoadNetworkGraph:
         for i in range(len(points) - 1):
             lon1, lat1 = points[i]
             lon2, lat2 = points[i + 1]
-            
+
             k1 = self._snap_key(lon1, lat1)
             k2 = self._snap_key(lon2, lat2)
-            
+
             if k1 == k2:
-                continue  # Skip zero-length segments
-                
+                continue
+
             self.node_coords[k1] = (lon1, lat1)
             self.node_coords[k2] = (lon2, lat2)
-            
+
             dist_m = haversine_m(lat1, lon1, lat2, lon2)
-            
+
             self.adj.setdefault(k1, []).append((k2, dist_m))
             self.adj.setdefault(k2, []).append((k1, dist_m))
 
@@ -91,7 +90,7 @@ class RoadNetworkGraph:
             if d < best_dist:
                 best_dist = d
                 best_key = key
-        
+
         if best_dist > max_dist_m:
             return None, best_dist
         return best_key, best_dist
@@ -99,7 +98,7 @@ class RoadNetworkGraph:
     def dijkstra(self, start_key, goal_key):
         if start_key not in self.adj or goal_key not in self.adj:
             return None
-            
+
         dist = {start_key: 0.0}
         prev = {start_key: None}
         pq = [(0.0, start_key)]
@@ -112,7 +111,7 @@ class RoadNetworkGraph:
             visited.add(u)
             if u == goal_key:
                 break
-                
+
             for v, w in self.adj.get(u, []):
                 if v in visited:
                     continue
@@ -124,7 +123,7 @@ class RoadNetworkGraph:
 
         if goal_key not in prev:
             return None
-            
+
         path = []
         node = goal_key
         while node is not None:
@@ -135,6 +134,32 @@ class RoadNetworkGraph:
 
     def stats(self):
         return f"{len(self.node_coords)} nodes, {sum(len(v) for v in self.adj.values())//2} edges"
+
+
+# ——— PATH UTILITIES ———
+
+def downsample_path(lats, lons, min_spacing_m=10.0):
+    """
+    Reduce waypoint density by keeping only points that are at least
+    min_spacing_m apart. Always keeps the first and last point.
+    """
+    if len(lats) < 2:
+        return lats, lons
+
+    out_lats = [lats[0]]
+    out_lons = [lons[0]]
+
+    for i in range(1, len(lats) - 1):
+        d = haversine_m(out_lats[-1], out_lons[-1], lats[i], lons[i])
+        if d >= min_spacing_m:
+            out_lats.append(lats[i])
+            out_lons.append(lons[i])
+
+    # Always include the final goal
+    out_lats.append(lats[-1])
+    out_lons.append(lons[-1])
+
+    return out_lats, out_lons
 
 
 # ——— ROS 2 NODE ———
@@ -154,10 +179,12 @@ class PathPlannerNode(Node):
         # 2. Parameters
         self.declare_parameter('geojson_path', default_geojson)
         self.declare_parameter('walk_paths_only', False)
-        self.declare_parameter('max_snap_distance_m', 150.0) # Converted from feet to meters
+        self.declare_parameter('max_snap_distance_m', 150.0)
         self.declare_parameter('replan_deviation_m', 5.0)
         self.declare_parameter('replan_cooldown_s', 20.0)
         self.declare_parameter('max_h_acc_m', 10.0)
+        self.declare_parameter('waypoint_spacing_m', 10.0)   # FIX 4: downsample spacing
+        self.declare_parameter('gps_timeout_s', 5.0)         # FIX 2: staleness threshold
 
         geojson_path = self.get_parameter('geojson_path').value
         self.walk_only = self.get_parameter('walk_paths_only').value
@@ -165,18 +192,21 @@ class PathPlannerNode(Node):
         self.replan_dev = self.get_parameter('replan_deviation_m').value
         self.replan_cooldown = self.get_parameter('replan_cooldown_s').value
         self.max_h_acc_m = self.get_parameter('max_h_acc_m').value
+        self.waypoint_spacing_m = self.get_parameter('waypoint_spacing_m').value
+        self.gps_timeout_s = self.get_parameter('gps_timeout_s').value
 
         # 3. State
         self.graph = RoadNetworkGraph()
         self.graph_full = None
-        
+
         self.current_lat = None
         self.current_lon = None
         self.current_fix_type = 0
         self.current_h_acc = 0.0
         self.current_hdop = 0.0
         self.current_num_sats = 0
-        
+        self.last_gps_time = 0.0        # FIX 2: track when GPS was last received
+
         self.goal_lat = None
         self.goal_lon = None
         self.current_path_latlon = None
@@ -212,21 +242,19 @@ class PathPlannerNode(Node):
 
         features = data.get('features', [])
         used = 0
-        
+
         for feat in features:
             geom = feat.get('geometry', {})
             props = feat.get('properties', {})
-            
+
             if geom.get('type') == 'LineString':
                 coords = geom.get('coordinates', [])
-                
-                # Build fallback full graph
+
                 if self.walk_only:
                     self.graph_full.add_feature(coords)
-                    # Skip if walk_only is true and Walk_Path is not Yes
                     if props.get('Walk_Path', '') != 'Yes':
                         continue
-                
+
                 self.graph.add_feature(coords)
                 used += 1
 
@@ -240,15 +268,16 @@ class PathPlannerNode(Node):
         self.current_h_acc = msg.h_acc
         self.current_hdop = msg.hdop
         self.current_num_sats = msg.num_sats
-        
+
         if msg.h_acc > self.max_h_acc_m and msg.h_acc > 0.0:
             self.get_logger().warn(
-                f"GPS rejected: h_acc={msg.h_acc:.1f}m > {self.max_h_acc_m:.0f}m ", 
+                f"GPS rejected: h_acc={msg.h_acc:.1f}m > {self.max_h_acc_m:.0f}m",
                 throttle_duration_sec=5.0)
             return
-            
+
         self.current_lat = msg.latitude
         self.current_lon = msg.longitude
+        self.last_gps_time = time.time()    # FIX 2: stamp every accepted fix
 
     def goal_callback(self, msg: NavGoal):
         self.goal_lat = msg.latitude
@@ -256,11 +285,19 @@ class PathPlannerNode(Node):
         self.get_logger().info(f"Goal received: ({self.goal_lat:.6f}, {self.goal_lon:.6f})")
         self.plan_path()
 
+    def _gps_is_fresh(self):
+        """FIX 2: Returns True only if a valid GPS fix arrived within the timeout window."""
+        if self.last_gps_time == 0.0:
+            return False
+        return (time.time() - self.last_gps_time) < self.gps_timeout_s
+
     def plan_path(self):
         if not self.graph.adj:
             self.get_logger().error("No network loaded. Cannot plan."); return
         if self.current_lat is None or self.current_lon is None:
-            self.get_logger().warn("No GPS fix. Cannot plan."); return
+            self.get_logger().warn("No GPS fix yet. Cannot plan."); return
+        if not self._gps_is_fresh():                             # FIX 2
+            self.get_logger().warn("GPS data is stale. Cannot plan."); return
         if self.goal_lat is None or self.goal_lon is None:
             self.get_logger().warn("No goal set."); return
         if self.current_fix_type < 2:
@@ -268,7 +305,6 @@ class PathPlannerNode(Node):
 
         self.get_logger().info(f"  GPS: fix={self.current_fix_type} sats={self.current_num_sats} h_acc={self.current_h_acc:.1f}m")
 
-        # Directly snap using Lat/Lon 
         start_node, sd = self.graph.snap_to_nearest(self.current_lon, self.current_lat, self.max_snap_m)
         goal_node, gd = self.graph.snap_to_nearest(self.goal_lon, self.goal_lat, self.max_snap_m)
 
@@ -283,7 +319,6 @@ class PathPlannerNode(Node):
         active_graph = self.graph
         path_keys = self.graph.dijkstra(start_node, goal_node)
 
-        # Fallback to full network if walk-only fails
         if path_keys is None and self.graph_full is not None:
             self.get_logger().warn("Walk-only path not found — retrying with full network")
             start_node_f, _ = self.graph_full.snap_to_nearest(self.current_lon, self.current_lat, self.max_snap_m)
@@ -296,17 +331,20 @@ class PathPlannerNode(Node):
         if path_keys is None:
             self.get_logger().error("No path found — network may be disconnected"); return
 
-        self.get_logger().info(
-            f"  ✓ {len(path_keys)} waypoints in {time.time()-t0:.4f}s"
-            + (" [full network fallback]" if active_graph is self.graph_full else ""))
-
-        lats, lons = [], []
+        raw_lats, raw_lons = [], []
         for key in path_keys:
             lon, lat = active_graph.node_coords[key]
-            lats.append(lat)
-            lons.append(lon)
+            raw_lats.append(lat)
+            raw_lons.append(lon)
 
-        # 1. Publish Waypoints to autonomous drive node
+        # FIX 4: Downsample dense waypoints before publishing
+        lats, lons = downsample_path(raw_lats, raw_lons, self.waypoint_spacing_m)
+
+        self.get_logger().info(
+            f"  ✓ {len(path_keys)} raw → {len(lats)} waypoints in {time.time()-t0:.4f}s"
+            + (" [full network fallback]" if active_graph is self.graph_full else ""))
+
+        # 1. Publish Waypoints
         wp_msg = WaypointList()
         wp_msg.latitudes = lats
         wp_msg.longitudes = lons
@@ -314,7 +352,7 @@ class PathPlannerNode(Node):
         wp_msg.current_index = 0
         self.waypoint_pub.publish(wp_msg)
 
-        # 2. Publish GeoJSON for Foxglove Map panel
+        # 2. Publish GeoJSON for Foxglove
         coords = [[lon, lat] for lat, lon in zip(lats, lons)]
         geo_msg = GeoJSON()
         geo_msg.geojson = json.dumps({
@@ -327,13 +365,11 @@ class PathPlannerNode(Node):
         })
         self.path_geojson_pub.publish(geo_msg)
 
-        # Store path for replanning checks
         self.current_path_latlon = list(zip(lats, lons))
         self._last_plan_time = time.time()
 
-        # Calculate total distance
         total_m = sum(
-            haversine_m(lats[i], lons[i], lats[i+1], lons[i+1]) 
+            haversine_m(lats[i], lons[i], lats[i+1], lons[i+1])
             for i in range(len(lats)-1)
         )
         self.get_logger().info(f"  Total Path Distance: {total_m:.0f} meters")
@@ -341,6 +377,8 @@ class PathPlannerNode(Node):
     def check_replan(self):
         """Check if rover has deviated from the planned path."""
         if not self.current_path_latlon or self.current_lat is None or len(self.current_path_latlon) < 2:
+            return
+        if not self._gps_is_fresh():                            # FIX 2
             return
         if time.time() - self._last_plan_time < self.replan_cooldown:
             return
@@ -354,33 +392,35 @@ class PathPlannerNode(Node):
 
         if min_segment_dist > self.replan_dev:
             self.get_logger().warn(f"Deviated {min_segment_dist:.1f}m from path — replanning")
+            self._last_plan_time = time.time()  # FIX 3: reset cooldown on deviation to prevent thrash
             self.plan_path()
 
-    def _distance_to_segment(self, px, py, y1, x1, y2, x2):
+    def _distance_to_segment(self, p_lat, p_lon, lat1, lon1, lat2, lon2):
         """
-        Approximate perpendicular distance in meters from point (px, py) 
-        to line segment (x1,y1)-(x2,y2).
-        Note: px/x is Longitude, py/y is Latitude.
+        Approximate perpendicular distance in meters from point (p_lat, p_lon)
+        to line segment (lat1,lon1)-(lat2,lon2).
+
+        FIX 1: corrected axis labeling and cos_lat applied to longitude (x-axis) only.
         """
         deg_to_m = 111320.0
-        cos_lat = math.cos(math.radians(py))
-        
-        # Convert degrees to local flat meters for geometric projection
-        px_m = px * deg_to_m * cos_lat
-        py_m = py * deg_to_m
-        x1_m = x1 * deg_to_m * cos_lat
-        y1_m = y1 * deg_to_m
-        x2_m = x2 * deg_to_m * cos_lat
-        y2_m = y2 * deg_to_m
-        
+        cos_lat = math.cos(math.radians(p_lat))   # FIX 1: use p_lat (latitude) for cos correction
+
+        # Convert to local flat meters: lat -> y, lon -> x (scaled by cos_lat)
+        px_m = p_lon * deg_to_m * cos_lat
+        py_m = p_lat * deg_to_m
+        x1_m = lon1 * deg_to_m * cos_lat
+        y1_m = lat1 * deg_to_m
+        x2_m = lon2 * deg_to_m * cos_lat
+        y2_m = lat2 * deg_to_m
+
         dx = x2_m - x1_m
         dy = y2_m - y1_m
 
         if dx == 0 and dy == 0:
-            return haversine_m(py, px, y1, x1)
+            return haversine_m(p_lat, p_lon, lat1, lon1)
 
-        t = max(0, min(1, ((px_m - x1_m) * dx + (py_m - y1_m) * dy) / (dx * dx + dy * dy)))
-        
+        t = max(0.0, min(1.0, ((px_m - x1_m) * dx + (py_m - y1_m) * dy) / (dx * dx + dy * dy)))
+
         nearest_x = x1_m + t * dx
         nearest_y = y1_m + t * dy
 

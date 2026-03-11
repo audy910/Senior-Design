@@ -97,7 +97,8 @@ def generate_launch_description():
                 'gps_timeout_s': 5.0,
                 'min_fix_type': 2,
                 'obstacle_stop_mm': 400,
-                'heading_offset_deg': 96.0,
+                'heading_offset_deg': 6.0,
+                'magnetic_decline_deg': 13.0,
                 'max_h_acc_m': 10.0,
                 'invert_drive': True,          # set False if FORWARD/BACKWARD are correct
             }]

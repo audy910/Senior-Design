@@ -27,24 +27,25 @@ class WaypointFollowerNode(Node):
         self.declare_parameter('waypoint_reached_m', 2.5)
         
         # GPS Navigation Parameters
-        self.declare_parameter('heading_tolerance_deg', 60.0)
+        self.declare_parameter('heading_tolerance_deg', 30.0)
         self.declare_parameter('sharp_turn_deg', 45.0)
         self.declare_parameter('heading_hysteresis_deg', 10.0)
         
         # Vision / Sensor Fusion Parameters 
-        self.declare_parameter('gps_takeover_deg', 25.0) 
-        self.declare_parameter('vision_error_strong_px', 50.0)
+        self.declare_parameter('gps_takeover_deg', 30.0) 
+        self.declare_parameter('vision_error_strong_px', 40.0)
         self.declare_parameter('vision_error_deadband_px', 10.0)
         
         self.declare_parameter('command_rate_hz', 5.0)
         self.declare_parameter('invert_drive', False)
         self.declare_parameter('heading_offset_deg', 0.0)
+        self.declare_parameter('magnetic_decline_deg', 0.0)
 
         # --- NEW: Progress Tracking Parameters ---
         # How often to check if we are making progress (seconds)
         self.declare_parameter('progress_check_interval_sec', 3.0)
         # How much distance increase is allowed before alarming (meters)
-        self.declare_parameter('progress_tolerance_m', 0.5)
+        self.declare_parameter('progress_tolerance_m', 1.0)
 
         # --- Get parameters ---
         self.wp_threshold = self.get_parameter('waypoint_reached_m').value
@@ -56,6 +57,7 @@ class WaypointFollowerNode(Node):
         self.vision_error_deadband_px = self.get_parameter('vision_error_deadband_px').value
         self.invert_drive = self.get_parameter('invert_drive').value
         self.heading_offset_deg = self.get_parameter('heading_offset_deg').value
+        self.magnetic_decline_deg = self.get_parameter('magnetic_decline_deg').value
         
         self.progress_interval = self.get_parameter('progress_check_interval_sec').value
         self.progress_tolerance = self.get_parameter('progress_tolerance_m').value
@@ -112,7 +114,7 @@ class WaypointFollowerNode(Node):
         self.current_lon = msg.longitude
 
     def imu_callback(self, msg):
-        self.current_heading = (msg.heading + self.heading_offset_deg) % 360.0
+        self.current_heading = (msg.heading + self.heading_offset_deg + self.magnetic_decline_deg) % 360.0
         h = Float32()
         h.data = self.current_heading
         self.corrected_heading_pub.publish(h)
