@@ -37,10 +37,10 @@ install(FILES
   DESTINATION share/${PROJECT_NAME}
 )
 
-# 5. Install map data directory (shapefiles)
-install(DIRECTORY maps/
-  DESTINATION share/${PROJECT_NAME}/maps
-  OPTIONAL
+# 5. Install map data directory 
+install(FILES
+  UCR_Centerlines.json
+  DESTINATION share/${PROJECT_NAME}
 )
 
 # 6. Install TFLite model
