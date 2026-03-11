@@ -1,0 +1,272 @@
+[1.070s] DEBUG:colcon:Command line arguments: ['/usr/bin/colcon', 'build', '--packages-select', 'rover_project']
+[1.071s] DEBUG:colcon:Parsed command line arguments: Namespace(log_base=None, log_level=None, verb_name='build', build_base='build', install_base='install', merge_install=False, symlink_install=False, test_result_base=None, continue_on_error=False, executor='parallel', parallel_workers=4, event_handlers=None, ignore_user_meta=False, metas=['./colcon.meta'], base_paths=['.'], packages_ignore=None, packages_ignore_regex=None, paths=None, packages_up_to=None, packages_up_to_regex=None, packages_above=None, packages_above_and_dependencies=None, packages_above_depth=None, packages_select_by_dep=None, packages_skip_by_dep=None, packages_skip_up_to=None, packages_select_build_failed=False, packages_skip_build_finished=False, packages_select_test_failures=False, packages_skip_test_passed=False, packages_select=['rover_project'], packages_skip=None, packages_select_regex=None, packages_skip_regex=None, packages_start=None, packages_end=None, allow_overriding=[], cmake_args=None, cmake_target=None, cmake_target_skip_unavailable=False, cmake_clean_cache=False, cmake_clean_first=False, cmake_force_configure=False, ament_cmake_args=None, catkin_cmake_args=None, catkin_skip_building_tests=False, verb_parser=<colcon_defaults.argument_parser.defaults.DefaultArgumentsDecorator object at 0xffff8f80ea10>, verb_extension=<colcon_core.verb.build.BuildVerb object at 0xffff8f80e470>, main=<bound method BuildVerb.main of <colcon_core.verb.build.BuildVerb object at 0xffff8f80e470>>)
+[1.789s] Level 1:colcon.colcon_core.package_discovery:discover_packages(colcon_meta) check parameters
+[1.790s] Level 1:colcon.colcon_core.package_discovery:discover_packages(recursive) check parameters
+[1.790s] Level 1:colcon.colcon_core.package_discovery:discover_packages(ignore) check parameters
+[1.791s] Level 1:colcon.colcon_core.package_discovery:discover_packages(path) check parameters
+[1.791s] Level 1:colcon.colcon_core.package_discovery:discover_packages(colcon_meta) discover
+[1.791s] Level 1:colcon.colcon_core.package_discovery:discover_packages(recursive) discover
+[1.792s] INFO:colcon.colcon_core.package_discovery:Crawling recursively for packages in '/home/marina/Senior-Design/NavQPlus'
+[1.793s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['ignore', 'ignore_ament_install']
+[1.794s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'ignore'
+[1.794s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'ignore_ament_install'
+[1.795s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['colcon_pkg']
+[1.795s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'colcon_pkg'
+[1.796s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['colcon_meta']
+[1.796s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'colcon_meta'
+[1.796s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['ros']
+[1.797s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'ros'
+[1.928s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['cmake', 'python']
+[1.928s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'cmake'
+[1.928s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'python'
+[1.929s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['python_setup_py']
+[1.929s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'python_setup_py'
+[1.930s] Level 1:colcon.colcon_core.package_identification:_identify(build) by extensions ['ignore', 'ignore_ament_install']
+[1.931s] Level 1:colcon.colcon_core.package_identification:_identify(build) by extension 'ignore'
+[1.931s] Level 1:colcon.colcon_core.package_identification:_identify(build) ignored
+[1.932s] Level 1:colcon.colcon_core.package_identification:_identify(install) by extensions ['ignore', 'ignore_ament_install']
+[1.933s] Level 1:colcon.colcon_core.package_identification:_identify(install) by extension 'ignore'
+[1.933s] Level 1:colcon.colcon_core.package_identification:_identify(install) ignored
+[1.934s] Level 1:colcon.colcon_core.package_identification:_identify(log) by extensions ['ignore', 'ignore_ament_install']
+[1.934s] Level 1:colcon.colcon_core.package_identification:_identify(log) by extension 'ignore'
+[1.935s] Level 1:colcon.colcon_core.package_identification:_identify(log) ignored
+[1.936s] Level 1:colcon.colcon_core.package_identification:_identify(models) by extensions ['ignore', 'ignore_ament_install']
+[1.936s] Level 1:colcon.colcon_core.package_identification:_identify(models) by extension 'ignore'
+[1.937s] Level 1:colcon.colcon_core.package_identification:_identify(models) by extension 'ignore_ament_install'
+[1.937s] Level 1:colcon.colcon_core.package_identification:_identify(models) by extensions ['colcon_pkg']
+[1.937s] Level 1:colcon.colcon_core.package_identification:_identify(models) by extension 'colcon_pkg'
+[1.938s] Level 1:colcon.colcon_core.package_identification:_identify(models) by extensions ['colcon_meta']
+[1.938s] Level 1:colcon.colcon_core.package_identification:_identify(models) by extension 'colcon_meta'
+[1.938s] Level 1:colcon.colcon_core.package_identification:_identify(models) by extensions ['ros']
+[1.939s] Level 1:colcon.colcon_core.package_identification:_identify(models) by extension 'ros'
+[1.939s] Level 1:colcon.colcon_core.package_identification:_identify(models) by extensions ['cmake', 'python']
+[1.940s] Level 1:colcon.colcon_core.package_identification:_identify(models) by extension 'cmake'
+[1.940s] Level 1:colcon.colcon_core.package_identification:_identify(models) by extension 'python'
+[1.940s] Level 1:colcon.colcon_core.package_identification:_identify(models) by extensions ['python_setup_py']
+[1.941s] Level 1:colcon.colcon_core.package_identification:_identify(models) by extension 'python_setup_py'
+[1.942s] Level 1:colcon.colcon_core.package_identification:_identify(models/vosk-model) by extensions ['ignore', 'ignore_ament_install']
+[1.942s] Level 1:colcon.colcon_core.package_identification:_identify(models/vosk-model) by extension 'ignore'
+[1.943s] Level 1:colcon.colcon_core.package_identification:_identify(models/vosk-model) by extension 'ignore_ament_install'
+[1.943s] Level 1:colcon.colcon_core.package_identification:_identify(models/vosk-model) by extensions ['colcon_pkg']
+[1.943s] Level 1:colcon.colcon_core.package_identification:_identify(models/vosk-model) by extension 'colcon_pkg'
+[1.944s] Level 1:colcon.colcon_core.package_identification:_identify(models/vosk-model) by extensions ['colcon_meta']
+[1.944s] Level 1:colcon.colcon_core.package_identification:_identify(models/vosk-model) by extension 'colcon_meta'
+[1.944s] Level 1:colcon.colcon_core.package_identification:_identify(models/vosk-model) by extensions ['ros']
+[1.945s] Level 1:colcon.colcon_core.package_identification:_identify(models/vosk-model) by extension 'ros'
+[1.945s] Level 1:colcon.colcon_core.package_identification:_identify(models/vosk-model) by extensions ['cmake', 'python']
+[1.946s] Level 1:colcon.colcon_core.package_identification:_identify(models/vosk-model) by extension 'cmake'
+[1.946s] Level 1:colcon.colcon_core.package_identification:_identify(models/vosk-model) by extension 'python'
+[1.946s] Level 1:colcon.colcon_core.package_identification:_identify(models/vosk-model) by extensions ['python_setup_py']
+[1.947s] Level 1:colcon.colcon_core.package_identification:_identify(models/vosk-model) by extension 'python_setup_py'
+[1.948s] Level 1:colcon.colcon_core.package_identification:_identify(models/vosk-model/am) by extensions ['ignore', 'ignore_ament_install']
+[1.948s] Level 1:colcon.colcon_core.package_identification:_identify(models/vosk-model/am) by extension 'ignore'
+[1.949s] Level 1:colcon.colcon_core.package_identification:_identify(models/vosk-model/am) by extension 'ignore_ament_install'
+[1.949s] Level 1:colcon.colcon_core.package_identification:_identify(models/vosk-model/am) by extensions ['colcon_pkg']
+[1.950s] Level 1:colcon.colcon_core.package_identification:_identify(models/vosk-model/am) by extension 'colcon_pkg'
+[1.950s] Level 1:colcon.colcon_core.package_identification:_identify(models/vosk-model/am) by extensions ['colcon_meta']
+[1.950s] Level 1:colcon.colcon_core.package_identification:_identify(models/vosk-model/am) by extension 'colcon_meta'
+[1.951s] Level 1:colcon.colcon_core.package_identification:_identify(models/vosk-model/am) by extensions ['ros']
+[1.951s] Level 1:colcon.colcon_core.package_identification:_identify(models/vosk-model/am) by extension 'ros'
+[1.952s] Level 1:colcon.colcon_core.package_identification:_identify(models/vosk-model/am) by extensions ['cmake', 'python']
+[1.952s] Level 1:colcon.colcon_core.package_identification:_identify(models/vosk-model/am) by extension 'cmake'
+[1.952s] Level 1:colcon.colcon_core.package_identification:_identify(models/vosk-model/am) by extension 'python'
+[1.953s] Level 1:colcon.colcon_core.package_identification:_identify(models/vosk-model/am) by extensions ['python_setup_py']
+[1.953s] Level 1:colcon.colcon_core.package_identification:_identify(models/vosk-model/am) by extension 'python_setup_py'
+[1.954s] Level 1:colcon.colcon_core.package_identification:_identify(models/vosk-model/conf) by extensions ['ignore', 'ignore_ament_install']
+[1.955s] Level 1:colcon.colcon_core.package_identification:_identify(models/vosk-model/conf) by extension 'ignore'
+[1.955s] Level 1:colcon.colcon_core.package_identification:_identify(models/vosk-model/conf) by extension 'ignore_ament_install'
+[1.956s] Level 1:colcon.colcon_core.package_identification:_identify(models/vosk-model/conf) by extensions ['colcon_pkg']
+[1.956s] Level 1:colcon.colcon_core.package_identification:_identify(models/vosk-model/conf) by extension 'colcon_pkg'
+[1.956s] Level 1:colcon.colcon_core.package_identification:_identify(models/vosk-model/conf) by extensions ['colcon_meta']
+[1.956s] Level 1:colcon.colcon_core.package_identification:_identify(models/vosk-model/conf) by extension 'colcon_meta'
+[1.957s] Level 1:colcon.colcon_core.package_identification:_identify(models/vosk-model/conf) by extensions ['ros']
+[1.957s] Level 1:colcon.colcon_core.package_identification:_identify(models/vosk-model/conf) by extension 'ros'
+[1.958s] Level 1:colcon.colcon_core.package_identification:_identify(models/vosk-model/conf) by extensions ['cmake', 'python']
+[1.958s] Level 1:colcon.colcon_core.package_identification:_identify(models/vosk-model/conf) by extension 'cmake'
+[1.959s] Level 1:colcon.colcon_core.package_identification:_identify(models/vosk-model/conf) by extension 'python'
+[1.959s] Level 1:colcon.colcon_core.package_identification:_identify(models/vosk-model/conf) by extensions ['python_setup_py']
+[1.959s] Level 1:colcon.colcon_core.package_identification:_identify(models/vosk-model/conf) by extension 'python_setup_py'
+[1.960s] Level 1:colcon.colcon_core.package_identification:_identify(models/vosk-model/graph) by extensions ['ignore', 'ignore_ament_install']
+[1.961s] Level 1:colcon.colcon_core.package_identification:_identify(models/vosk-model/graph) by extension 'ignore'
+[1.961s] Level 1:colcon.colcon_core.package_identification:_identify(models/vosk-model/graph) by extension 'ignore_ament_install'
+[1.962s] Level 1:colcon.colcon_core.package_identification:_identify(models/vosk-model/graph) by extensions ['colcon_pkg']
+[1.962s] Level 1:colcon.colcon_core.package_identification:_identify(models/vosk-model/graph) by extension 'colcon_pkg'
+[1.962s] Level 1:colcon.colcon_core.package_identification:_identify(models/vosk-model/graph) by extensions ['colcon_meta']
+[1.963s] Level 1:colcon.colcon_core.package_identification:_identify(models/vosk-model/graph) by extension 'colcon_meta'
+[1.963s] Level 1:colcon.colcon_core.package_identification:_identify(models/vosk-model/graph) by extensions ['ros']
+[1.963s] Level 1:colcon.colcon_core.package_identification:_identify(models/vosk-model/graph) by extension 'ros'
+[1.964s] Level 1:colcon.colcon_core.package_identification:_identify(models/vosk-model/graph) by extensions ['cmake', 'python']
+[1.964s] Level 1:colcon.colcon_core.package_identification:_identify(models/vosk-model/graph) by extension 'cmake'
+[1.965s] Level 1:colcon.colcon_core.package_identification:_identify(models/vosk-model/graph) by extension 'python'
+[1.965s] Level 1:colcon.colcon_core.package_identification:_identify(models/vosk-model/graph) by extensions ['python_setup_py']
+[1.965s] Level 1:colcon.colcon_core.package_identification:_identify(models/vosk-model/graph) by extension 'python_setup_py'
+[1.966s] Level 1:colcon.colcon_core.package_identification:_identify(models/vosk-model/graph/phones) by extensions ['ignore', 'ignore_ament_install']
+[1.967s] Level 1:colcon.colcon_core.package_identification:_identify(models/vosk-model/graph/phones) by extension 'ignore'
+[1.967s] Level 1:colcon.colcon_core.package_identification:_identify(models/vosk-model/graph/phones) by extension 'ignore_ament_install'
+[1.968s] Level 1:colcon.colcon_core.package_identification:_identify(models/vosk-model/graph/phones) by extensions ['colcon_pkg']
+[1.968s] Level 1:colcon.colcon_core.package_identification:_identify(models/vosk-model/graph/phones) by extension 'colcon_pkg'
+[1.969s] Level 1:colcon.colcon_core.package_identification:_identify(models/vosk-model/graph/phones) by extensions ['colcon_meta']
+[1.969s] Level 1:colcon.colcon_core.package_identification:_identify(models/vosk-model/graph/phones) by extension 'colcon_meta'
+[1.969s] Level 1:colcon.colcon_core.package_identification:_identify(models/vosk-model/graph/phones) by extensions ['ros']
+[1.970s] Level 1:colcon.colcon_core.package_identification:_identify(models/vosk-model/graph/phones) by extension 'ros'
+[1.970s] Level 1:colcon.colcon_core.package_identification:_identify(models/vosk-model/graph/phones) by extensions ['cmake', 'python']
+[1.971s] Level 1:colcon.colcon_core.package_identification:_identify(models/vosk-model/graph/phones) by extension 'cmake'
+[1.971s] Level 1:colcon.colcon_core.package_identification:_identify(models/vosk-model/graph/phones) by extension 'python'
+[1.971s] Level 1:colcon.colcon_core.package_identification:_identify(models/vosk-model/graph/phones) by extensions ['python_setup_py']
+[1.972s] Level 1:colcon.colcon_core.package_identification:_identify(models/vosk-model/graph/phones) by extension 'python_setup_py'
+[1.972s] Level 1:colcon.colcon_core.package_identification:_identify(models/vosk-model/ivector) by extensions ['ignore', 'ignore_ament_install']
+[1.973s] Level 1:colcon.colcon_core.package_identification:_identify(models/vosk-model/ivector) by extension 'ignore'
+[1.974s] Level 1:colcon.colcon_core.package_identification:_identify(models/vosk-model/ivector) by extension 'ignore_ament_install'
+[1.974s] Level 1:colcon.colcon_core.package_identification:_identify(models/vosk-model/ivector) by extensions ['colcon_pkg']
+[1.974s] Level 1:colcon.colcon_core.package_identification:_identify(models/vosk-model/ivector) by extension 'colcon_pkg'
+[1.975s] Level 1:colcon.colcon_core.package_identification:_identify(models/vosk-model/ivector) by extensions ['colcon_meta']
+[1.975s] Level 1:colcon.colcon_core.package_identification:_identify(models/vosk-model/ivector) by extension 'colcon_meta'
+[1.976s] Level 1:colcon.colcon_core.package_identification:_identify(models/vosk-model/ivector) by extensions ['ros']
+[1.976s] Level 1:colcon.colcon_core.package_identification:_identify(models/vosk-model/ivector) by extension 'ros'
+[1.976s] Level 1:colcon.colcon_core.package_identification:_identify(models/vosk-model/ivector) by extensions ['cmake', 'python']
+[1.977s] Level 1:colcon.colcon_core.package_identification:_identify(models/vosk-model/ivector) by extension 'cmake'
+[1.977s] Level 1:colcon.colcon_core.package_identification:_identify(models/vosk-model/ivector) by extension 'python'
+[1.977s] Level 1:colcon.colcon_core.package_identification:_identify(models/vosk-model/ivector) by extensions ['python_setup_py']
+[1.978s] Level 1:colcon.colcon_core.package_identification:_identify(models/vosk-model/ivector) by extension 'python_setup_py'
+[1.979s] Level 1:colcon.colcon_core.package_identification:_identify(ros2_ws) by extensions ['ignore', 'ignore_ament_install']
+[1.979s] Level 1:colcon.colcon_core.package_identification:_identify(ros2_ws) by extension 'ignore'
+[1.980s] Level 1:colcon.colcon_core.package_identification:_identify(ros2_ws) by extension 'ignore_ament_install'
+[1.980s] Level 1:colcon.colcon_core.package_identification:_identify(ros2_ws) by extensions ['colcon_pkg']
+[1.981s] Level 1:colcon.colcon_core.package_identification:_identify(ros2_ws) by extension 'colcon_pkg'
+[1.981s] Level 1:colcon.colcon_core.package_identification:_identify(ros2_ws) by extensions ['colcon_meta']
+[1.981s] Level 1:colcon.colcon_core.package_identification:_identify(ros2_ws) by extension 'colcon_meta'
+[1.982s] Level 1:colcon.colcon_core.package_identification:_identify(ros2_ws) by extensions ['ros']
+[1.982s] Level 1:colcon.colcon_core.package_identification:_identify(ros2_ws) by extension 'ros'
+[1.982s] Level 1:colcon.colcon_core.package_identification:_identify(ros2_ws) by extensions ['cmake', 'python']
+[1.983s] Level 1:colcon.colcon_core.package_identification:_identify(ros2_ws) by extension 'cmake'
+[1.983s] Level 1:colcon.colcon_core.package_identification:_identify(ros2_ws) by extension 'python'
+[1.984s] Level 1:colcon.colcon_core.package_identification:_identify(ros2_ws) by extensions ['python_setup_py']
+[1.984s] Level 1:colcon.colcon_core.package_identification:_identify(ros2_ws) by extension 'python_setup_py'
+[1.985s] Level 1:colcon.colcon_core.package_identification:_identify(ros2_ws/build) by extensions ['ignore', 'ignore_ament_install']
+[1.985s] Level 1:colcon.colcon_core.package_identification:_identify(ros2_ws/build) by extension 'ignore'
+[1.986s] Level 1:colcon.colcon_core.package_identification:_identify(ros2_ws/build) ignored
+[1.986s] Level 1:colcon.colcon_core.package_identification:_identify(ros2_ws/install) by extensions ['ignore', 'ignore_ament_install']
+[1.987s] Level 1:colcon.colcon_core.package_identification:_identify(ros2_ws/install) by extension 'ignore'
+[1.988s] Level 1:colcon.colcon_core.package_identification:_identify(ros2_ws/install) ignored
+[1.989s] Level 1:colcon.colcon_core.package_identification:_identify(ros2_ws/log) by extensions ['ignore', 'ignore_ament_install']
+[1.990s] Level 1:colcon.colcon_core.package_identification:_identify(ros2_ws/log) by extension 'ignore'
+[1.990s] Level 1:colcon.colcon_core.package_identification:_identify(ros2_ws/log) ignored
+[1.991s] Level 1:colcon.colcon_core.package_identification:_identify(ros2_ws/rover_project) by extensions ['ignore', 'ignore_ament_install']
+[1.991s] Level 1:colcon.colcon_core.package_identification:_identify(ros2_ws/rover_project) by extension 'ignore'
+[1.992s] Level 1:colcon.colcon_core.package_identification:_identify(ros2_ws/rover_project) by extension 'ignore_ament_install'
+[1.992s] Level 1:colcon.colcon_core.package_identification:_identify(ros2_ws/rover_project) by extensions ['colcon_pkg']
+[1.993s] Level 1:colcon.colcon_core.package_identification:_identify(ros2_ws/rover_project) by extension 'colcon_pkg'
+[1.993s] Level 1:colcon.colcon_core.package_identification:_identify(ros2_ws/rover_project) by extensions ['colcon_meta']
+[1.993s] Level 1:colcon.colcon_core.package_identification:_identify(ros2_ws/rover_project) by extension 'colcon_meta'
+[1.994s] Level 1:colcon.colcon_core.package_identification:_identify(ros2_ws/rover_project) by extensions ['ros']
+[1.994s] Level 1:colcon.colcon_core.package_identification:_identify(ros2_ws/rover_project) by extension 'ros'
+[2.017s] DEBUG:colcon.colcon_core.package_identification:Package 'ros2_ws/rover_project' with type 'ros.ament_cmake' and name 'rover_project'
+[2.018s] Level 1:colcon.colcon_core.package_identification:_identify(vosk-model) by extensions ['ignore', 'ignore_ament_install']
+[2.019s] Level 1:colcon.colcon_core.package_identification:_identify(vosk-model) by extension 'ignore'
+[2.019s] Level 1:colcon.colcon_core.package_identification:_identify(vosk-model) by extension 'ignore_ament_install'
+[2.020s] Level 1:colcon.colcon_core.package_identification:_identify(vosk-model) by extensions ['colcon_pkg']
+[2.021s] Level 1:colcon.colcon_core.package_identification:_identify(vosk-model) by extension 'colcon_pkg'
+[2.022s] Level 1:colcon.colcon_core.package_identification:_identify(vosk-model) by extensions ['colcon_meta']
+[2.022s] Level 1:colcon.colcon_core.package_identification:_identify(vosk-model) by extension 'colcon_meta'
+[2.023s] Level 1:colcon.colcon_core.package_identification:_identify(vosk-model) by extensions ['ros']
+[2.023s] Level 1:colcon.colcon_core.package_identification:_identify(vosk-model) by extension 'ros'
+[2.024s] Level 1:colcon.colcon_core.package_identification:_identify(vosk-model) by extensions ['cmake', 'python']
+[2.024s] Level 1:colcon.colcon_core.package_identification:_identify(vosk-model) by extension 'cmake'
+[2.024s] Level 1:colcon.colcon_core.package_identification:_identify(vosk-model) by extension 'python'
+[2.025s] Level 1:colcon.colcon_core.package_identification:_identify(vosk-model) by extensions ['python_setup_py']
+[2.025s] Level 1:colcon.colcon_core.package_identification:_identify(vosk-model) by extension 'python_setup_py'
+[2.025s] Level 1:colcon.colcon_core.package_discovery:discover_packages(recursive) using defaults
+[2.026s] Level 1:colcon.colcon_core.package_discovery:discover_packages(ignore) discover
+[2.026s] Level 1:colcon.colcon_core.package_discovery:discover_packages(ignore) using defaults
+[2.026s] Level 1:colcon.colcon_core.package_discovery:discover_packages(path) discover
+[2.027s] Level 1:colcon.colcon_core.package_discovery:discover_packages(path) using defaults
+[2.193s] Level 1:colcon.colcon_core.package_discovery:discover_packages(prefix_path) check parameters
+[2.193s] Level 1:colcon.colcon_core.package_discovery:discover_packages(prefix_path) discover
+[2.223s] DEBUG:colcon.colcon_installed_package_information.package_discovery:Found 581 installed packages in /opt/ros/humble
+[2.255s] Level 1:colcon.colcon_core.package_discovery:discover_packages(prefix_path) using defaults
+[2.929s] Level 5:colcon.colcon_core.verb:set package 'rover_project' build argument 'cmake_args' from command line to 'None'
+[2.929s] Level 5:colcon.colcon_core.verb:set package 'rover_project' build argument 'cmake_target' from command line to 'None'
+[2.930s] Level 5:colcon.colcon_core.verb:set package 'rover_project' build argument 'cmake_target_skip_unavailable' from command line to 'False'
+[2.930s] Level 5:colcon.colcon_core.verb:set package 'rover_project' build argument 'cmake_clean_cache' from command line to 'False'
+[2.930s] Level 5:colcon.colcon_core.verb:set package 'rover_project' build argument 'cmake_clean_first' from command line to 'False'
+[2.930s] Level 5:colcon.colcon_core.verb:set package 'rover_project' build argument 'cmake_force_configure' from command line to 'False'
+[2.930s] Level 5:colcon.colcon_core.verb:set package 'rover_project' build argument 'ament_cmake_args' from command line to 'None'
+[2.931s] Level 5:colcon.colcon_core.verb:set package 'rover_project' build argument 'catkin_cmake_args' from command line to 'None'
+[2.931s] Level 5:colcon.colcon_core.verb:set package 'rover_project' build argument 'catkin_skip_building_tests' from command line to 'False'
+[2.931s] DEBUG:colcon.colcon_core.verb:Building package 'rover_project' with the following arguments: {'ament_cmake_args': None, 'build_base': '/home/marina/Senior-Design/NavQPlus/build/rover_project', 'catkin_cmake_args': None, 'catkin_skip_building_tests': False, 'cmake_args': None, 'cmake_clean_cache': False, 'cmake_clean_first': False, 'cmake_force_configure': False, 'cmake_target': None, 'cmake_target_skip_unavailable': False, 'install_base': '/home/marina/Senior-Design/NavQPlus/install/rover_project', 'merge_install': False, 'path': '/home/marina/Senior-Design/NavQPlus/ros2_ws/rover_project', 'symlink_install': False, 'test_result_base': None}
+[2.932s] INFO:colcon.colcon_core.executor:Executing jobs using 'parallel' executor
+[2.939s] DEBUG:colcon.colcon_parallel_executor.executor.parallel:run_until_complete
+[2.941s] INFO:colcon.colcon_ros.task.ament_cmake.build:Building ROS package in '/home/marina/Senior-Design/NavQPlus/ros2_ws/rover_project' with build type 'ament_cmake'
+[2.942s] INFO:colcon.colcon_cmake.task.cmake.build:Building CMake package in '/home/marina/Senior-Design/NavQPlus/ros2_ws/rover_project'
+[2.957s] INFO:colcon.colcon_core.plugin_system:Skipping extension 'colcon_core.shell.bat': Not used on non-Windows systems
+[2.958s] INFO:colcon.colcon_core.shell:Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[2.959s] DEBUG:colcon.colcon_core.shell:Skip shell extension 'dsv' for command environment
+[3.011s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/home/marina/Senior-Design/NavQPlus/build/rover_project': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake /home/marina/Senior-Design/NavQPlus/ros2_ws/rover_project -DCMAKE_INSTALL_PREFIX=/home/marina/Senior-Design/NavQPlus/install/rover_project
+[16.099s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/home/marina/Senior-Design/NavQPlus/build/rover_project' returned '0': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake /home/marina/Senior-Design/NavQPlus/ros2_ws/rover_project -DCMAKE_INSTALL_PREFIX=/home/marina/Senior-Design/NavQPlus/install/rover_project
+[16.113s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/home/marina/Senior-Design/NavQPlus/build/rover_project': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --build /home/marina/Senior-Design/NavQPlus/build/rover_project -- -j4 -l4
+[70.430s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/home/marina/Senior-Design/NavQPlus/build/rover_project' returned '0': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --build /home/marina/Senior-Design/NavQPlus/build/rover_project -- -j4 -l4
+[70.482s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/home/marina/Senior-Design/NavQPlus/build/rover_project': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --install /home/marina/Senior-Design/NavQPlus/build/rover_project
+[71.096s] Level 1:colcon.colcon_core.environment:create_environment_scripts_only(rover_project)
+[71.099s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/home/marina/Senior-Design/NavQPlus/build/rover_project' returned '0': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --install /home/marina/Senior-Design/NavQPlus/build/rover_project
+[71.114s] Level 1:colcon.colcon_core.environment:checking '/home/marina/Senior-Design/NavQPlus/install/rover_project' for CMake module files
+[71.120s] Level 1:colcon.colcon_core.environment:checking '/home/marina/Senior-Design/NavQPlus/install/rover_project' for CMake config files
+[71.124s] Level 1:colcon.colcon_core.shell:create_environment_hook('rover_project', 'cmake_prefix_path')
+[71.126s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/marina/Senior-Design/NavQPlus/install/rover_project/share/rover_project/hook/cmake_prefix_path.ps1'
+[71.131s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/marina/Senior-Design/NavQPlus/install/rover_project/share/rover_project/hook/cmake_prefix_path.dsv'
+[71.134s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/marina/Senior-Design/NavQPlus/install/rover_project/share/rover_project/hook/cmake_prefix_path.sh'
+[71.141s] Level 1:colcon.colcon_core.environment:checking '/home/marina/Senior-Design/NavQPlus/install/rover_project/lib'
+[71.142s] Level 1:colcon.colcon_core.shell:create_environment_hook('rover_project', 'ld_library_path_lib')
+[71.145s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/marina/Senior-Design/NavQPlus/install/rover_project/share/rover_project/hook/ld_library_path_lib.ps1'
+[71.147s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/marina/Senior-Design/NavQPlus/install/rover_project/share/rover_project/hook/ld_library_path_lib.dsv'
+[71.150s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/marina/Senior-Design/NavQPlus/install/rover_project/share/rover_project/hook/ld_library_path_lib.sh'
+[71.153s] Level 1:colcon.colcon_core.environment:checking '/home/marina/Senior-Design/NavQPlus/install/rover_project/bin'
+[71.154s] Level 1:colcon.colcon_core.environment:checking '/home/marina/Senior-Design/NavQPlus/install/rover_project/lib/pkgconfig/rover_project.pc'
+[71.156s] Level 1:colcon.colcon_core.environment:checking '/home/marina/Senior-Design/NavQPlus/install/rover_project/lib/python3.10/site-packages'
+[71.159s] Level 1:colcon.colcon_core.environment:checking '/home/marina/Senior-Design/NavQPlus/install/rover_project/bin'
+[71.162s] INFO:colcon.colcon_core.shell:Creating package script '/home/marina/Senior-Design/NavQPlus/install/rover_project/share/rover_project/package.ps1'
+[71.171s] INFO:colcon.colcon_core.shell:Creating package descriptor '/home/marina/Senior-Design/NavQPlus/install/rover_project/share/rover_project/package.dsv'
+[71.176s] INFO:colcon.colcon_core.shell:Creating package script '/home/marina/Senior-Design/NavQPlus/install/rover_project/share/rover_project/package.sh'
+[71.183s] INFO:colcon.colcon_core.shell:Creating package script '/home/marina/Senior-Design/NavQPlus/install/rover_project/share/rover_project/package.bash'
+[71.190s] INFO:colcon.colcon_core.shell:Creating package script '/home/marina/Senior-Design/NavQPlus/install/rover_project/share/rover_project/package.zsh'
+[71.197s] Level 1:colcon.colcon_core.environment:create_file_with_runtime_dependencies(/home/marina/Senior-Design/NavQPlus/install/rover_project/share/colcon-core/packages/rover_project)
+[71.202s] Level 1:colcon.colcon_core.environment:create_environment_scripts_only(rover_project)
+[71.204s] Level 1:colcon.colcon_core.environment:checking '/home/marina/Senior-Design/NavQPlus/install/rover_project' for CMake module files
+[71.210s] Level 1:colcon.colcon_core.environment:checking '/home/marina/Senior-Design/NavQPlus/install/rover_project' for CMake config files
+[71.214s] Level 1:colcon.colcon_core.shell:create_environment_hook('rover_project', 'cmake_prefix_path')
+[71.216s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/marina/Senior-Design/NavQPlus/install/rover_project/share/rover_project/hook/cmake_prefix_path.ps1'
+[71.219s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/marina/Senior-Design/NavQPlus/install/rover_project/share/rover_project/hook/cmake_prefix_path.dsv'
+[71.222s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/marina/Senior-Design/NavQPlus/install/rover_project/share/rover_project/hook/cmake_prefix_path.sh'
+[71.227s] Level 1:colcon.colcon_core.environment:checking '/home/marina/Senior-Design/NavQPlus/install/rover_project/lib'
+[71.227s] Level 1:colcon.colcon_core.shell:create_environment_hook('rover_project', 'ld_library_path_lib')
+[71.229s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/marina/Senior-Design/NavQPlus/install/rover_project/share/rover_project/hook/ld_library_path_lib.ps1'
+[71.232s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/marina/Senior-Design/NavQPlus/install/rover_project/share/rover_project/hook/ld_library_path_lib.dsv'
+[71.235s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/marina/Senior-Design/NavQPlus/install/rover_project/share/rover_project/hook/ld_library_path_lib.sh'
+[71.238s] Level 1:colcon.colcon_core.environment:checking '/home/marina/Senior-Design/NavQPlus/install/rover_project/bin'
+[71.239s] Level 1:colcon.colcon_core.environment:checking '/home/marina/Senior-Design/NavQPlus/install/rover_project/lib/pkgconfig/rover_project.pc'
+[71.241s] Level 1:colcon.colcon_core.environment:checking '/home/marina/Senior-Design/NavQPlus/install/rover_project/lib/python3.10/site-packages'
+[71.245s] Level 1:colcon.colcon_core.environment:checking '/home/marina/Senior-Design/NavQPlus/install/rover_project/bin'
+[71.248s] INFO:colcon.colcon_core.shell:Creating package script '/home/marina/Senior-Design/NavQPlus/install/rover_project/share/rover_project/package.ps1'
+[71.252s] INFO:colcon.colcon_core.shell:Creating package descriptor '/home/marina/Senior-Design/NavQPlus/install/rover_project/share/rover_project/package.dsv'
+[71.257s] INFO:colcon.colcon_core.shell:Creating package script '/home/marina/Senior-Design/NavQPlus/install/rover_project/share/rover_project/package.sh'
+[71.261s] INFO:colcon.colcon_core.shell:Creating package script '/home/marina/Senior-Design/NavQPlus/install/rover_project/share/rover_project/package.bash'
+[71.264s] INFO:colcon.colcon_core.shell:Creating package script '/home/marina/Senior-Design/NavQPlus/install/rover_project/share/rover_project/package.zsh'
+[71.269s] Level 1:colcon.colcon_core.environment:create_file_with_runtime_dependencies(/home/marina/Senior-Design/NavQPlus/install/rover_project/share/colcon-core/packages/rover_project)
+[71.271s] DEBUG:colcon.colcon_parallel_executor.executor.parallel:closing loop
+[71.273s] DEBUG:colcon.colcon_parallel_executor.executor.parallel:loop closed
+[71.274s] DEBUG:colcon.colcon_parallel_executor.executor.parallel:run_until_complete finished with '0'
+[71.275s] DEBUG:colcon.colcon_core.event_reactor:joining thread
+[71.309s] INFO:colcon.colcon_core.plugin_system:Skipping extension 'colcon_notification.desktop_notification.terminal_notifier': Not used on non-Darwin systems
+[71.310s] INFO:colcon.colcon_core.plugin_system:Skipping extension 'colcon_notification.desktop_notification.win32': Not used on non-Windows systems
+[71.310s] INFO:colcon.colcon_notification.desktop_notification:Sending desktop notification using 'notify2'
+[96.338s] DEBUG:colcon.colcon_notification.desktop_notification.notify2:Failed to initialize notify2: org.freedesktop.DBus.Error.NoReply: Did not receive a reply. Possible causes include: the remote application did not send a reply, the message bus security policy blocked the reply, the reply timeout expired, or the network connection was broken.
+[96.339s] DEBUG:colcon.colcon_core.event_reactor:joined thread
+[96.341s] INFO:colcon.colcon_core.shell:Creating prefix script '/home/marina/Senior-Design/NavQPlus/install/local_setup.ps1'
+[96.348s] INFO:colcon.colcon_core.shell:Creating prefix util module '/home/marina/Senior-Design/NavQPlus/install/_local_setup_util_ps1.py'
+[96.362s] INFO:colcon.colcon_core.shell:Creating prefix chain script '/home/marina/Senior-Design/NavQPlus/install/setup.ps1'
+[96.370s] INFO:colcon.colcon_core.shell:Creating prefix script '/home/marina/Senior-Design/NavQPlus/install/local_setup.sh'
+[96.375s] INFO:colcon.colcon_core.shell:Creating prefix util module '/home/marina/Senior-Design/NavQPlus/install/_local_setup_util_sh.py'
+[96.379s] INFO:colcon.colcon_core.shell:Creating prefix chain script '/home/marina/Senior-Design/NavQPlus/install/setup.sh'
+[96.387s] INFO:colcon.colcon_core.shell:Creating prefix script '/home/marina/Senior-Design/NavQPlus/install/local_setup.bash'
+[96.391s] INFO:colcon.colcon_core.shell:Creating prefix chain script '/home/marina/Senior-Design/NavQPlus/install/setup.bash'
+[96.399s] INFO:colcon.colcon_core.shell:Creating prefix script '/home/marina/Senior-Design/NavQPlus/install/local_setup.zsh'
+[96.403s] INFO:colcon.colcon_core.shell:Creating prefix chain script '/home/marina/Senior-Design/NavQPlus/install/setup.zsh'

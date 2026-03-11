@@ -1,0 +1,6 @@
+Invoking command in '/home/marina/Senior-Design/NavQPlus/build/rover_project': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake /home/marina/Senior-Design/NavQPlus/ros2_ws/rover_project -DCMAKE_INSTALL_PREFIX=/home/marina/Senior-Design/NavQPlus/install/rover_project
+Invoked command in '/home/marina/Senior-Design/NavQPlus/build/rover_project' returned '0': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake /home/marina/Senior-Design/NavQPlus/ros2_ws/rover_project -DCMAKE_INSTALL_PREFIX=/home/marina/Senior-Design/NavQPlus/install/rover_project
+Invoking command in '/home/marina/Senior-Design/NavQPlus/build/rover_project': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --build /home/marina/Senior-Design/NavQPlus/build/rover_project -- -j4 -l4
+Invoked command in '/home/marina/Senior-Design/NavQPlus/build/rover_project' returned '0': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --build /home/marina/Senior-Design/NavQPlus/build/rover_project -- -j4 -l4
+Invoking command in '/home/marina/Senior-Design/NavQPlus/build/rover_project': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --install /home/marina/Senior-Design/NavQPlus/build/rover_project
+Invoked command in '/home/marina/Senior-Design/NavQPlus/build/rover_project' returned '0': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --install /home/marina/Senior-Design/NavQPlus/build/rover_project

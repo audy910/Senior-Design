@@ -1,0 +1,305 @@
+[0.000000] (-) TimerEvent: {}
+[0.001690] (rover_project) JobQueued: {'identifier': 'rover_project', 'dependencies': OrderedDict()}
+[0.003282] (rover_project) JobStarted: {'identifier': 'rover_project'}
+[0.051760] (rover_project) JobProgress: {'identifier': 'rover_project', 'progress': 'cmake'}
+[0.061846] (rover_project) JobProgress: {'identifier': 'rover_project', 'progress': 'build'}
+[0.067172] (rover_project) Command: {'cmd': ['/usr/bin/cmake', '--build', '/home/marina/Senior-Design/NavQPlus/build/rover_project', '--', '-j4', '-l4'], 'cwd': '/home/marina/Senior-Design/NavQPlus/build/rover_project', 'env': OrderedDict([('LESSOPEN', '| /usr/bin/lesspipe %s'), ('USER', 'marina'), ('SSH_CLIENT', '100.112.84.57 60600 22'), ('XDG_SESSION_TYPE', 'tty'), ('GIT_ASKPASS', '/home/marina/.vscode-server/cli/servers/Stable-0870c2a0c7c0564e7631bfed2675573a94ba4455/server/extensions/git/dist/askpass.sh'), ('SHLVL', '1'), ('BROWSER', '/home/marina/.vscode-server/cli/servers/Stable-0870c2a0c7c0564e7631bfed2675573a94ba4455/server/bin/helpers/browser.sh'), ('MOTD_SHOWN', 'pam'), ('HOME', '/home/marina'), ('OLDPWD', '/home/marina/Senior-Design'), ('TERM_PROGRAM_VERSION', '1.110.0'), ('VSCODE_IPC_HOOK_CLI', '/run/user/1002/vscode-ipc-97b4ad4b-81cf-4d75-9d5f-d4290005ba81.sock'), ('COGL_DRIVER', 'gles2'), ('VSCODE_GIT_ASKPASS_MAIN', '/home/marina/.vscode-server/cli/servers/Stable-0870c2a0c7c0564e7631bfed2675573a94ba4455/server/extensions/git/dist/askpass-main.js'), ('VSCODE_GIT_ASKPASS_NODE', '/home/marina/.vscode-server/cli/servers/Stable-0870c2a0c7c0564e7631bfed2675573a94ba4455/server/node'), ('VSCODE_PYTHON_AUTOACTIVATE_GUARD', '1'), ('DBUS_SESSION_BUS_ADDRESS', 'unix:path=/run/user/1002/bus'), ('COLORTERM', 'truecolor'), ('LOGNAME', 'marina'), ('_', '/usr/bin/colcon'), ('XDG_SESSION_CLASS', 'user'), ('TERM', 'xterm-256color'), ('XDG_SESSION_ID', '1'), ('PATH', '/home/marina/.vscode-server/cli/servers/Stable-0870c2a0c7c0564e7631bfed2675573a94ba4455/server/bin/remote-cli:/home/marina/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin'), ('XDG_RUNTIME_DIR', '/run/user/1002'), ('LANG', 'en_US.UTF-8'), ('LS_COLORS', 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:'), ('VSCODE_GIT_IPC_HANDLE', '/run/user/1002/vscode-git-0591fcc8b8.sock'), ('TERM_PROGRAM', 'vscode'), ('SHELL', '/bin/bash'), ('LESSCLOSE', '/usr/bin/lesspipe %s %s'), ('CLUTTER_DRIVER', 'gles2'), ('VSCODE_GIT_ASKPASS_EXTRA_ARGS', ''), ('GDK_GL', 'gles'), ('PWD', '/home/marina/Senior-Design/NavQPlus/build/rover_project'), ('QT_QPA_PLATFORM', 'wayland'), ('LC_ALL', 'en_US.UTF-8'), ('SSH_CONNECTION', '100.112.84.57 60600 100.116.108.76 22'), ('XDG_DATA_DIRS', '/usr/share/gnome:/usr/local/share:/usr/share:/var/lib/snapd/desktop'), ('COLCON', '1')]), 'shell': False}
+[0.098668] (-) TimerEvent: {}
+[0.199707] (-) TimerEvent: {}
+[0.300905] (-) TimerEvent: {}
+[0.402017] (-) TimerEvent: {}
+[0.502998] (-) TimerEvent: {}
+[0.603966] (-) TimerEvent: {}
+[0.704981] (-) TimerEvent: {}
+[0.806212] (-) TimerEvent: {}
+[0.843388] (rover_project) StdoutLine: {'line': b'[  1%] Built target rover_project__cpp\n'}
+[0.906425] (-) TimerEvent: {}
+[0.960462] (rover_project) StdoutLine: {'line': b'[ 12%] Built target rover_project__rosidl_generator_c\n'}
+[0.971116] (rover_project) StdoutLine: {'line': b'[ 12%] Built target ament_cmake_python_copy_rover_project\n'}
+[1.006646] (-) TimerEvent: {}
+[1.107650] (-) TimerEvent: {}
+[1.137314] (rover_project) StdoutLine: {'line': b'[ 26%] Built target rover_project__rosidl_typesupport_fastrtps_cpp\n'}
+[1.143113] (rover_project) StdoutLine: {'line': b'[ 34%] Built target rover_project__rosidl_typesupport_introspection_cpp\n'}
+[1.157453] (rover_project) StdoutLine: {'line': b'[ 46%] Built target rover_project__rosidl_typesupport_fastrtps_c\n'}
+[1.181277] (rover_project) StdoutLine: {'line': b'[ 57%] Built target rover_project__rosidl_typesupport_cpp\n'}
+[1.207888] (-) TimerEvent: {}
+[1.267911] (rover_project) StdoutLine: {'line': b'[ 68%] Built target rover_project__rosidl_typesupport_c\n'}
+[1.269360] (rover_project) StdoutLine: {'line': b'[ 79%] Built target rover_project__rosidl_typesupport_introspection_c\n'}
+[1.308112] (-) TimerEvent: {}
+[1.381145] (rover_project) StdoutLine: {'line': b'[ 79%] Built target rover_project\n'}
+[1.408368] (-) TimerEvent: {}
+[1.494135] (rover_project) StdoutLine: {'line': b'[ 80%] Built target rover_project__py\n'}
+[1.508611] (-) TimerEvent: {}
+[1.609700] (-) TimerEvent: {}
+[1.649061] (rover_project) StdoutLine: {'line': b'[ 90%] Built target rover_project__rosidl_generator_py\n'}
+[1.709918] (-) TimerEvent: {}
+[1.782011] (rover_project) StdoutLine: {'line': b'[ 93%] Built target rover_project__rosidl_typesupport_c__pyext\n'}
+[1.786515] (rover_project) StdoutLine: {'line': b'[ 96%] Built target rover_project__rosidl_typesupport_introspection_c__pyext\n'}
+[1.788052] (rover_project) StdoutLine: {'line': b'[100%] Built target rover_project__rosidl_typesupport_fastrtps_c__pyext\n'}
+[1.810125] (-) TimerEvent: {}
+[1.911125] (-) TimerEvent: {}
+[2.012267] (-) TimerEvent: {}
+[2.113688] (-) TimerEvent: {}
+[2.215312] (-) TimerEvent: {}
+[2.316317] (-) TimerEvent: {}
+[2.417383] (-) TimerEvent: {}
+[2.518398] (-) TimerEvent: {}
+[2.619359] (-) TimerEvent: {}
+[2.720331] (-) TimerEvent: {}
+[2.821326] (-) TimerEvent: {}
+[2.842899] (rover_project) StdoutLine: {'line': b'running egg_info\n'}
+[2.921573] (-) TimerEvent: {}
+[2.949342] (rover_project) StdoutLine: {'line': b'writing rover_project.egg-info/PKG-INFO\n'}
+[2.952448] (rover_project) StdoutLine: {'line': b'writing dependency_links to rover_project.egg-info/dependency_links.txt\n'}
+[2.955626] (rover_project) StdoutLine: {'line': b'writing top-level names to rover_project.egg-info/top_level.txt\n'}
+[3.021759] (-) TimerEvent: {}
+[3.122772] (-) TimerEvent: {}
+[3.223805] (-) TimerEvent: {}
+[3.324761] (-) TimerEvent: {}
+[3.425730] (-) TimerEvent: {}
+[3.526702] (-) TimerEvent: {}
+[3.627672] (-) TimerEvent: {}
+[3.728646] (-) TimerEvent: {}
+[3.829663] (-) TimerEvent: {}
+[3.930616] (-) TimerEvent: {}
+[4.031536] (-) TimerEvent: {}
+[4.132579] (-) TimerEvent: {}
+[4.233597] (-) TimerEvent: {}
+[4.334620] (-) TimerEvent: {}
+[4.435610] (-) TimerEvent: {}
+[4.536604] (-) TimerEvent: {}
+[4.609430] (rover_project) StdoutLine: {'line': b"reading manifest file 'rover_project.egg-info/SOURCES.txt'\n"}
+[4.619991] (rover_project) StdoutLine: {'line': b"writing manifest file 'rover_project.egg-info/SOURCES.txt'\n"}
+[4.636854] (-) TimerEvent: {}
+[4.738107] (-) TimerEvent: {}
+[4.839238] (-) TimerEvent: {}
+[4.902084] (rover_project) StdoutLine: {'line': b'[100%] Built target ament_cmake_python_build_rover_project_egg\n'}
+[4.939474] (-) TimerEvent: {}
+[4.960550] (rover_project) CommandEnded: {'returncode': 0}
+[4.966202] (rover_project) JobProgress: {'identifier': 'rover_project', 'progress': 'install'}
+[5.008376] (rover_project) Command: {'cmd': ['/usr/bin/cmake', '--install', '/home/marina/Senior-Design/NavQPlus/build/rover_project'], 'cwd': '/home/marina/Senior-Design/NavQPlus/build/rover_project', 'env': OrderedDict([('LESSOPEN', '| /usr/bin/lesspipe %s'), ('USER', 'marina'), ('SSH_CLIENT', '100.112.84.57 60600 22'), ('XDG_SESSION_TYPE', 'tty'), ('GIT_ASKPASS', '/home/marina/.vscode-server/cli/servers/Stable-0870c2a0c7c0564e7631bfed2675573a94ba4455/server/extensions/git/dist/askpass.sh'), ('SHLVL', '1'), ('BROWSER', '/home/marina/.vscode-server/cli/servers/Stable-0870c2a0c7c0564e7631bfed2675573a94ba4455/server/bin/helpers/browser.sh'), ('MOTD_SHOWN', 'pam'), ('HOME', '/home/marina'), ('OLDPWD', '/home/marina/Senior-Design'), ('TERM_PROGRAM_VERSION', '1.110.0'), ('VSCODE_IPC_HOOK_CLI', '/run/user/1002/vscode-ipc-97b4ad4b-81cf-4d75-9d5f-d4290005ba81.sock'), ('COGL_DRIVER', 'gles2'), ('VSCODE_GIT_ASKPASS_MAIN', '/home/marina/.vscode-server/cli/servers/Stable-0870c2a0c7c0564e7631bfed2675573a94ba4455/server/extensions/git/dist/askpass-main.js'), ('VSCODE_GIT_ASKPASS_NODE', '/home/marina/.vscode-server/cli/servers/Stable-0870c2a0c7c0564e7631bfed2675573a94ba4455/server/node'), ('VSCODE_PYTHON_AUTOACTIVATE_GUARD', '1'), ('DBUS_SESSION_BUS_ADDRESS', 'unix:path=/run/user/1002/bus'), ('COLORTERM', 'truecolor'), ('LOGNAME', 'marina'), ('_', '/usr/bin/colcon'), ('XDG_SESSION_CLASS', 'user'), ('TERM', 'xterm-256color'), ('XDG_SESSION_ID', '1'), ('PATH', '/home/marina/.vscode-server/cli/servers/Stable-0870c2a0c7c0564e7631bfed2675573a94ba4455/server/bin/remote-cli:/home/marina/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin'), ('XDG_RUNTIME_DIR', '/run/user/1002'), ('LANG', 'en_US.UTF-8'), ('LS_COLORS', 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:'), ('VSCODE_GIT_IPC_HANDLE', '/run/user/1002/vscode-git-0591fcc8b8.sock'), ('TERM_PROGRAM', 'vscode'), ('SHELL', '/bin/bash'), ('LESSCLOSE', '/usr/bin/lesspipe %s %s'), ('CLUTTER_DRIVER', 'gles2'), ('VSCODE_GIT_ASKPASS_EXTRA_ARGS', ''), ('GDK_GL', 'gles'), ('PWD', '/home/marina/Senior-Design/NavQPlus/build/rover_project'), ('QT_QPA_PLATFORM', 'wayland'), ('LC_ALL', 'en_US.UTF-8'), ('SSH_CONNECTION', '100.112.84.57 60600 100.116.108.76 22'), ('XDG_DATA_DIRS', '/usr/share/gnome:/usr/local/share:/usr/share:/var/lib/snapd/desktop'), ('COLCON', '1')]), 'shell': False}
+[5.039699] (-) TimerEvent: {}
+[5.055971] (rover_project) StdoutLine: {'line': b'-- Install configuration: ""\n'}
+[5.058259] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/share/ament_index/resource_index/rosidl_interfaces/rover_project\n'}
+[5.060229] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project\n'}
+[5.061968] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg\n'}
+[5.063648] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/rosidl_generator_c__visibility_control.h\n'}
+[5.065637] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/gps_fix.h\n'}
+[5.067312] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/detail\n'}
+[5.068476] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/detail/gps_fix__functions.h\n'}
+[5.069233] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/detail/imu_orientation__type_support.h\n'}
+[5.069954] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/detail/proximity__functions.h\n'}
+[5.070622] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/detail/waypoint_list__struct.h\n'}
+[5.071240] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/detail/nav_goal__type_support.h\n'}
+[5.071849] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/detail/proximity__functions.c\n'}
+[5.072501] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/detail/waypoint_list__functions.c\n'}
+[5.073291] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/detail/imu_orientation__functions.h\n'}
+[5.074125] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/detail/imu_orientation__struct.h\n'}
+[5.074990] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/detail/waypoint_list__functions.h\n'}
+[5.075999] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/detail/gps_fix__functions.c\n'}
+[5.077649] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/detail/gps_fix__type_support.h\n'}
+[5.078578] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/detail/nav_goal__functions.h\n'}
+[5.079234] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/detail/nav_goal__struct.h\n'}
+[5.079925] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/detail/waypoint_list__type_support.h\n'}
+[5.080802] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/detail/imu_orientation__functions.c\n'}
+[5.081680] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/detail/proximity__type_support.h\n'}
+[5.082729] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/detail/proximity__struct.h\n'}
+[5.083704] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/detail/gps_fix__struct.h\n'}
+[5.085441] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/detail/nav_goal__functions.c\n'}
+[5.086432] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/imu_orientation.h\n'}
+[5.087225] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/nav_goal.h\n'}
+[5.087991] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/proximity.h\n'}
+[5.088735] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/waypoint_list.h\n'}
+[5.089866] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/share/rover_project/environment/library_path.sh\n'}
+[5.090784] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/share/rover_project/environment/library_path.dsv\n'}
+[5.091708] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/lib/librover_project__rosidl_generator_c.so\n'}
+[5.092621] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project\n'}
+[5.093834] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg\n'}
+[5.095717] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/detail\n'}
+[5.097682] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/detail/imu_orientation__rosidl_typesupport_fastrtps_c.h\n'}
+[5.099581] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/detail/nav_goal__rosidl_typesupport_fastrtps_c.h\n'}
+[5.100518] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/detail/waypoint_list__rosidl_typesupport_fastrtps_c.h\n'}
+[5.101277] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/detail/proximity__rosidl_typesupport_fastrtps_c.h\n'}
+[5.102137] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/detail/gps_fix__rosidl_typesupport_fastrtps_c.h\n'}
+[5.102891] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/rosidl_typesupport_fastrtps_c__visibility_control.h\n'}
+[5.103919] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/lib/librover_project__rosidl_typesupport_fastrtps_c.so\n'}
+[5.105062] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project\n'}
+[5.106669] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg\n'}
+[5.107893] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/rosidl_typesupport_introspection_c__visibility_control.h\n'}
+[5.108732] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/detail\n'}
+[5.109513] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/detail/imu_orientation__rosidl_typesupport_introspection_c.h\n'}
+[5.110453] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/detail/gps_fix__rosidl_typesupport_introspection_c.h\n'}
+[5.111479] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/detail/nav_goal__type_support.c\n'}
+[5.112369] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/detail/waypoint_list__rosidl_typesupport_introspection_c.h\n'}
+[5.113554] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/detail/gps_fix__type_support.c\n'}
+[5.114663] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/detail/waypoint_list__type_support.c\n'}
+[5.115772] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/detail/nav_goal__rosidl_typesupport_introspection_c.h\n'}
+[5.117328] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/detail/proximity__rosidl_typesupport_introspection_c.h\n'}
+[5.119076] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/detail/proximity__type_support.c\n'}
+[5.120161] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/detail/imu_orientation__type_support.c\n'}
+[5.121259] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/lib/librover_project__rosidl_typesupport_introspection_c.so\n'}
+[5.122975] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/lib/librover_project__rosidl_typesupport_c.so\n'}
+[5.124347] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project\n'}
+[5.125210] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg\n'}
+[5.126161] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/rosidl_generator_cpp__visibility_control.hpp\n'}
+[5.127031] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/proximity.hpp\n'}
+[5.127815] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/detail\n'}
+[5.128778] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/detail/proximity__type_support.hpp\n'}
+[5.129836] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/detail/waypoint_list__type_support.hpp\n'}
+[5.130837] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/detail/gps_fix__type_support.hpp\n'}
+[5.131670] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/detail/nav_goal__type_support.hpp\n'}
+[5.132513] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/detail/imu_orientation__type_support.hpp\n'}
+[5.133362] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/detail/nav_goal__struct.hpp\n'}
+[5.134278] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/detail/waypoint_list__traits.hpp\n'}
+[5.135102] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/detail/proximity__builder.hpp\n'}
+[5.135891] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/detail/imu_orientation__builder.hpp\n'}
+[5.136740] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/detail/proximity__traits.hpp\n'}
+[5.137661] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/detail/waypoint_list__struct.hpp\n'}
+[5.138609] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/detail/imu_orientation__struct.hpp\n'}
+[5.139469] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/detail/nav_goal__builder.hpp\n'}
+[5.140241] (-) TimerEvent: {}
+[5.140947] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/detail/waypoint_list__builder.hpp\n'}
+[5.142030] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/detail/gps_fix__traits.hpp\n'}
+[5.142938] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/detail/proximity__struct.hpp\n'}
+[5.143807] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/detail/imu_orientation__traits.hpp\n'}
+[5.144611] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/detail/gps_fix__struct.hpp\n'}
+[5.145450] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/detail/nav_goal__traits.hpp\n'}
+[5.146534] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/detail/gps_fix__builder.hpp\n'}
+[5.147638] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/waypoint_list.hpp\n'}
+[5.149467] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/imu_orientation.hpp\n'}
+[5.150452] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/nav_goal.hpp\n'}
+[5.151378] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/gps_fix.hpp\n'}
+[5.152216] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project\n'}
+[5.153055] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg\n'}
+[5.153901] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/rosidl_typesupport_fastrtps_cpp__visibility_control.h\n'}
+[5.154701] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/detail\n'}
+[5.155539] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/detail/nav_goal__rosidl_typesupport_fastrtps_cpp.hpp\n'}
+[5.156400] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/detail/imu_orientation__rosidl_typesupport_fastrtps_cpp.hpp\n'}
+[5.157215] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/detail/waypoint_list__rosidl_typesupport_fastrtps_cpp.hpp\n'}
+[5.158161] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/detail/proximity__rosidl_typesupport_fastrtps_cpp.hpp\n'}
+[5.159065] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/detail/gps_fix__rosidl_typesupport_fastrtps_cpp.hpp\n'}
+[5.160087] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/detail/dds_fastrtps\n'}
+[5.160937] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/lib/librover_project__rosidl_typesupport_fastrtps_cpp.so\n'}
+[5.161797] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project\n'}
+[5.162656] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg\n'}
+[5.163496] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/detail\n'}
+[5.164314] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/detail/proximity__type_support.cpp\n'}
+[5.165132] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/detail/nav_goal__rosidl_typesupport_introspection_cpp.hpp\n'}
+[5.166055] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/detail/nav_goal__type_support.cpp\n'}
+[5.166964] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/detail/gps_fix__type_support.cpp\n'}
+[5.167796] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/detail/proximity__rosidl_typesupport_introspection_cpp.hpp\n'}
+[5.168787] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/detail/gps_fix__rosidl_typesupport_introspection_cpp.hpp\n'}
+[5.169789] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/detail/imu_orientation__type_support.cpp\n'}
+[5.170848] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/detail/imu_orientation__rosidl_typesupport_introspection_cpp.hpp\n'}
+[5.171806] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/detail/waypoint_list__rosidl_typesupport_introspection_cpp.hpp\n'}
+[5.172854] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/include/rover_project/rover_project/msg/detail/waypoint_list__type_support.cpp\n'}
+[5.173680] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/lib/librover_project__rosidl_typesupport_introspection_cpp.so\n'}
+[5.174676] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/lib/librover_project__rosidl_typesupport_cpp.so\n'}
+[5.175657] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/share/rover_project/environment/pythonpath.sh\n'}
+[5.177717] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/share/rover_project/environment/pythonpath.dsv\n'}
+[5.178716] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/local/lib/python3.10/dist-packages/rover_project-0.0.0-py3.10.egg-info\n'}
+[5.179568] (rover_project) StdoutLine: {'line': b'-- Installing: /home/marina/Senior-Design/NavQPlus/install/rover_project/local/lib/python3.10/dist-packages/rover_project-0.0.0-py3.10.egg-info/PKG-INFO\n'}
+[5.180368] (rover_project) StdoutLine: {'line': b'-- Installing: /home/marina/Senior-Design/NavQPlus/install/rover_project/local/lib/python3.10/dist-packages/rover_project-0.0.0-py3.10.egg-info/SOURCES.txt\n'}
+[5.181193] (rover_project) StdoutLine: {'line': b'-- Installing: /home/marina/Senior-Design/NavQPlus/install/rover_project/local/lib/python3.10/dist-packages/rover_project-0.0.0-py3.10.egg-info/dependency_links.txt\n'}
+[5.182124] (rover_project) StdoutLine: {'line': b'-- Installing: /home/marina/Senior-Design/NavQPlus/install/rover_project/local/lib/python3.10/dist-packages/rover_project-0.0.0-py3.10.egg-info/top_level.txt\n'}
+[5.183020] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/local/lib/python3.10/dist-packages/rover_project\n'}
+[5.183837] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/local/lib/python3.10/dist-packages/rover_project/rover_project_s__rosidl_typesupport_introspection_c.cpython-310-aarch64-linux-gnu.so\n'}
+[5.184730] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/local/lib/python3.10/dist-packages/rover_project/_rover_project_s.ep.rosidl_typesupport_fastrtps_c.c\n'}
+[5.185719] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/local/lib/python3.10/dist-packages/rover_project/__init__.py\n'}
+[5.186692] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/local/lib/python3.10/dist-packages/rover_project/_rover_project_s.ep.rosidl_typesupport_introspection_c.c\n'}
+[5.187518] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/local/lib/python3.10/dist-packages/rover_project/msg\n'}
+[5.188332] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/local/lib/python3.10/dist-packages/rover_project/msg/_proximity.py\n'}
+[5.189107] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/local/lib/python3.10/dist-packages/rover_project/msg/_nav_goal.py\n'}
+[5.190011] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/local/lib/python3.10/dist-packages/rover_project/msg/_gps_fix_s.c\n'}
+[5.190859] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/local/lib/python3.10/dist-packages/rover_project/msg/_imu_orientation.py\n'}
+[5.191688] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/local/lib/python3.10/dist-packages/rover_project/msg/__init__.py\n'}
+[5.192499] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/local/lib/python3.10/dist-packages/rover_project/msg/_imu_orientation_s.c\n'}
+[5.193330] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/local/lib/python3.10/dist-packages/rover_project/msg/_waypoint_list_s.c\n'}
+[5.194217] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/local/lib/python3.10/dist-packages/rover_project/msg/_waypoint_list.py\n'}
+[5.195500] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/local/lib/python3.10/dist-packages/rover_project/msg/_gps_fix.py\n'}
+[5.196659] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/local/lib/python3.10/dist-packages/rover_project/msg/_proximity_s.c\n'}
+[5.197790] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/local/lib/python3.10/dist-packages/rover_project/msg/_nav_goal_s.c\n'}
+[5.198749] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/local/lib/python3.10/dist-packages/rover_project/_rover_project_s.ep.rosidl_typesupport_c.c\n'}
+[5.199603] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/local/lib/python3.10/dist-packages/rover_project/rover_project_s__rosidl_typesupport_c.cpython-310-aarch64-linux-gnu.so\n'}
+[5.200458] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/local/lib/python3.10/dist-packages/rover_project/librover_project__rosidl_generator_py.so\n'}
+[5.201397] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/local/lib/python3.10/dist-packages/rover_project/rover_project_s__rosidl_typesupport_fastrtps_c.cpython-310-aarch64-linux-gnu.so\n'}
+[5.240479] (-) TimerEvent: {}
+[5.341482] (-) TimerEvent: {}
+[5.365776] (rover_project) StdoutLine: {'line': b"Listing '/home/marina/Senior-Design/NavQPlus/install/rover_project/local/lib/python3.10/dist-packages/rover_project'...\n"}
+[5.366941] (rover_project) StdoutLine: {'line': b"Listing '/home/marina/Senior-Design/NavQPlus/install/rover_project/local/lib/python3.10/dist-packages/rover_project/msg'...\n"}
+[5.419472] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/local/lib/python3.10/dist-packages/rover_project/rover_project_s__rosidl_typesupport_fastrtps_c.cpython-310-aarch64-linux-gnu.so\n'}
+[5.422865] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/local/lib/python3.10/dist-packages/rover_project/rover_project_s__rosidl_typesupport_introspection_c.cpython-310-aarch64-linux-gnu.so\n'}
+[5.426994] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/local/lib/python3.10/dist-packages/rover_project/rover_project_s__rosidl_typesupport_c.cpython-310-aarch64-linux-gnu.so\n'}
+[5.431289] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/lib/librover_project__rosidl_generator_py.so\n'}
+[5.432453] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/share/rover_project/msg/Proximity.idl\n'}
+[5.433859] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/share/rover_project/msg/GpsFix.idl\n'}
+[5.435313] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/share/rover_project/msg/ImuOrientation.idl\n'}
+[5.437062] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/share/rover_project/msg/NavGoal.idl\n'}
+[5.438066] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/share/rover_project/msg/WaypointList.idl\n'}
+[5.439642] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/share/rover_project/msg/Proximity.msg\n'}
+[5.440902] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/share/rover_project/msg/GpsFix.msg\n'}
+[5.442460] (-) TimerEvent: {}
+[5.444708] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/share/rover_project/msg/ImuOrientation.msg\n'}
+[5.445850] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/share/rover_project/msg/NavGoal.msg\n'}
+[5.446938] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/share/rover_project/msg/WaypointList.msg\n'}
+[5.447727] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/lib/rover_project/can_bridge_node.py\n'}
+[5.448407] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/lib/rover_project/uart_node.py\n'}
+[5.449374] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/lib/rover_project/autonomous_drive_node.py\n'}
+[5.451260] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/lib/rover_project/bluetooth_node.py\n'}
+[5.452153] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/lib/rover_project/path_planner_node.py\n'}
+[5.453938] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/lib/rover_project/waypoint_follower_node.py\n'}
+[5.454824] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/lib/rover_project/send_goal.py\n'}
+[5.455624] (rover_project) StdoutLine: {'line': b'-- Installing: /home/marina/Senior-Design/NavQPlus/install/rover_project/lib/rover_project/audio_IO.py\n'}
+[5.456816] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/share/rover_project/launch\n'}
+[5.457937] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/share/rover_project/launch/rover_launch.py\n'}
+[5.458698] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/share/rover_project/rover.dbc\n'}
+[5.459315] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/share/rover_project/maps\n'}
+[5.460082] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/share/rover_project/maps/UCR_Centerlines.shp\n'}
+[5.460939] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/share/rover_project/maps/UCR_Centerlines.dbf\n'}
+[5.461845] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/share/rover_project/maps/UCR_Centerlines.shx\n'}
+[5.463132] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/share/rover_project/maps/UCR_Centerlines.prj\n'}
+[5.463967] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/share/rover_project/package.xml\n'}
+[5.464741] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/share/ament_index/resource_index/package_run_dependencies/rover_project\n'}
+[5.465840] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/share/ament_index/resource_index/parent_prefix_path/rover_project\n'}
+[5.466671] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/share/rover_project/environment/ament_prefix_path.sh\n'}
+[5.467619] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/share/rover_project/environment/ament_prefix_path.dsv\n'}
+[5.468656] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/share/rover_project/environment/path.sh\n'}
+[5.469335] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/share/rover_project/environment/path.dsv\n'}
+[5.470146] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/share/rover_project/local_setup.bash\n'}
+[5.470953] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/share/rover_project/local_setup.sh\n'}
+[5.472121] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/share/rover_project/local_setup.zsh\n'}
+[5.473007] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/share/rover_project/local_setup.dsv\n'}
+[5.473785] (rover_project) StdoutLine: {'line': b'-- Installing: /home/marina/Senior-Design/NavQPlus/install/rover_project/share/rover_project/package.dsv\n'}
+[5.474602] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/share/ament_index/resource_index/packages/rover_project\n'}
+[5.475833] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/share/rover_project/cmake/export_rover_project__rosidl_generator_cExport.cmake\n'}
+[5.476619] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/share/rover_project/cmake/export_rover_project__rosidl_generator_cExport-noconfig.cmake\n'}
+[5.477411] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/share/rover_project/cmake/export_rover_project__rosidl_typesupport_fastrtps_cExport.cmake\n'}
+[5.478946] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/share/rover_project/cmake/export_rover_project__rosidl_typesupport_fastrtps_cExport-noconfig.cmake\n'}
+[5.480435] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/share/rover_project/cmake/rover_project__rosidl_typesupport_introspection_cExport.cmake\n'}
+[5.481571] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/share/rover_project/cmake/rover_project__rosidl_typesupport_introspection_cExport-noconfig.cmake\n'}
+[5.482639] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/share/rover_project/cmake/rover_project__rosidl_typesupport_cExport.cmake\n'}
+[5.484029] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/share/rover_project/cmake/rover_project__rosidl_typesupport_cExport-noconfig.cmake\n'}
+[5.485099] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/share/rover_project/cmake/export_rover_project__rosidl_generator_cppExport.cmake\n'}
+[5.486175] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/share/rover_project/cmake/export_rover_project__rosidl_typesupport_fastrtps_cppExport.cmake\n'}
+[5.487259] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/share/rover_project/cmake/export_rover_project__rosidl_typesupport_fastrtps_cppExport-noconfig.cmake\n'}
+[5.488087] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/share/rover_project/cmake/rover_project__rosidl_typesupport_introspection_cppExport.cmake\n'}
+[5.488833] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/share/rover_project/cmake/rover_project__rosidl_typesupport_introspection_cppExport-noconfig.cmake\n'}
+[5.489597] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/share/rover_project/cmake/rover_project__rosidl_typesupport_cppExport.cmake\n'}
+[5.490479] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/share/rover_project/cmake/rover_project__rosidl_typesupport_cppExport-noconfig.cmake\n'}
+[5.491319] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/share/rover_project/cmake/export_rover_project__rosidl_generator_pyExport.cmake\n'}
+[5.492181] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/share/rover_project/cmake/export_rover_project__rosidl_generator_pyExport-noconfig.cmake\n'}
+[5.494264] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/share/rover_project/cmake/rosidl_cmake-extras.cmake\n'}
+[5.496957] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/share/rover_project/cmake/ament_cmake_export_include_directories-extras.cmake\n'}
+[5.499115] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/share/rover_project/cmake/ament_cmake_export_libraries-extras.cmake\n'}
+[5.500105] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/share/rover_project/cmake/ament_cmake_export_targets-extras.cmake\n'}
+[5.501068] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/share/rover_project/cmake/rosidl_cmake_export_typesupport_targets-extras.cmake\n'}
+[5.502387] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/share/rover_project/cmake/ament_cmake_export_dependencies-extras.cmake\n'}
+[5.503151] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/share/rover_project/cmake/rosidl_cmake_export_typesupport_libraries-extras.cmake\n'}
+[5.504012] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/share/rover_project/cmake/rover_projectConfig.cmake\n'}
+[5.505375] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/share/rover_project/cmake/rover_projectConfig-version.cmake\n'}
+[5.506300] (rover_project) StdoutLine: {'line': b'-- Up-to-date: /home/marina/Senior-Design/NavQPlus/install/rover_project/share/rover_project/package.xml\n'}
+[5.507250] (rover_project) CommandEnded: {'returncode': 0}
+[5.542806] (-) TimerEvent: {}
+[5.643903] (-) TimerEvent: {}
+[5.716536] (rover_project) JobEnded: {'identifier': 'rover_project', 'rc': 0}
+[5.721046] (-) EventReactorShutdown: {}

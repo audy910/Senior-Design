@@ -1,0 +1,36 @@
+[8.613s] Invoking command in '/home/marina/Senior-Design/NavQPlus/ros2_ws/src/yolo_npu_ros': PYTHONPATH=/home/marina/Senior-Design/NavQPlus/build/yolo_npu_ros/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/marina/Senior-Design/NavQPlus/install/yolo_npu_ros/lib/python3.10/site-packages: /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../../build/yolo_npu_ros build --build-base /home/marina/Senior-Design/NavQPlus/build/yolo_npu_ros/build install --record /home/marina/Senior-Design/NavQPlus/build/yolo_npu_ros/install.log --single-version-externally-managed install_data
+[11.241s] running egg_info
+[11.457s] creating ../../../build/yolo_npu_ros/yolo_npu_ros.egg-info
+[11.473s] writing ../../../build/yolo_npu_ros/yolo_npu_ros.egg-info/PKG-INFO
+[11.475s] writing dependency_links to ../../../build/yolo_npu_ros/yolo_npu_ros.egg-info/dependency_links.txt
+[11.484s] writing entry points to ../../../build/yolo_npu_ros/yolo_npu_ros.egg-info/entry_points.txt
+[11.485s] writing requirements to ../../../build/yolo_npu_ros/yolo_npu_ros.egg-info/requires.txt
+[11.486s] writing top-level names to ../../../build/yolo_npu_ros/yolo_npu_ros.egg-info/top_level.txt
+[13.040s] writing manifest file '../../../build/yolo_npu_ros/yolo_npu_ros.egg-info/SOURCES.txt'
+[13.305s] reading manifest file '../../../build/yolo_npu_ros/yolo_npu_ros.egg-info/SOURCES.txt'
+[13.319s] writing manifest file '../../../build/yolo_npu_ros/yolo_npu_ros.egg-info/SOURCES.txt'
+[13.322s] running build
+[13.330s] running build_py
+[13.332s] creating /home/marina/Senior-Design/NavQPlus/build/yolo_npu_ros/build/lib/yolo_npu_ros
+[13.335s] copying yolo_npu_ros/__init__.py -> /home/marina/Senior-Design/NavQPlus/build/yolo_npu_ros/build/lib/yolo_npu_ros
+[13.335s] copying yolo_npu_ros/yolo_npu_node.py -> /home/marina/Senior-Design/NavQPlus/build/yolo_npu_ros/build/lib/yolo_npu_ros
+[13.337s] copying yolo_npu_ros/fast_scnn_node.py -> /home/marina/Senior-Design/NavQPlus/build/yolo_npu_ros/build/lib/yolo_npu_ros
+[13.338s] running install
+[13.374s] running install_lib
+[13.509s] creating /home/marina/Senior-Design/NavQPlus/install/yolo_npu_ros/lib/python3.10/site-packages/yolo_npu_ros
+[13.511s] copying /home/marina/Senior-Design/NavQPlus/build/yolo_npu_ros/build/lib/yolo_npu_ros/__init__.py -> /home/marina/Senior-Design/NavQPlus/install/yolo_npu_ros/lib/python3.10/site-packages/yolo_npu_ros
+[13.512s] copying /home/marina/Senior-Design/NavQPlus/build/yolo_npu_ros/build/lib/yolo_npu_ros/yolo_npu_node.py -> /home/marina/Senior-Design/NavQPlus/install/yolo_npu_ros/lib/python3.10/site-packages/yolo_npu_ros
+[13.524s] copying /home/marina/Senior-Design/NavQPlus/build/yolo_npu_ros/build/lib/yolo_npu_ros/fast_scnn_node.py -> /home/marina/Senior-Design/NavQPlus/install/yolo_npu_ros/lib/python3.10/site-packages/yolo_npu_ros
+[13.524s] byte-compiling /home/marina/Senior-Design/NavQPlus/install/yolo_npu_ros/lib/python3.10/site-packages/yolo_npu_ros/__init__.py to __init__.cpython-310.pyc
+[13.527s] byte-compiling /home/marina/Senior-Design/NavQPlus/install/yolo_npu_ros/lib/python3.10/site-packages/yolo_npu_ros/yolo_npu_node.py to yolo_npu_node.cpython-310.pyc
+[13.534s] byte-compiling /home/marina/Senior-Design/NavQPlus/install/yolo_npu_ros/lib/python3.10/site-packages/yolo_npu_ros/fast_scnn_node.py to fast_scnn_node.cpython-310.pyc
+[13.538s] running install_data
+[13.539s] creating /home/marina/Senior-Design/NavQPlus/install/yolo_npu_ros/share/ament_index/resource_index/packages
+[13.540s] copying resource/yolo_npu_ros -> /home/marina/Senior-Design/NavQPlus/install/yolo_npu_ros/share/ament_index/resource_index/packages
+[13.540s] copying package.xml -> /home/marina/Senior-Design/NavQPlus/install/yolo_npu_ros/share/yolo_npu_ros
+[13.541s] running install_egg_info
+[13.670s] Copying ../../../build/yolo_npu_ros/yolo_npu_ros.egg-info to /home/marina/Senior-Design/NavQPlus/install/yolo_npu_ros/lib/python3.10/site-packages/yolo_npu_ros-0.0.0-py3.10.egg-info
+[13.678s] running install_scripts
+[13.976s] Installing fast_scnn_node script to /home/marina/Senior-Design/NavQPlus/install/yolo_npu_ros/lib/yolo_npu_ros
+[13.981s] writing list of installed files to '/home/marina/Senior-Design/NavQPlus/build/yolo_npu_ros/install.log'
+[14.377s] Invoked command in '/home/marina/Senior-Design/NavQPlus/ros2_ws/src/yolo_npu_ros' returned '0': PYTHONPATH=/home/marina/Senior-Design/NavQPlus/build/yolo_npu_ros/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/marina/Senior-Design/NavQPlus/install/yolo_npu_ros/lib/python3.10/site-packages: /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../../build/yolo_npu_ros build --build-base /home/marina/Senior-Design/NavQPlus/build/yolo_npu_ros/build install --record /home/marina/Senior-Design/NavQPlus/build/yolo_npu_ros/install.log --single-version-externally-managed install_data
