@@ -387,7 +387,11 @@ void gnss_uart_task(void *arg)
     
     while (1) {
         int len = uart_read_bytes(GNSS_UART, rx_buf, sizeof(rx_buf), pdMS_TO_TICKS(100));
-        
+
+        if (len > 0) {
+            rx_buf[len] = '\0'; // Null terminate to print safely
+            printf("%s", rx_buf); // Print everything the GPS says!
+        }
         for (int i = 0; i < len; i++) {
             bool parsed = false;
             
@@ -413,6 +417,7 @@ void gnss_uart_task(void *arg)
                              lat, lon, nav_pvt.fixType, nav_pvt.numSV, status.horiz_acc_m);
                 }
             }
+            
         }
     }
 }

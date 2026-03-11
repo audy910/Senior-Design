@@ -3,6 +3,7 @@
 static const char *TAG = "ULTRASONIC";
 #define SPEED_OF_SOUND_CM_US 0.0346f // Speed at ~25°C (346 m/s)
 #define ULTRASONIC_SAMPLES 3         // Number of samples to average
+#define CLIFF_THRESHOLD 10             // ADC value below which we consider it a cliff (tuned experimentally)
 void configure_ultrasonic_pins(int trig_pin, int echo_pin)
 {
     gpio_config_t trig_conf = {
