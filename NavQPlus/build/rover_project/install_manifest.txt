@@ -140,6 +140,7 @@
 /home/marina/Senior-Design/NavQPlus/install/rover_project/lib/rover_project/waypoint_follower_node.py
 /home/marina/Senior-Design/NavQPlus/install/rover_project/lib/rover_project/send_goal.py
 /home/marina/Senior-Design/NavQPlus/install/rover_project/lib/rover_project/audio_input_node.py
+/home/marina/Senior-Design/NavQPlus/install/rover_project/lib/rover_project/audio_output_node.py
 /home/marina/Senior-Design/NavQPlus/install/rover_project/lib/rover_project/fast_scnn_node.py
 /home/marina/Senior-Design/NavQPlus/install/rover_project/share/rover_project/launch/rover_launch.py
 /home/marina/Senior-Design/NavQPlus/install/rover_project/share/rover_project/rover.dbc
