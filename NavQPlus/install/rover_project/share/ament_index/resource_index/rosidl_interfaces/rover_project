@@ -1,0 +1,10 @@
+msg/GpsFix.idl
+msg/GpsFix.msg
+msg/ImuOrientation.idl
+msg/ImuOrientation.msg
+msg/NavGoal.idl
+msg/NavGoal.msg
+msg/Proximity.idl
+msg/Proximity.msg
+msg/WaypointList.idl
+msg/WaypointList.msg

@@ -35,6 +35,20 @@ def generate_launch_description():
             name='uart_processor',
             output='screen',
         ),
+
+         # Audio Node ()
+        Node(
+            package='rover_project',
+            executable='audio_input_node.py',
+            name='audio_input',
+            output='screen',
+        ),
+        Node(
+            package='rover_project',
+            executable='audio_output_node.py',
+            name='audio_output',
+            output='screen',
+        ),
         # Fast-SCNN (camera → segmentation + error)
         Node(
             package='rover_project',
@@ -43,7 +57,6 @@ def generate_launch_description():
             output='screen',
             emulate_tty=True,
         ),
-
 
         # Path Planner (centerlines → waypoints)
         Node(

@@ -1,0 +1,10 @@
+{
+  "package_name": "rover_project",
+  "non_idl_tuples": [
+    "/home/marina/Senior-Design/NavQPlus/ros2_ws/rover_project:msg/Proximity.msg",
+    "/home/marina/Senior-Design/NavQPlus/ros2_ws/rover_project:msg/GpsFix.msg",
+    "/home/marina/Senior-Design/NavQPlus/ros2_ws/rover_project:msg/ImuOrientation.msg",
+    "/home/marina/Senior-Design/NavQPlus/ros2_ws/rover_project:msg/NavGoal.msg",
+    "/home/marina/Senior-Design/NavQPlus/ros2_ws/rover_project:msg/WaypointList.msg"
+  ]
+}

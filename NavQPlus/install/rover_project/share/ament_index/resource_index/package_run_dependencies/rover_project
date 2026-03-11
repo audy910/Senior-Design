@@ -1,0 +1,1 @@
+rclpy;std_msgs;foxglove_msgs;ament_index_python;python3-can;python3-cantools;python3-serial;rosidl_default_runtime;ament_copyright;ament_flake8;ament_pep257;python3-pytest

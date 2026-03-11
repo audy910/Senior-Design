@@ -95,6 +95,14 @@ void setMotorB(int16_t speed) { // Left Motor
 // MOVEMENT HELPERS
 // =======================
 
+void delay_ms(uint16_t ms) {
+    for (uint16_t i = 0; i < ms; i++) {
+        for (uint16_t j = 0; j < 1600; j++) {
+            asm volatile("nop");
+        }
+    }
+}
+
 void stop_all() {
     setMotorA(0);
     setMotorB(0);
@@ -114,6 +122,39 @@ void reverse() {
 void turn_straight() { set_servo_steering(SERVO_CENTER); set_servo_ultrasonic(SERVO_CENTER); }
 void turn_right()    { set_servo_steering(SERVO_RIGHT); set_servo_ultrasonic(SERVO_LEFT); }
 void turn_left()     { set_servo_steering(SERVO_LEFT); set_servo_ultrasonic(SERVO_RIGHT); }
+
+void test_all_commands() {
+
+    while (1) {
+
+        process_command(CMD_FORWARD_STRAIGHT);
+        delay_ms(2000);
+
+        process_command(CMD_FORWARD_RIGHT);
+        delay_ms(2000);
+
+        process_command(CMD_FORWARD_LEFT);
+        delay_ms(2000);
+
+        process_command(CMD_REVERSE_STRAIGHT);
+        delay_ms(2000);
+
+        process_command(CMD_REVERSE_RIGHT);
+        delay_ms(2000);
+
+        process_command(CMD_REVERSE_LEFT);
+        delay_ms(2000);
+
+        process_command(CMD_LEFT);
+        delay_ms(2000);
+
+        process_command(CMD_RIGHT);
+        delay_ms(2000);
+
+        process_command(CMD_STOP);
+        delay_ms(3000);
+    }
+}
 
 // =======================
 // COMMAND PROCESSOR

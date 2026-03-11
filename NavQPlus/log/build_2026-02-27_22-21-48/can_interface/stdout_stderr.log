@@ -1,0 +1,34 @@
+running egg_info
+creating ../../../../build/can_interface/can_interface.egg-info
+writing ../../../../build/can_interface/can_interface.egg-info/PKG-INFO
+writing dependency_links to ../../../../build/can_interface/can_interface.egg-info/dependency_links.txt
+writing entry points to ../../../../build/can_interface/can_interface.egg-info/entry_points.txt
+writing requirements to ../../../../build/can_interface/can_interface.egg-info/requires.txt
+writing top-level names to ../../../../build/can_interface/can_interface.egg-info/top_level.txt
+writing manifest file '../../../../build/can_interface/can_interface.egg-info/SOURCES.txt'
+reading manifest file '../../../../build/can_interface/can_interface.egg-info/SOURCES.txt'
+writing manifest file '../../../../build/can_interface/can_interface.egg-info/SOURCES.txt'
+running build
+running build_py
+creating /home/marina/Senior-Design/NavQPlus/build/can_interface/build/lib/can_interface
+copying can_interface/can_bridge_node.py -> /home/marina/Senior-Design/NavQPlus/build/can_interface/build/lib/can_interface
+copying can_interface/__init__.py -> /home/marina/Senior-Design/NavQPlus/build/can_interface/build/lib/can_interface
+running install
+running install_lib
+creating /home/marina/Senior-Design/NavQPlus/install/can_interface/lib/python3.10/site-packages/can_interface
+copying /home/marina/Senior-Design/NavQPlus/build/can_interface/build/lib/can_interface/can_bridge_node.py -> /home/marina/Senior-Design/NavQPlus/install/can_interface/lib/python3.10/site-packages/can_interface
+copying /home/marina/Senior-Design/NavQPlus/build/can_interface/build/lib/can_interface/__init__.py -> /home/marina/Senior-Design/NavQPlus/install/can_interface/lib/python3.10/site-packages/can_interface
+byte-compiling /home/marina/Senior-Design/NavQPlus/install/can_interface/lib/python3.10/site-packages/can_interface/can_bridge_node.py to can_bridge_node.cpython-310.pyc
+byte-compiling /home/marina/Senior-Design/NavQPlus/install/can_interface/lib/python3.10/site-packages/can_interface/__init__.py to __init__.cpython-310.pyc
+running install_data
+creating /home/marina/Senior-Design/NavQPlus/install/can_interface/share/ament_index/resource_index/packages
+copying resource/can_interface -> /home/marina/Senior-Design/NavQPlus/install/can_interface/share/ament_index/resource_index/packages
+copying package.xml -> /home/marina/Senior-Design/NavQPlus/install/can_interface/share/can_interface
+creating /home/marina/Senior-Design/NavQPlus/install/can_interface/share/can_interface/launch
+copying launch/rover_launch.py -> /home/marina/Senior-Design/NavQPlus/install/can_interface/share/can_interface/launch
+copying can_interface/rover_optimized.dbc -> /home/marina/Senior-Design/NavQPlus/install/can_interface/share/can_interface
+running install_egg_info
+Copying ../../../../build/can_interface/can_interface.egg-info to /home/marina/Senior-Design/NavQPlus/install/can_interface/lib/python3.10/site-packages/can_interface-0.0.0-py3.10.egg-info
+running install_scripts
+Installing can_bridge_node script to /home/marina/Senior-Design/NavQPlus/install/can_interface/lib/can_interface
+writing list of installed files to '/home/marina/Senior-Design/NavQPlus/build/can_interface/install.log'
