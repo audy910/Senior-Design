@@ -7,8 +7,7 @@ import soundfile as sf
 import numpy as np
 import threading
 import os
-
-AUDIO_DIR = "/home/gage/Senior-Design/NavQPlus/ros2_ws/rover_project/audio_clips"
+from ament_index_python.packages import get_package_share_directory
 
 class AudioOutputNode(Node):
 
@@ -17,6 +16,9 @@ class AudioOutputNode(Node):
 
         # Set output device
         sd.default.device = None
+
+        pkg_share = get_package_share_directory('rover_project')
+        self.audio_dir = os.path.join(pkg_share, 'audio_clips')
 
         # Pre-load all clips into memory at startup
         self.clips = {}
@@ -33,10 +35,10 @@ class AudioOutputNode(Node):
 
     def load_clips(self):
         """Load all wav files from audio_clips dir into memory at startup."""
-        for fname in os.listdir(AUDIO_DIR):
+        for fname in os.listdir(self.audio_dir):
             if fname.endswith('.wav'):
                 cmd = fname.replace('.wav', '')
-                path = os.path.join(AUDIO_DIR, fname)
+                path = os.path.join(self.audio_dir, fname)
                 data, samplerate = sf.read(path, dtype='float32')
                 self.clips[cmd] = (data, samplerate)
                 self.get_logger().info(f"Loaded clip: {cmd}")

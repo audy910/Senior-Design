@@ -4,6 +4,17 @@ project(rover_project)
 find_package(ament_cmake REQUIRED)
 find_package(rosidl_default_generators REQUIRED)
 
+# Install pip-only Python dependencies at build time
+execute_process(
+  COMMAND pip3 install -r ${CMAKE_CURRENT_SOURCE_DIR}/requirements.txt
+  RESULT_VARIABLE PIP_RESULT
+  OUTPUT_QUIET
+)
+if(NOT PIP_RESULT EQUAL 0)
+  message(WARNING "pip3 install of requirements.txt failed (exit code ${PIP_RESULT}). "
+                  "Run: pip3 install -r requirements.txt manually.")
+endif()
+
 # 1. Generate Messages (existing + new)
 rosidl_generate_interfaces(${PROJECT_NAME}
   "msg/Proximity.msg"
@@ -45,12 +56,18 @@ install(FILES
   DESTINATION share/${PROJECT_NAME}
 )
 
-# 6. Install TFLite model
+# 6. Install TFLite model + Vosk model
 install(DIRECTORY models/
   DESTINATION share/${PROJECT_NAME}/models
   OPTIONAL
 )
 
-install(FILES package.xml DESTINATION share/${PROJECT_NAME})
+# 7. Install audio clips
+install(DIRECTORY audio_clips/
+  DESTINATION share/${PROJECT_NAME}/audio_clips
+  OPTIONAL
+)
+
+install(FILES package.xml requirements.txt DESTINATION share/${PROJECT_NAME})
 
 ament_package()

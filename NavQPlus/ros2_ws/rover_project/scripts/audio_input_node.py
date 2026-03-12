@@ -10,7 +10,8 @@ import json
 import numpy as np
 from scipy.signal import resample_poly
 import sys
-import os 
+import os
+from ament_index_python.packages import get_package_share_directory
 
 
 DEVICE_ID = 0
@@ -30,11 +31,11 @@ class AudioInputNode(Node):
             "left": "TURN_LEFT",
             "right": "TURN_RIGHT",
             "orbach": "ORBACH",
-            "hub" : "HUB",
+            "hub": "HUB",
             "borns": "BOURNS",
-            "winston": "WCH",
-            "rivera": "RIVERA"
-            "bell tower" "BELL TOWER"
+            "winston": "WINSTON_CHUNG",
+            "rivera": "RIVERA",
+            "bell": "BELL_TOWER",
         }
         
 
@@ -49,7 +50,8 @@ class AudioInputNode(Node):
         self.audio_queue = queue.Queue()
 
         try:
-            model = Model("/home/gage/Senior-Design/NavQPlus/ros2_ws/rover_project/models/vosk-model")
+            pkg_share = get_package_share_directory('rover_project')
+            model = Model(os.path.join(pkg_share, 'models', 'vosk-model'))
             self.rec = KaldiRecognizer(model, RATE, vocab_json)
         except Exception as e:
             self.get_logger().error(f"Model load failed: {e}")

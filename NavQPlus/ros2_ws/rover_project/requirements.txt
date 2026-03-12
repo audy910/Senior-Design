@@ -1,0 +1,12 @@
+# pip-only dependencies for rover_project
+# Installed automatically during colcon build via CMakeLists.txt
+
+# Speech recognition
+vosk
+
+# Audio I/O
+sounddevice
+SoundFile
+
+# TFLite inference (Fast-SCNN)
+tflite-runtime

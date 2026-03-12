@@ -15,7 +15,9 @@
   <!-- ROS2 Python dependencies -->
   <depend>rclpy</depend>
   <depend>std_msgs</depend>
+  <depend>sensor_msgs</depend>
   <depend>foxglove_msgs</depend>
+  <depend>cv_bridge</depend>
   <exec_depend>ament_index_python</exec_depend>
 
   <!-- CAN bus dependencies -->
@@ -25,6 +27,11 @@
 
   <!-- Serial communication dependencies -->
   <exec_depend>python3-serial</exec_depend>
+
+  <!-- Python scientific / vision dependencies (apt) -->
+  <exec_depend>python3-numpy</exec_depend>
+  <exec_depend>python3-scipy</exec_depend>
+  <exec_depend>python3-opencv</exec_depend>
 
   <!-- Message generation -->
   <build_depend>rosidl_default_generators</build_depend>

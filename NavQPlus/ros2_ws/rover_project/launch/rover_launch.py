@@ -117,7 +117,8 @@ def generate_launch_description():
             }]
         ),
 
-        # Auto-send default goal after 5s (gives path planner time to load shapefile)
+        # Goal sender — listens on /robot_commands and publishes nav/goal
+        # Delayed 5s to give path planner time to load shapefile
         TimerAction(
             period=5.0,
             actions=[
@@ -126,7 +127,6 @@ def generate_launch_description():
                     executable='send_goal.py',
                     name='goal_sender',
                     output='screen',
-                    arguments=['33.97400', '-117.32800'],
                 )
             ]
         ),

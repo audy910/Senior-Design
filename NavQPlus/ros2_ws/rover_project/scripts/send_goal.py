@@ -45,6 +45,11 @@ DESTINATIONS = {
         "name": "Bell Tower",
         "latitude": 33.9733,
         "longitude": -117.328,
+    },
+    "bourns": {
+        "name": "Bourns Hall",
+        "latitude": 33.9739,
+        "longitude": -117.3263,
     }
 }
 
@@ -63,7 +68,7 @@ class GoalSenderNode(Node):
 
         keys = ', '.join(DESTINATIONS.keys())
         self.get_logger().info(
-            f"GoalSender ready. Listening on /nav/destination. "
+            f"GoalSender ready. Listening on /robot_commands. "
             f"Valid destinations: {keys}"
         )
 
@@ -98,7 +103,8 @@ def main(args=None):
         pass
     finally:
         node.destroy_node()
-        rclpy.shutdown()
+        if rclpy.ok():
+            rclpy.shutdown()
 
 
 if __name__ == '__main__':
