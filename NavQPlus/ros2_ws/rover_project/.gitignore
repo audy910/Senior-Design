@@ -2,7 +2,6 @@ build/
 install/
 log/
 .vscode/
-test/
 resource/
 
 msg/__init__.py
