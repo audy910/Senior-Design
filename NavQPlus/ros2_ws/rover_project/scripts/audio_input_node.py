@@ -34,6 +34,7 @@ class AudioInputNode(Node):
             "borns": "BOURNS",
             "winston": "WCH",
             "rivera": "RIVERA"
+            "bell tower" "BELL TOWER"
         }
         
 
@@ -48,7 +49,7 @@ class AudioInputNode(Node):
         self.audio_queue = queue.Queue()
 
         try:
-            model = Model("/home/marina/Senior-Design/NavQPlus/ros2_ws/rover_project/models/vosk-model")
+            model = Model("/home/gage/Senior-Design/NavQPlus/ros2_ws/rover_project/models/vosk-model")
             self.rec = KaldiRecognizer(model, RATE, vocab_json)
         except Exception as e:
             self.get_logger().error(f"Model load failed: {e}")

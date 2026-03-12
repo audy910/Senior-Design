@@ -8,7 +8,7 @@ import numpy as np
 import threading
 import os
 
-AUDIO_DIR = "/home/marina/Senior-Design/NavQPlus/ros2_ws/rover_project/audio_clips"
+AUDIO_DIR = "/home/gage/Senior-Design/NavQPlus/ros2_ws/rover_project/audio_clips"
 
 class AudioOutputNode(Node):
 

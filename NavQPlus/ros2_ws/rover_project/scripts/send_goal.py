@@ -56,7 +56,7 @@ class GoalSenderNode(Node):
         self.pub = self.create_publisher(NavGoal, 'nav/goal', 10)
         self.sub = self.create_subscription(
             String,
-            'nav/destination',
+            'robot_commands',
             self.destination_callback,
             10,
         )
