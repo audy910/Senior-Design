@@ -21,7 +21,7 @@ for _mod in ("std_msgs", "std_msgs.msg", "rover_project", "rover_project.msg"):
     sys.modules.setdefault(_mod, types.ModuleType(_mod))
 
 _std_msg = sys.modules["std_msgs.msg"]
-for _cls in ("Int32", "Bool"):
+for _cls in ("Int32", "String", "Bool"):
     setattr(_std_msg, _cls, MagicMock)
 
 _rover_msg = sys.modules["rover_project.msg"]

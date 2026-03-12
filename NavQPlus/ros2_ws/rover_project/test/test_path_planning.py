@@ -1,6 +1,9 @@
 """
-Unit tests for StatePlaneConverter and RoadNetworkGraph from path_planner_node.py.
+Unit tests for RoadNetworkGraph from path_planner_node.py.
 These tests run without a live ROS2 context by mocking all ROS2 imports.
+
+Note: StatePlaneConverter was removed from path_planner_node.py; only
+      RoadNetworkGraph (GPS / Haversine-based) is tested here.
 """
 
 import sys
@@ -28,6 +31,13 @@ for _cls in ("GpsFix", "NavGoal", "WaypointList"):
 _fox_msg = sys.modules["foxglove_msgs.msg"]
 setattr(_fox_msg, "GeoJSON", MagicMock)
 
+# Mock ament_index_python so the module-level get_package_share_directory call succeeds
+_mock_ament = types.ModuleType("ament_index_python")
+_mock_ament_pkgs = types.ModuleType("ament_index_python.packages")
+_mock_ament_pkgs.get_package_share_directory = lambda pkg: "/tmp/mock_pkg_share"
+sys.modules.setdefault("ament_index_python", _mock_ament)
+sys.modules.setdefault("ament_index_python.packages", _mock_ament_pkgs)
+
 # Now import the classes under test
 import importlib.util, os
 _script = os.path.join(
@@ -38,73 +48,8 @@ _spec = importlib.util.spec_from_file_location("path_planner_node", _script)
 _mod = importlib.util.module_from_spec(_spec)
 _spec.loader.exec_module(_mod)
 
-StatePlaneConverter = _mod.StatePlaneConverter
 RoadNetworkGraph = _mod.RoadNetworkGraph
-
-
-# ===========================================================================
-# StatePlaneConverter Tests
-# ===========================================================================
-
-class TestStatePlaneConverterRoundTrip(unittest.TestCase):
-    """Verify that converting lat/lon -> state plane -> lat/lon is lossless."""
-
-    def setUp(self):
-        self.conv = StatePlaneConverter()
-
-    def _assert_roundtrip(self, lat, lon, tol_deg=1e-6):
-        e, n = self.conv.to_stateplane(lat, lon)
-        lat2, lon2 = self.conv.to_latlon(e, n)
-        self.assertAlmostEqual(lat, lat2, places=5,
-                               msg=f"Latitude round-trip error for ({lat},{lon})")
-        self.assertAlmostEqual(lon, lon2, places=5,
-                               msg=f"Longitude round-trip error for ({lat},{lon})")
-
-    def test_roundtrip_ucr_campus(self):
-        """UCR campus centre (approx. 33.9737 N, -117.3281 W)."""
-        self._assert_roundtrip(33.9737, -117.3281)
-
-    def test_roundtrip_southern_bound(self):
-        """Near southern boundary of CA Zone VI coverage."""
-        self._assert_roundtrip(32.5, -116.5)
-
-    def test_roundtrip_northern_bound(self):
-        """Near northern boundary of CA Zone VI coverage."""
-        self._assert_roundtrip(34.0, -117.8)
-
-    def test_roundtrip_multiple_points(self):
-        test_points = [
-            (33.0, -116.5),
-            (33.5, -117.0),
-            (34.2, -117.5),
-        ]
-        for lat, lon in test_points:
-            with self.subTest(lat=lat, lon=lon):
-                self._assert_roundtrip(lat, lon)
-
-
-class TestStatePlaneConverterKnownPoint(unittest.TestCase):
-    """Check that a known state-plane coordinate converts to the expected lat/lon."""
-
-    def test_known_coordinate_region(self):
-        """State-plane coordinate (6235000, 2300000) should fall inside CA Zone VI."""
-        conv = StatePlaneConverter()
-        lat, lon = conv.to_latlon(6235000, 2300000)
-        self.assertGreater(lat, 32.0)
-        self.assertLess(lat, 34.5)
-        self.assertGreater(lon, -118.0)
-        self.assertLess(lon, -116.0)
-
-
-class TestStatePlaneConverterValidation(unittest.TestCase):
-    """Boundary validation should raise ValueError for out-of-region outputs."""
-
-    def test_out_of_region_raises(self):
-        """Feeding extreme state-plane values should raise ValueError (lat/lon check)."""
-        conv = StatePlaneConverter()
-        # These absurdly large values will produce a lat/lon outside California
-        with self.assertRaises((ValueError, Exception)):
-            conv.to_latlon(0.0, 0.0)
+haversine_m = _mod.haversine_m
 
 
 # ===========================================================================
@@ -114,7 +59,7 @@ class TestStatePlaneConverterValidation(unittest.TestCase):
 class TestRoadNetworkGraphBasic(unittest.TestCase):
 
     def setUp(self):
-        self.g = RoadNetworkGraph(snap_tolerance_ft=2.0)
+        self.g = RoadNetworkGraph()  # default snap_decimals=6
 
     def test_empty_graph(self):
         self.assertEqual(len(self.g.node_coords), 0)
@@ -132,13 +77,16 @@ class TestRoadNetworkGraphBasic(unittest.TestCase):
         self.g.add_feature([(0.0, 0.0)])
         self.assertEqual(len(self.g.node_coords), 0)
 
-    def test_segment_weight_is_euclidean_distance(self):
-        self.g.add_feature([(0.0, 0.0), (3.0, 4.0)])  # 3-4-5 triangle → dist=5
+    def test_segment_weight_is_haversine_distance(self):
+        """Edge weight must be a positive Haversine distance in meters."""
+        self.g.add_feature([(0.0, 0.0), (3.0, 4.0)])
         key0 = self.g._snap_key(0.0, 0.0)
         neighbours = self.g.adj[key0]
         self.assertEqual(len(neighbours), 1)
         _, weight = neighbours[0]
-        self.assertAlmostEqual(weight, 5.0, places=5)
+        expected = haversine_m(0.0, 0.0, 4.0, 3.0)  # add_feature passes (lon, lat)
+        self.assertAlmostEqual(weight, expected, places=3)
+        self.assertGreater(weight, 0.0)
 
     def test_bidirectional_edges(self):
         """Every edge must appear in both directions."""
@@ -151,8 +99,10 @@ class TestRoadNetworkGraphBasic(unittest.TestCase):
         self.assertIn(k1, neighbours_of_k2)
 
     def test_duplicate_point_ignored(self):
-        """A feature whose snapped endpoints are identical should add no edge."""
-        self.g.add_feature([(0.0, 0.0), (0.5, 0.0)])  # snap_tol=2 → same bucket
+        """A feature whose snapped endpoints round to the same key should add no edge."""
+        # With snap_decimals=6, coordinates differing in the 7th decimal place
+        # round to the same 6-decimal key and are treated as identical nodes.
+        self.g.add_feature([(0.0, 0.0), (0.0000001, 0.0)])
         self.assertEqual(len(self.g.adj), 0)
 
     def test_stats_format(self):
@@ -165,7 +115,7 @@ class TestRoadNetworkGraphBasic(unittest.TestCase):
 class TestRoadNetworkGraphSnapToNearest(unittest.TestCase):
 
     def setUp(self):
-        self.g = RoadNetworkGraph(snap_tolerance_ft=2.0)
+        self.g = RoadNetworkGraph()  # default snap_decimals=6
         self.g.add_feature([(0.0, 0.0), (100.0, 0.0), (200.0, 0.0)])
 
     def test_snap_exact_node(self):
@@ -174,19 +124,24 @@ class TestRoadNetworkGraphSnapToNearest(unittest.TestCase):
         self.assertAlmostEqual(dist, 0.0, places=3)
 
     def test_snap_nearby_point(self):
-        """A point very close to (100,0) should snap to that node."""
-        key, dist = self.g.snap_to_nearest(101.0, 1.0)
+        """A point very close to (100, 0) should snap to that node."""
+        # Pass max_dist_m=inf since these are not real GPS coords — just
+        # verifying nearest-node selection independent of distance threshold.
+        key, dist = self.g.snap_to_nearest(101.0, 1.0, max_dist_m=float('inf'))
         self.assertIsNotNone(key)
         expected_key = self.g._snap_key(100.0, 0.0)
         self.assertEqual(key, expected_key)
 
     def test_snap_too_far_returns_none(self):
-        key, dist = self.g.snap_to_nearest(0.0, 0.0, max_dist_ft=0.001)
+        """A point far from all nodes beyond max_dist_m must return None."""
+        # Use a point not on any node and a very tight threshold (1 m).
+        # (50.0, 0.0) is not a graph node; Haversine to nearest node is >>1 m.
+        key, dist = self.g.snap_to_nearest(50.0, 0.0, max_dist_m=1.0)
         self.assertIsNone(key)
 
     def test_snap_selects_closest_of_multiple(self):
         """Should select the nearest of several nodes."""
-        key, _ = self.g.snap_to_nearest(190.0, 0.0)
+        key, _ = self.g.snap_to_nearest(190.0, 0.0, max_dist_m=float('inf'))
         expected = self.g._snap_key(200.0, 0.0)
         self.assertEqual(key, expected)
 
@@ -194,8 +149,8 @@ class TestRoadNetworkGraphSnapToNearest(unittest.TestCase):
 class TestRoadNetworkGraphDijkstra(unittest.TestCase):
 
     def _build_chain(self, n=5):
-        """Build a simple chain: 0-1-2-3-4, each segment 10 ft long."""
-        g = RoadNetworkGraph(snap_tolerance_ft=0.1)
+        """Build a simple chain: 0-1-2-3-4, each segment 10 degrees apart."""
+        g = RoadNetworkGraph(snap_decimals=6)
         points = [(i * 10.0, 0.0) for i in range(n)]
         g.add_feature(points)
         return g, points
@@ -221,7 +176,7 @@ class TestRoadNetworkGraphDijkstra(unittest.TestCase):
 
     def test_no_path_disconnected_graph(self):
         """Two disconnected segments → no path between them."""
-        g = RoadNetworkGraph(snap_tolerance_ft=0.1)
+        g = RoadNetworkGraph(snap_decimals=6)
         g.add_feature([(0.0, 0.0), (10.0, 0.0)])
         g.add_feature([(100.0, 0.0), (110.0, 0.0)])
         k_start = g._snap_key(0.0, 0.0)
@@ -232,13 +187,13 @@ class TestRoadNetworkGraphDijkstra(unittest.TestCase):
     def test_path_with_branch_takes_shorter_route(self):
         """
         Graph:
-          A --(10)-- B --(10)-- C
-                |               |
-               (50)            (50)
-                D -----(10)--- E
-        Shortest A->C is A-B-C (cost 20), not A-B-D-E-C (cost 120).
+          A --(short)-- B --(short)-- C
+                |                     |
+             (long)                (long)
+                D -----(short)---- E
+        Shortest A->C is A-B-C (2 hops), not A-B-D-E-C (4 hops).
         """
-        g = RoadNetworkGraph(snap_tolerance_ft=0.1)
+        g = RoadNetworkGraph(snap_decimals=6)
         A, B, C = (0.0, 0.0), (10.0, 0.0), (20.0, 0.0)
         D, E    = (10.0, 50.0), (20.0, 50.0)
         g.add_feature([A, B, C])
