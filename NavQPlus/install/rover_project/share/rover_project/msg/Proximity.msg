@@ -1,7 +1,0 @@
-uint16 proximity_front
-uint16 proximity_rear
-uint16 proximity_cliff
-bool cliff_detected
-bool front_valid
-bool rear_valid
-bool cliff_valid

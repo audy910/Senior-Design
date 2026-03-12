@@ -36,7 +36,7 @@ class AudioInputNode(Node):
             "borns": "BOURNS",
             "winston": "WCH",
             "rivera": "RIVERA",
-            "belltower": "BELLTOWER",
+            "bell": "BELLTOWER",
             "arrived" : "ARRIVED"
         }
         

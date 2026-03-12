@@ -1,2 +1,0 @@
-[console_scripts]
-fast_scnn_node = yolo_npu_ros.fast_scnn_node:main

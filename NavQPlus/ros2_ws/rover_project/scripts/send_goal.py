@@ -20,28 +20,29 @@ from rover_project.msg import NavGoal
 
 
 # UCR campus destination coordinates (WGS84)
+# Keys must be lowercase to match the .lower() lookup in destination_callback
 DESTINATIONS = {
-    "HUB": {
+    "hub": {
         "name": "The HUB (Student Services Building)",
         "latitude":  33.9743,
         "longitude": -117.328,
     },
-    "ORBACH": {
+    "orbach": {
         "name": "Orbach Science Library",
         "latitude":  33.9742,
         "longitude": -117.3245,
     },
-    "RIVERA": {
+    "rivera": {
         "name": "Tomás Rivera Library",
         "latitude":  33.9726,
         "longitude": -117.328,
     },
-    "WCH": {
+    "wch": {
         "name": "Winston Chung Hall",
         "latitude":  33.975,
         "longitude": -117.3257,
     },
-    "BELLTOWER": {
+    "belltower": {
         "name": "Bell Tower",
         "latitude": 33.9733,
         "longitude": -117.328,
@@ -76,10 +77,6 @@ class GoalSenderNode(Node):
         key = msg.data.strip().lower().replace(' ', '_')
 
         if key not in DESTINATIONS:
-            valid = ', '.join(DESTINATIONS.keys())
-            self.get_logger().warn(
-                f"Unknown destination '{msg.data}'. Valid options: {valid}"
-            )
             return
 
         dest = DESTINATIONS[key]

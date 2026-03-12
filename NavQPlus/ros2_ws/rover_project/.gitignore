@@ -6,3 +6,5 @@ resource/
 
 msg/__init__.py
 scripts/__init__.py
+test/__pycache__/
+.pytest_cache/

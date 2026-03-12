@@ -32,8 +32,8 @@ from unittest.mock import MagicMock
 # ─────────────────────────────────────────────────────────────────────────────
 _mock_rclpy      = types.ModuleType("rclpy")
 _mock_rclpy.node = types.ModuleType("rclpy.node")
-sys.modules.setdefault("rclpy",      _mock_rclpy)
-sys.modules.setdefault("rclpy.node", _mock_rclpy.node)
+sys.modules["rclpy"]      = _mock_rclpy
+sys.modules["rclpy.node"] = _mock_rclpy.node
 
 def _msg_module(mod_name, *names):
     mod = types.ModuleType(mod_name)
@@ -66,7 +66,7 @@ _serial.Serial       = MagicMock()
 _serial.EIGHTBITS    = 8
 _serial.PARITY_NONE  = "N"
 _serial.STOPBITS_ONE = 1
-sys.modules.setdefault("serial", _serial)
+sys.modules["serial"] = _serial
 
 
 # ─────────────────────────────────────────────────────────────────────────────
