@@ -1,0 +1,19 @@
+
+# Running Project
+```
+colcon build --packages-select rover_project
+source install/setup.bash
+ros2 launch rover_project rover_launch.py
+```
+
+# Running Tests
+```
+colcon test --packages-select rover_project
+colcon test-result --verbose
+```
+
+OR
+
+```
+pytest NavQPlus/ros2_ws/rover_project/test/ -v
+```

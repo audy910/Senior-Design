@@ -13,6 +13,12 @@ execute_process(
 if(NOT PIP_RESULT EQUAL 0)
   message(WARNING "pip3 install of requirements.txt failed (exit code ${PIP_RESULT}). "
                   "Run: pip3 install -r requirements.txt manually.")
+if(BUILD_TESTING)
+  find_package(ament_cmake_pytest REQUIRED)
+  ament_add_pytest_test(test_coordinate_converter test/test_coordinate_converter.py)
+  ament_add_pytest_test(test_waypoint_math       test/test_waypoint_math.py)
+  ament_add_pytest_test(test_autonomous_drive    test/test_autonomous_drive.py)
+  ament_add_pytest_test(test_fast_scnn           test/test_fast_scnn.py)
 endif()
 
 # 1. Generate Messages (existing + new)
@@ -36,6 +42,7 @@ install(PROGRAMS
   scripts/audio_input_node.py
   scripts/audio_output_node.py
   scripts/fast_scnn_node.py
+  scripts/test_can_receive.py
   DESTINATION lib/${PROJECT_NAME}
 )
 
