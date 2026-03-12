@@ -118,7 +118,7 @@ class FastSCNNNode(Node):
         else:
             mask = np.squeeze(output).astype(np.uint8)
 
-       # --- PATH FINDING (Largest Continuous Chunk) ---
+       # --- PATH FINDING  ---
         is_habitable = (mask == 1) | (mask == 2) | (mask == 3)
         mask_h, mask_w = mask.shape
         search_row_idx = int(mask_h * 0.75)

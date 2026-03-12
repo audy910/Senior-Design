@@ -1,45 +1,104 @@
 #!/usr/bin/env python3
 """
-send_goal.py — Publish a navigation goal from the command line.
+send_goal.py — Listen for destination name commands on 'nav/destination'
+and publish the corresponding GPS NavGoal on 'nav/goal'.
 
-Usage:
-  ros2 run rover_project send_goal.py 33.4484 -112.0740
+Supported destinations (case-insensitive):
+  hub           -> The HUB (Student Services Building)
+  orbach        -> Orbach Science Library
+  rivera        -> Tomás Rivera Library
+  winston_chung -> Winston Chung Hall
+
+Publish a command:
+  ros2 topic pub --once /nav/destination std_msgs/msg/String "data: 'hub'"
 """
 
 import rclpy
 from rclpy.node import Node
+from std_msgs.msg import String
 from rover_project.msg import NavGoal
-import sys
-import time
 
 
-def main():
-    from rclpy.utilities import remove_ros_args
-    user_args = remove_ros_args(sys.argv)[1:]
+# UCR campus destination coordinates (WGS84)
+DESTINATIONS = {
+    "HUB": {
+        "name": "The HUB (Student Services Building)",
+        "latitude":  33.9743,
+        "longitude": -117.328,
+    },
+    "ORBACH": {
+        "name": "Orbach Science Library",
+        "latitude":  33.9742,
+        "longitude": -117.3245,
+    },
+    "RIVERA": {
+        "name": "Tomás Rivera Library",
+        "latitude":  33.9726,
+        "longitude": -117.328,
+    },
+    "WCH": {
+        "name": "Winston Chung Hall",
+        "latitude":  33.975,
+        "longitude": -117.3257,
+    },
+    "BELLTOWER": {
+        "name": "Bell Tower",
+        "latitude": 33.9733,
+        "longitude": -117.328,
+    }
+}
 
-    if len(user_args) != 2:
-        print("Usage: ros2 run rover_project send_goal.py <lat> <lon>")
-        print("  e.g: ros2 run rover_project send_goal.py 33.4484 -112.0740")
-        sys.exit(1)
 
-    lat = float(user_args[0])
-    lon = float(user_args[1])
+class GoalSenderNode(Node):
+    def __init__(self):
+        super().__init__('goal_sender')
 
-    rclpy.init()
-    node = rclpy.create_node('goal_sender')
-    pub = node.create_publisher(NavGoal, 'nav/goal', 10)
+        self.pub = self.create_publisher(NavGoal, 'nav/goal', 10)
+        self.sub = self.create_subscription(
+            String,
+            'nav/destination',
+            self.destination_callback,
+            10,
+        )
 
-    time.sleep(1.0)  # wait for subscribers
+        keys = ', '.join(DESTINATIONS.keys())
+        self.get_logger().info(
+            f"GoalSender ready. Listening on /nav/destination. "
+            f"Valid destinations: {keys}"
+        )
 
-    msg = NavGoal()
-    msg.latitude = lat
-    msg.longitude = lon
+    def destination_callback(self, msg: String):
+        key = msg.data.strip().lower().replace(' ', '_')
 
-    pub.publish(msg)
-    node.get_logger().info(f"Published goal: ({lat}, {lon})")
+        if key not in DESTINATIONS:
+            valid = ', '.join(DESTINATIONS.keys())
+            self.get_logger().warn(
+                f"Unknown destination '{msg.data}'. Valid options: {valid}"
+            )
+            return
 
-    node.destroy_node()
-    rclpy.shutdown()
+        dest = DESTINATIONS[key]
+        nav_msg = NavGoal()
+        nav_msg.latitude = dest["latitude"]
+        nav_msg.longitude = dest["longitude"]
+
+        self.pub.publish(nav_msg)
+        self.get_logger().info(
+            f"Goal set -> {dest['name']} "
+            f"({dest['latitude']:.6f}, {dest['longitude']:.6f})"
+        )
+
+
+def main(args=None):
+    rclpy.init(args=args)
+    node = GoalSenderNode()
+    try:
+        rclpy.spin(node)
+    except KeyboardInterrupt:
+        pass
+    finally:
+        node.destroy_node()
+        rclpy.shutdown()
 
 
 if __name__ == '__main__':
