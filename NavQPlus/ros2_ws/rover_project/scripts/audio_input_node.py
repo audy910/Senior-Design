@@ -12,9 +12,10 @@ from scipy.signal import resample_poly
 import sys
 import os
 from ament_index_python.packages import get_package_share_directory
+import time
 
 
-DEVICE_ID = 0
+DEVICE_ID = 1
 RATE = 16000
 CHANNELS = 1
 
@@ -33,9 +34,10 @@ class AudioInputNode(Node):
             "orbach": "ORBACH",
             "hub": "HUB",
             "borns": "BOURNS",
-            "winston": "WINSTON_CHUNG",
+            "winston": "WCH",
             "rivera": "RIVERA",
-            "bell": "BELL_TOWER",
+            "belltower": "BELLTOWER",
+            "arrived" : "ARRIVED"
         }
         
 
@@ -47,8 +49,10 @@ class AudioInputNode(Node):
         self.text_pub = self.create_publisher(String, 'speech_text', 10)
         self.cmd_pub = self.create_publisher(String, 'robot_commands', 10)
 
-        self.audio_queue = queue.Queue()
-
+        self.audio_queue = queue.Queue(maxsize=10)
+        self.last_command = None
+        self.last_command_time = 0
+        self.command_cooldown = 2.0
         try:
             pkg_share = get_package_share_directory('rover_project')
             model = Model(os.path.join(pkg_share, 'models', 'vosk-model'))
@@ -67,10 +71,10 @@ class AudioInputNode(Node):
         )
         self.stream.start()
 
-        self.timer = self.create_timer(0.05, self.process_audio)
+        self.timer = self.create_timer(0.01, self.process_audio)
 
 
-    def callback(self, indata, frames, time, status):
+    def callback(self, indata, frames, time_info, status):
         if status:
             print(status, file=sys.stderr)
 
@@ -79,12 +83,17 @@ class AudioInputNode(Node):
         mono = audio.mean(axis=1)
         downsampled = resample_poly(mono, up=1, down=3)
 
-        self.audio_queue.put(downsampled.astype(np.int16).tobytes())
-
+        try:
+            self.audio_queue.put_nowait(downsampled.astype(np.int16).tobytes())
+        except queue.Full:
+            pass
 
     def process_audio(self):
-        while not self.audio_queue.empty():
+        max_chunks = 5  # don't process more than 5 chunks per timer call
+        chunks_processed = 0
+        while not self.audio_queue.empty() and chunks_processed < max_chunks:
             data = self.audio_queue.get()
+            chunks_processed += 1
 
             if self.rec.AcceptWaveform(data):
                 result = json.loads(self.rec.Result())
@@ -101,6 +110,15 @@ class AudioInputNode(Node):
                             self.execute_command(cmd_string)
 
     def execute_command(self, cmd_string):
+        now = time.time()
+        # Block same command within cooldown window
+        if cmd_string == self.last_command and (now - self.last_command_time) < self.command_cooldown:
+            self.get_logger().info(f"Ignoring duplicate command: '{cmd_string}'")
+            return
+    
+        self.last_command = cmd_string
+        self.last_command_time = now
+
         msg = String()
         msg.data = cmd_string
         self.cmd_pub.publish(msg)

@@ -419,7 +419,7 @@ if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/rover_project/maps" TYPE DIRECTORY OPTIONAL FILES "/home/marina/Senior-Design/NavQPlus/ros2_ws/rover_project/maps/")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/rover_project" TYPE FILE FILES "/home/marina/Senior-Design/NavQPlus/ros2_ws/rover_project/UCR_Centerlines.json")
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)

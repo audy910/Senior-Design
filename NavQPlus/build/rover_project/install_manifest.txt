@@ -144,10 +144,7 @@
 /home/marina/Senior-Design/NavQPlus/install/rover_project/lib/rover_project/fast_scnn_node.py
 /home/marina/Senior-Design/NavQPlus/install/rover_project/share/rover_project/launch/rover_launch.py
 /home/marina/Senior-Design/NavQPlus/install/rover_project/share/rover_project/rover.dbc
-/home/marina/Senior-Design/NavQPlus/install/rover_project/share/rover_project/maps/UCR_Centerlines.shp
-/home/marina/Senior-Design/NavQPlus/install/rover_project/share/rover_project/maps/UCR_Centerlines.dbf
-/home/marina/Senior-Design/NavQPlus/install/rover_project/share/rover_project/maps/UCR_Centerlines.shx
-/home/marina/Senior-Design/NavQPlus/install/rover_project/share/rover_project/maps/UCR_Centerlines.prj
+/home/marina/Senior-Design/NavQPlus/install/rover_project/share/rover_project/UCR_Centerlines.json
 /home/marina/Senior-Design/NavQPlus/install/rover_project/share/rover_project/models/vosk-model/conf/model.conf
 /home/marina/Senior-Design/NavQPlus/install/rover_project/share/rover_project/models/vosk-model/conf/mfcc.conf
 /home/marina/Senior-Design/NavQPlus/install/rover_project/share/rover_project/models/vosk-model/README
