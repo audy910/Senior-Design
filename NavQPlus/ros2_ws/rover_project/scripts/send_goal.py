@@ -21,27 +21,27 @@ from rover_project.msg import NavGoal
 
 # UCR campus destination coordinates (WGS84)
 DESTINATIONS = {
-    "hub": {
+    "HUB": {
         "name": "The HUB (Student Services Building)",
         "latitude":  33.9743,
         "longitude": -117.328,
     },
-    "orbach": {
+    "ORBACH": {
         "name": "Orbach Science Library",
         "latitude":  33.9742,
         "longitude": -117.3245,
     },
-    "rivera": {
+    "RIVERA": {
         "name": "Tomás Rivera Library",
         "latitude":  33.9726,
         "longitude": -117.328,
     },
-    "winston_chung": {
+    "WCH": {
         "name": "Winston Chung Hall",
         "latitude":  33.975,
         "longitude": -117.3257,
     },
-    "bell_tower": {
+    "BELLTOWER": {
         "name": "Bell Tower",
         "latitude": 33.9733,
         "longitude": -117.328,
